@@ -1,28 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Hidden } from "@material-ui/core";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const Topbar = () => {
+  const [showMenu, setShowMenu] = useState(true);
+
+  let handelMenuShow = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
-    <Hidden only={["md", "lg", "xl"]}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            style={{ width: "100%", justifyContent: "center", display: "flex" }}
-          >
-            YOUTUBETOP20
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </Hidden>
+    <>
+      <Hidden only={["md", "lg", "xl"]}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handelMenuShow}
+            >
+              {showMenu ? <ArrowUpwardIcon /> : <MenuIcon />}
+            </IconButton>
+            <Typography
+              variant="h6"
+              style={{
+                width: "100%",
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
+              YouTubeTop20
+            </Typography>
+          </Toolbar>
+          <div id={showMenu ? "mobileMenu" : "mobileMenuOff"}>
+            <div className="mobilemenuoption">
+              <p>About Us</p>
+            </div>
+            <div className="mobilemenuoption">
+              <p>Advertise</p>
+            </div>
+            <div className="mobilemenuoption">
+              <p>Charaties</p>
+            </div>
+            <div className="mobilemenuoption">
+              <p>Analytics</p>
+            </div>
+          </div>
+        </AppBar>
+      </Hidden>
+      <Hidden only={["sm", "xs"]}>
+        <AppBar position="static">
+          <Toolbar style={{ paddingLeft: "6%", paddingRight: "6%" }}>
+            <Typography variant="h6">YouTubeTop20</Typography>
+
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "flex-end",
+              }}
+            >
+              <p className="desktop-menu">About Us</p>
+              <p className="desktop-menu">Advertise</p>
+              <p className="desktop-menu">Charaties</p>
+              <p className="desktop-menu">Analytics</p>
+
+              <p className="desktop-menu">Login</p>
+            </div>
+            <button className="desktop-button">Sign Up</button>
+          </Toolbar>
+        </AppBar>
+      </Hidden>
+    </>
   );
 };
 

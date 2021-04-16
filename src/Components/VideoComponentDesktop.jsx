@@ -1,0 +1,24 @@
+import React from "react";
+import { Grid } from "@material-ui/core";
+import VideoViewInfoDesktop from "./CustomComponents/VideoViewInfoDesktop";
+
+import VideoVIewSimpleDesktop from "./CustomComponents/VideoVIewSimpleDesktop";
+
+const VideoComponentDesktop = (props) => {
+  return (
+    <Grid container style={{ paddingLeft: "6%", paddingTop: "2%" }}>
+      <Grid item xs={8}>
+        {[...Array(10)].map((e, i) => (
+          <VideoViewInfoDesktop key={i} top={i + 1} />
+        ))}
+      </Grid>
+      <Grid item xs={4} style={{ paddingLeft: "1%", paddingRight: "1%" }}>
+        {[...Array(10)].map((e, i) => (
+          <VideoVIewSimpleDesktop key={i} top={i + 1} />
+        ))}
+      </Grid>
+    </Grid>
+  );
+};
+
+export default VideoComponentDesktop;
