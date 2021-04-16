@@ -8,7 +8,7 @@ import { Hidden } from "@material-ui/core";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const Topbar = () => {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
 
   let handelMenuShow = () => {
     setShowMenu(!showMenu);
