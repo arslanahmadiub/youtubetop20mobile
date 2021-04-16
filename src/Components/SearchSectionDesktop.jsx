@@ -104,7 +104,7 @@ const SearchSectionDesktop = () => {
               <Button
                 variant="contained"
                 color="primary"
-                style={{ height: "45px" }}
+                style={{ height: "37px" }}
               >
                 Search
               </Button>
