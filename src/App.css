@@ -1,44 +1,42 @@
+body {
+  overflow-x: hidden !important;
+  background: rgb(240, 239, 239);
+}
+
 .bannerMainContainer {
-  padding: 1%;
+  padding: 2%;
 }
 
 .bannerInnerContainer {
-  padding-left: 1%;
-  padding-right: 1%;
+  padding: 8px;
 }
 
 .bannerImage {
   width: 100%;
   height: 100px;
   object-fit: fill;
-  border-radius: 5px;
-  box-shadow: 2px 2px #ccc;
-  -moz-box-shadow: 2px 2px #ccc;
-  -webkit-box-shadow: 2px 2px #ccc;
-  -khtml-box-shadow: 2px 2px #ccc;
+  border-radius: 10px;
+  box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
 }
 
 .searchInput {
   width: 100%;
 
-  height: 43px;
+  height: 35px;
   border: 0px;
-  box-shadow: 1px 1px 1px 1px #ccc;
-  -moz-box-shadow: 1px 1px 1px 1px #ccc;
-  -webkit-box-shadow: 1px 1px 1px 1px #ccc;
-  -khtml-box-shadow: 1px 1px 1px 1px #ccc;
+  box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
   font-size: 16px;
   padding-left: 10px;
 }
 .searchSelector {
   width: 100%;
 
-  height: 44px;
+  height: 37px;
   border: 0px;
-  box-shadow: 1px 1px 1px 1px #ccc;
-  -moz-box-shadow: 1px 1px 1px 1px #ccc;
-  -webkit-box-shadow: 1px 1px 1px 1px #ccc;
-  -khtml-box-shadow: 1px 1px 1px 1px #ccc;
+  box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
   font-size: 16px;
   padding-left: 10px;
   background: white;
@@ -71,7 +69,7 @@
 
 #searchinputicon {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 0px;
   width: 30px;
   height: 30px;
@@ -87,8 +85,8 @@
   border-radius: 50px;
 
   background: white;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 7px;
+  margin-right: 7px;
   min-height: 10px;
   min-width: 100px;
 
@@ -99,7 +97,8 @@
 }
 #tabStyleActive {
   border-radius: 50px;
-
+  margin-left: 7px;
+  margin-right: 7px;
   min-width: 100px;
   min-height: 10px;
   background: #3f51b5;

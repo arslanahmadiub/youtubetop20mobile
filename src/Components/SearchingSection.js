@@ -39,11 +39,14 @@ const SearchingSection = () => {
             xs={4}
             style={{
               display: "flex",
-              justifyContent: "flex-end",
-              paddingRight: "5px",
+              justifyContent: "center",
             }}
           >
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ height: "38px" }}
+            >
               Search
             </Button>
           </Grid>

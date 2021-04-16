@@ -29,7 +29,7 @@ export default function ScrollableTabsButtonAuto() {
           display: "flex",
           width: "100%",
           justifyContent: "center",
-          marginTop: "10px",
+          marginTop: "15px",
         }}
       >
         <Grid item xs={11}>
