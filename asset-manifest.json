@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/youtubetop20mobile/static/css/main.41c6c3ad.chunk.css",
-    "main.js": "/youtubetop20mobile/static/js/main.a7b71628.chunk.js",
-    "main.js.map": "/youtubetop20mobile/static/js/main.a7b71628.chunk.js.map",
+    "main.css": "/youtubetop20mobile/static/css/main.ecdbe301.chunk.css",
+    "main.js": "/youtubetop20mobile/static/js/main.bc0e00ac.chunk.js",
+    "main.js.map": "/youtubetop20mobile/static/js/main.bc0e00ac.chunk.js.map",
     "runtime-main.js": "/youtubetop20mobile/static/js/runtime-main.4678383e.js",
     "runtime-main.js.map": "/youtubetop20mobile/static/js/runtime-main.4678383e.js.map",
     "static/css/2.835acb34.chunk.css": "/youtubetop20mobile/static/css/2.835acb34.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/2.63ae85cb.chunk.js.map": "/youtubetop20mobile/static/js/2.63ae85cb.chunk.js.map",
     "index.html": "/youtubetop20mobile/index.html",
     "static/css/2.835acb34.chunk.css.map": "/youtubetop20mobile/static/css/2.835acb34.chunk.css.map",
-    "static/css/main.41c6c3ad.chunk.css.map": "/youtubetop20mobile/static/css/main.41c6c3ad.chunk.css.map",
+    "static/css/main.ecdbe301.chunk.css.map": "/youtubetop20mobile/static/css/main.ecdbe301.chunk.css.map",
     "static/js/2.63ae85cb.chunk.js.LICENSE.txt": "/youtubetop20mobile/static/js/2.63ae85cb.chunk.js.LICENSE.txt",
     "static/media/1.228956ce.jpg": "/youtubetop20mobile/static/media/1.228956ce.jpg",
     "static/media/2.d57d1454.png": "/youtubetop20mobile/static/media/2.d57d1454.png",
@@ -21,7 +21,7 @@
     "static/js/runtime-main.4678383e.js",
     "static/css/2.835acb34.chunk.css",
     "static/js/2.63ae85cb.chunk.js",
-    "static/css/main.41c6c3ad.chunk.css",
-    "static/js/main.a7b71628.chunk.js"
+    "static/css/main.ecdbe301.chunk.css",
+    "static/js/main.bc0e00ac.chunk.js"
   ]
 }
