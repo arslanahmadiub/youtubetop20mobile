@@ -11,17 +11,41 @@ const Banner = () => {
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
-        <Grid container className="bannerMainContainer">
-          <Grid item xs={6} className="bannerInnerContainer">
+        <Grid container className="bannerMainContainer" spacing={0}>
+          <Grid
+            item
+            xs={6}
+            className="bannerInnerContainer"
+            container
+            spacing={0}
+          >
             <img src={image1} alt="banner-image" className="bannerImage" />
           </Grid>
-          <Grid item xs={6} className="bannerInnerContainer">
+          <Grid
+            item
+            xs={6}
+            className="bannerInnerContainer"
+            container
+            spacing={0}
+          >
             <img src={image2} alt="banner-image" className="bannerImage" />
           </Grid>
-          <Grid item xs={6} className="bannerInnerContainer">
+          <Grid
+            item
+            xs={6}
+            className="bannerInnerContainer"
+            container
+            spacing={0}
+          >
             <img src={image3} alt="banner-image" className="bannerImage" />
           </Grid>
-          <Grid item xs={6} className="bannerInnerContainer">
+          <Grid
+            item
+            xs={6}
+            className="bannerInnerContainer"
+            container
+            spacing={0}
+          >
             <img src={image4} alt="banner-image" className="bannerImage" />
           </Grid>
         </Grid>

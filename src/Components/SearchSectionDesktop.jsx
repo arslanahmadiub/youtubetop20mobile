@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Hidden } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -31,6 +31,8 @@ const SearchSectionDesktop = () => {
     setShowCalander(false);
   };
 
+  const selector = useRef();
+
   let handelCalanderShow = () => {
     setShowCalander(!showCalander);
   };
@@ -38,15 +40,20 @@ const SearchSectionDesktop = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  let handelSelector = () => {
+    console.log(selector.current);
+  };
+
   return (
     <Hidden only={["sm", "xs"]}>
       <Grid container className="searchSectionMainContainerDesktop">
         <Grid item xs={12}>
           <Grid
             container
-            style={{ padding: "15px" }}
+            style={{ padding: "8px" }}
             className="customCard"
-            spacing={4}
+            spacing={3}
           >
             <Grid item xs={2}>
               <div id="searchinputmainDesktop">
@@ -74,13 +81,18 @@ const SearchSectionDesktop = () => {
             </Grid>
             <Grid item xs={2}>
               <div id="searchinputmain">
-                <select name="cars" id="cars" className="searchSelector">
+                <select
+                  name="cars"
+                  id="cars"
+                  className="searchSelector"
+                  ref={selector}
+                >
                   <option value="volvo">Volvo</option>
                   <option value="saab">Saab</option>
                   <option value="mercedes">Mercedes</option>
                   <option value="audi">Audi</option>
                 </select>
-                <ExpandMoreIcon id="searchinputicon" />
+                <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} />
               </div>
             </Grid>
             <Grid item xs={6}>
@@ -97,7 +109,7 @@ const SearchSectionDesktop = () => {
               xs={2}
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: "center",
                 paddingRight: "5px",
               }}
             >

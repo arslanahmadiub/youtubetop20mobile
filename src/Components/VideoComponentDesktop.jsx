@@ -12,7 +12,17 @@ const VideoComponentDesktop = (props) => {
           <VideoViewInfoDesktop key={i} top={i + 1} />
         ))}
       </Grid>
-      <Grid item xs={4} style={{ paddingLeft: "1%", paddingRight: "1%" }}>
+      <Grid
+        item
+        xs={4}
+        style={{
+          paddingLeft: "1%",
+          paddingRight: "1%",
+          height: "100vh",
+          overflow: "auto",
+          direction: "rtl",
+        }}
+      >
         {[...Array(10)].map((e, i) => (
           <VideoVIewSimpleDesktop key={i} top={i + 1} />
         ))}

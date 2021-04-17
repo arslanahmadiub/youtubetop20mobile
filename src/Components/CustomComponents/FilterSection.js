@@ -40,6 +40,7 @@ export default function ScrollableTabsButtonAuto() {
             variant="scrollable"
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
+            value={value}
           >
             <Tab label="All" id="tabStyleActive" />
             <Tab label="Filter" id="tabStyle" />
