@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/youtubetop20mobile/static/css/main.493da469.chunk.css",
+    "main.css": "/youtubetop20mobile/static/css/main.d78af534.chunk.css",
     "main.js": "/youtubetop20mobile/static/js/main.594e94fb.chunk.js",
     "main.js.map": "/youtubetop20mobile/static/js/main.594e94fb.chunk.js.map",
     "runtime-main.js": "/youtubetop20mobile/static/js/runtime-main.4678383e.js",
@@ -10,7 +10,7 @@
     "static/js/2.bf9944fa.chunk.js.map": "/youtubetop20mobile/static/js/2.bf9944fa.chunk.js.map",
     "index.html": "/youtubetop20mobile/index.html",
     "static/css/2.835acb34.chunk.css.map": "/youtubetop20mobile/static/css/2.835acb34.chunk.css.map",
-    "static/css/main.493da469.chunk.css.map": "/youtubetop20mobile/static/css/main.493da469.chunk.css.map",
+    "static/css/main.d78af534.chunk.css.map": "/youtubetop20mobile/static/css/main.d78af534.chunk.css.map",
     "static/js/2.bf9944fa.chunk.js.LICENSE.txt": "/youtubetop20mobile/static/js/2.bf9944fa.chunk.js.LICENSE.txt",
     "static/media/1.228956ce.jpg": "/youtubetop20mobile/static/media/1.228956ce.jpg",
     "static/media/2.d57d1454.png": "/youtubetop20mobile/static/media/2.d57d1454.png",
@@ -21,7 +21,7 @@
     "static/js/runtime-main.4678383e.js",
     "static/css/2.835acb34.chunk.css",
     "static/js/2.bf9944fa.chunk.js",
-    "static/css/main.493da469.chunk.css",
+    "static/css/main.d78af534.chunk.css",
     "static/js/main.594e94fb.chunk.js"
   ]
 }
