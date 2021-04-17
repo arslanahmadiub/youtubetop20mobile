@@ -24,7 +24,7 @@ const VideoViewInfoDesktop = (props) => {
           <iframe
             width="100%"
             height="500px"
-            src={`https://www.youtube.com/embed/_g7Oz51XmrM?autoplay=1`}
+            src={`https://www.youtube.com/embed/pRpeEdMmmQ0?autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -59,7 +59,7 @@ const VideoViewInfoDesktop = (props) => {
                 <iframe
                   width="100%"
                   height="300"
-                  src="https://www.youtube.com/embed/_g7Oz51XmrM"
+                  src="https://www.youtube.com/embed/pRpeEdMmmQ0"
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
