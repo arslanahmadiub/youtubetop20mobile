@@ -47,7 +47,7 @@ const App = () => {
         <h2
           style={{
             paddingLeft: "7%",
-            paddingTop: "1%",
+            paddingTop: "3%",
             paddingBottom: "3%",
 
             color: "#3f51b5",
@@ -63,7 +63,7 @@ const App = () => {
         <h2
           style={{
             paddingLeft: "7%",
-            paddingTop: "1%",
+            paddingTop: "3%",
             paddingBottom: "3%",
             color: "#3f51b5",
           }}
