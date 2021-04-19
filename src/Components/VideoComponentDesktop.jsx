@@ -8,12 +8,17 @@ import { Hidden } from "@material-ui/core";
 const VideoComponentDesktop = (props) => {
   return (
     <Hidden only={["xs", "sm"]}>
-      <Grid container style={{ paddingLeft: "6%", paddingTop: "2%" }}>
+      <Grid
+        container
+        style={{ paddingLeft: "6%", paddingTop: "2%" }}
+        spacing={2}
+      >
         <Grid item xs={8}>
           {[...Array(10)].map((e, i) => (
             <VideoViewInfoDesktop key={i} top={i + 1} />
           ))}
         </Grid>
+
         <Grid
           item
           xs={4}
@@ -24,6 +29,7 @@ const VideoComponentDesktop = (props) => {
             overflow: "auto",
             direction: "rtl",
           }}
+          id="hotvideosection"
         >
           {[...Array(10)].map((e, i) => (
             <VideoVIewSimpleDesktop key={i} top={i + 1} />

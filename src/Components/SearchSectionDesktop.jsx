@@ -11,6 +11,8 @@ import Button from "@material-ui/core/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,9 +43,7 @@ const SearchSectionDesktop = () => {
     setValue(newValue);
   };
 
-  let handelSelector = () => {
-    console.log(selector.current);
-  };
+  let handelSelector = () => {};
 
   return (
     <Hidden only={["sm", "xs"]}>
@@ -81,18 +81,14 @@ const SearchSectionDesktop = () => {
             </Grid>
             <Grid item xs={2}>
               <div id="searchinputmain">
-                <select
-                  name="cars"
-                  id="cars"
-                  className="searchSelector"
-                  ref={selector}
-                >
+                <select name="cars" id="selector" className="searchSelector">
                   <option value="volvo">Volvo</option>
                   <option value="saab">Saab</option>
                   <option value="mercedes">Mercedes</option>
                   <option value="audi">Audi</option>
                 </select>
-                <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} />
+
+                {/* <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} /> */}
               </div>
             </Grid>
             <Grid item xs={6}>
@@ -127,8 +123,9 @@ const SearchSectionDesktop = () => {
                 indicatorColor="primary"
                 textColor="primary"
                 variant="scrollable"
-                scrollButtons="auto"
+                scrollButtons="scroll"
                 aria-label="scrollable auto tabs example"
+                id="desktopTab"
               >
                 <Tab label="All" id="tabStyleActive" />
                 <Tab label="Filter" id="tabStyle" />

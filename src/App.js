@@ -32,7 +32,7 @@ const App = () => {
           </h2>
           <h2
             style={{
-              paddingRight: "20%",
+              paddingRight: "23%",
               paddingTop: "3%",
               color: "#3f51b5",
             }}

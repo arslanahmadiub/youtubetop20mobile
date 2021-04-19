@@ -83,7 +83,7 @@ const SearchingSection = () => {
                 <option value="mercedes">Mercedes</option>
                 <option value="audi">Audi</option>
               </select>
-              <ExpandMoreIcon id="searchinputicon" />
+              {/* <ExpandMoreIcon id="searchinputicon" /> */}
             </div>
           </Grid>
         </Grid>

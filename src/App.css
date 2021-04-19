@@ -1,6 +1,7 @@
 body {
   overflow-x: hidden !important;
   background: rgb(240, 239, 239);
+  scrollbar-color: red yellow !important;
 }
 
 .bannerMainContainer {
@@ -9,6 +10,28 @@ body {
 
 .bannerInnerContainer {
   padding: 6px;
+}
+
+/* #hotvideosection::-webkit-scrollbar {
+  width: 12px;
+
+  background: #f0efef;
+}
+#hotvideosection::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+
+  background: #3f51b5;
+} */
+
+::-webkit-scrollbar {
+  width: 12px;
+
+  background: #f0efef;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+
+  background: #3f51b5;
 }
 
 .bannerImage {
@@ -44,6 +67,9 @@ body {
 
 .searchInput:focus {
   outline: none;
+  border: 0px;
+  box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
 }
 .searchSelector:focus {
   outline: none;
@@ -168,7 +194,7 @@ body {
   box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
     0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
   background: whitesmoke;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .searchSectionMainContainerDesktop {
@@ -185,7 +211,7 @@ body {
   padding-top: 2%;
   padding-bottom: 2%;
   background: whitesmoke;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .videoTags {
@@ -202,8 +228,8 @@ body {
 }
 
 .videoView {
-  box-shadow: 3px 3px 1px -1px rgb(0 0 0 / 20%),
-    0px 3px 1px 0px rgb(0 0 0 / 14%), 0px 3px 3px 0px rgb(0 0 0 / 12%);
+  box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
   border-radius: 8px;
 }
 
