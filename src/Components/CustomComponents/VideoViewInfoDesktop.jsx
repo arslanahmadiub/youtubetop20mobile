@@ -6,8 +6,11 @@ import Dialog from "@material-ui/core/Dialog";
 const VideoViewInfoDesktop = (props) => {
   const [open, setOpen] = useState(false);
 
-  let handelClick = () => {
+  let { channel, startDate, videoId, videoName, views } = props.data;
+  const [dynamicVideo, setDynamicVideo] = useState("");
+  let handelClick = (e) => {
     setOpen(true);
+    setDynamicVideo(e);
   };
   const handleClose = () => {
     setOpen(false);
@@ -24,7 +27,7 @@ const VideoViewInfoDesktop = (props) => {
           <iframe
             width="100%"
             height="500px"
-            src={`https://www.youtube.com/embed/pRpeEdMmmQ0?autoplay=1`}
+            src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -41,25 +44,25 @@ const VideoViewInfoDesktop = (props) => {
                 #{props.top}
               </p>
 
-              <p className="videoTags">Khabardar with Aftab Iqbal</p>
+              <p className="videoTags">{channel}</p>
               <p className="videoTagsSimple">Video Name</p>
-              <p className="videoTags">
-                Strange History of Charsadda | Khabardar With Aftab Iqbal |
-                Express News | IC2H
-              </p>
+              <p className="videoTags">{videoName}</p>
               <p className="videoTagsSimple">Start Date</p>
-              <p className="videoTags">April 10, 2021</p>
+              <p className="videoTags">{startDate}</p>
               <p className="videoTagsSimple">Days Old</p>
               <p className="videoTags">10 Days Old</p>
               <p className="videoTagsSimple">Views over 24 hours</p>
-              <p className="videoTags">23 Million Views</p>
+              <p className="videoTags">{views}</p>
             </Grid>
             <Grid item xs={7}>
-              <div className="frameContainer" onClick={() => handelClick()}>
+              <div
+                className="frameContainer"
+                onClick={() => handelClick(videoId)}
+              >
                 <iframe
                   width="100%"
                   height="300"
-                  src="https://www.youtube.com/embed/pRpeEdMmmQ0"
+                  src={`https://www.youtube.com/embed/${videoId}`}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

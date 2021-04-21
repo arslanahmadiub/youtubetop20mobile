@@ -1,7 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Hidden } from "@material-ui/core";
-
-import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Grid } from "@material-ui/core";
@@ -11,19 +9,8 @@ import Button from "@material-ui/core/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 
 const SearchSectionDesktop = () => {
-  const classes = useStyles();
   const [value, setValue] = useState(0);
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
@@ -33,8 +20,6 @@ const SearchSectionDesktop = () => {
     setShowCalander(false);
   };
 
-  const selector = useRef();
-
   let handelCalanderShow = () => {
     setShowCalander(!showCalander);
   };
@@ -43,8 +28,18 @@ const SearchSectionDesktop = () => {
     setValue(newValue);
   };
 
-  let handelSelector = () => {};
+  const [showMenuBar, setshowMenuBar] = useState(false);
+  const [menuText, setMenuText] = useState("Select");
 
+  let handelSelector = () => {
+    setshowMenuBar(!showMenuBar);
+  };
+
+  let handelMenuClick = (e) => {
+    setMenuText(e.target.textContent);
+    setshowMenuBar(false);
+  };
+  let handelCalanderChange = () => {};
   return (
     <Hidden only={["sm", "xs"]}>
       <Grid container className="searchSectionMainContainerDesktop">
@@ -61,6 +56,7 @@ const SearchSectionDesktop = () => {
                   placeholder="2021-04-22"
                   className="searchInput"
                   value={calander !== null ? calander : ""}
+                  onChange={handelCalanderChange}
                 />
                 <ExpandMoreIcon
                   id="searchinputicon"
@@ -81,14 +77,17 @@ const SearchSectionDesktop = () => {
             </Grid>
             <Grid item xs={2}>
               <div id="searchinputmain">
-                <select name="cars" id="selector" className="searchSelector">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
-                </select>
+                <button className="searchSelector">{menuText}</button>
+                {showMenuBar && (
+                  <div className="selectorMenu">
+                    <p onClick={handelMenuClick}>Volvo</p>
+                    <p onClick={handelMenuClick}>Saab</p>
+                    <p onClick={handelMenuClick}>Mercedes</p>
+                    <p onClick={handelMenuClick}>Audi</p>
+                  </div>
+                )}
 
-                {/* <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} /> */}
+                <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} />
               </div>
             </Grid>
             <Grid item xs={6}>
@@ -123,9 +122,9 @@ const SearchSectionDesktop = () => {
                 indicatorColor="primary"
                 textColor="primary"
                 variant="scrollable"
-                scrollButtons="scroll"
                 aria-label="scrollable auto tabs example"
                 id="desktopTab"
+                value={value}
               >
                 <Tab label="All" id="tabStyleActive" />
                 <Tab label="Filter" id="tabStyle" />

@@ -21,6 +21,18 @@ const SearchingSection = () => {
     setShowCalander(!showCalander);
   };
 
+  const [showMenuBar, setshowMenuBar] = useState(false);
+  const [menuText, setMenuText] = useState("Select");
+
+  let handelSelector = () => {
+    setshowMenuBar(!showMenuBar);
+  };
+
+  let handelMenuClick = (e) => {
+    setMenuText(e.target.textContent);
+    setshowMenuBar(false);
+  };
+  let handelCalanderChange = () => {};
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
@@ -59,6 +71,7 @@ const SearchingSection = () => {
                 placeholder="2021-04-22"
                 className="searchInput"
                 value={calander !== null ? calander : ""}
+                onChange={handelCalanderChange}
               />
               <ExpandMoreIcon
                 id="searchinputicon"
@@ -77,13 +90,16 @@ const SearchingSection = () => {
           </Grid>
           <Grid item xs={6} style={{ paddingRight: "15px" }}>
             <div id="searchinputmain">
-              <select name="cars" id="cars" className="searchSelector">
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
-              </select>
-              {/* <ExpandMoreIcon id="searchinputicon" /> */}
+              <button className="searchSelector">{menuText}</button>
+              {showMenuBar && (
+                <div className="selectorMenu">
+                  <p onClick={handelMenuClick}>Volvo</p>
+                  <p onClick={handelMenuClick}>Saab</p>
+                  <p onClick={handelMenuClick}>Mercedes</p>
+                  <p onClick={handelMenuClick}>Audi</p>
+                </div>
+              )}
+              <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} />
             </div>
           </Grid>
         </Grid>

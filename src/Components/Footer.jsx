@@ -54,7 +54,7 @@ const Footer = () => {
                   alignItems: "center",
                 }}
               >
-                <h4 style={{ color: "white" }}>Charities</h4>
+                <h4 style={{ color: "white" }}>Charaties</h4>
 
                 <h4 style={{ color: "white", marginTop: "10px" }}>Analysis</h4>
               </Grid>
@@ -68,7 +68,7 @@ const Footer = () => {
                 }}
               >
                 <h4 style={{ color: "white", marginTop: "15px" }}>
-                  Copnyright @ 2021 YouTubeTop20
+                  Copyright @ 2021 YouTubeTop20
                 </h4>
               </Grid>
             </Grid>
@@ -121,7 +121,7 @@ const Footer = () => {
                   <h4 style={{ color: "white" }}>About Us</h4>
 
                   <h4 style={{ color: "white" }}>Advertise</h4>
-                  <h4 style={{ color: "white" }}>Charities</h4>
+                  <h4 style={{ color: "white" }}>Charaties</h4>
 
                   <h4 style={{ color: "white" }}>Analysis</h4>
                 </div>
@@ -137,7 +137,7 @@ const Footer = () => {
                 }}
               >
                 <h4 style={{ color: "white", marginTop: "15px" }}>
-                  Copnyright @ 2021 YouTubeTop20
+                  Copyright @ 2021 YouTubeTop20
                 </h4>
               </Grid>
             </Grid>

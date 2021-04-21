@@ -9,13 +9,16 @@ import { Hidden } from "@material-ui/core";
 
 const VideoViewInfo = (props) => {
   const [open, setOpen] = useState(false);
-
-  let handelClick = () => {
+  let { channel, startDate, videoId, videoName, views } = props.data;
+  const [dynamicVideo, setDynamicVideo] = useState("");
+  let handelClick = (e) => {
     setOpen(true);
+    setDynamicVideo(e);
   };
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <Hidden only={["md", "lg", "xl"]}>
       <React.Fragment>
@@ -28,7 +31,7 @@ const VideoViewInfo = (props) => {
           <iframe
             width="100%"
             height="300"
-            src="https://www.youtube.com/embed/pRpeEdMmmQ0?autoplay=1"
+            src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -43,11 +46,14 @@ const VideoViewInfo = (props) => {
           style={{ paddingLeft: "10px", paddingRight: "10px" }}
         >
           <Card>
-            <div className="frameContainer" onClick={() => handelClick()}>
+            <div
+              className="frameContainer"
+              onClick={() => handelClick(videoId)}
+            >
               <iframe
                 width="100%"
                 height="200"
-                src="https://www.youtube.com/embed/pRpeEdMmmQ0"
+                src={`https://www.youtube.com/embed/${videoId}`}
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -71,10 +77,7 @@ const VideoViewInfo = (props) => {
                 xs={12}
                 style={{ paddingLeft: "5px", paddingRight: "5px" }}
               >
-                <h5>
-                  Open Mic Cafe with Aftab Iqbal | Episode 135 | 14 April 2021 |
-                  GWAI
-                </h5>
+                <h5>{videoName}</h5>
               </Grid>
             </Grid>
             <Grid
@@ -87,11 +90,11 @@ const VideoViewInfo = (props) => {
             >
               <Grid item xs={3}>
                 <h6>Channel </h6>
-                <h6>Gawai</h6>
+                <h6>{channel}</h6>
               </Grid>
               <Grid item xs={3}>
                 <h6>Start Date</h6>
-                <h6>28-06-2021</h6>
+                <h6>{startDate}</h6>
               </Grid>
               <Grid item xs={2}>
                 <h6>Days Old</h6>
@@ -99,7 +102,7 @@ const VideoViewInfo = (props) => {
               </Grid>
               <Grid item xs={4}>
                 <h6>Views over 24 Hours</h6>
-                <h6>10000055</h6>
+                <h6>{views}</h6>
               </Grid>
             </Grid>
           </Card>

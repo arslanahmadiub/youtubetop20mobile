@@ -6,9 +6,11 @@ import Dialog from "@material-ui/core/Dialog";
 
 const VideoVIewSimpleDesktop = (props) => {
   const [open, setOpen] = useState(false);
+  const [dynamicVideo, setDynamicVideo] = useState("");
 
-  let handelClick = () => {
+  let handelClick = (e) => {
     setOpen(true);
+    setDynamicVideo(e);
   };
   const handleClose = () => {
     setOpen(false);
@@ -25,7 +27,7 @@ const VideoVIewSimpleDesktop = (props) => {
           <iframe
             width="100%"
             height="500px"
-            src={`https://www.youtube.com/embed/pRpeEdMmmQ0?autoplay=1`}
+            src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -37,7 +39,7 @@ const VideoVIewSimpleDesktop = (props) => {
         <iframe
           width="100%"
           height="200"
-          src="https://www.youtube.com/embed/pRpeEdMmmQ0"
+          src={`https://www.youtube.com/embed/${props.videoId}`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -69,7 +71,7 @@ const VideoVIewSimpleDesktop = (props) => {
             height: "100%",
             cursor: "pointer",
           }}
-          onClick={() => handelClick()}
+          onClick={() => handelClick(props.videoId)}
         ></div>
       </div>
     </Hidden>

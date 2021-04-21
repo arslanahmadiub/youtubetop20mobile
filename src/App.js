@@ -10,6 +10,7 @@ import Topbar from "./Components/Topbar";
 import { Hidden } from "@material-ui/core";
 import SearchSectionDesktop from "./Components/SearchSectionDesktop";
 import VideoComponentDesktop from "./Components/VideoComponentDesktop";
+import { TopVideos } from "./VideoConfig.json";
 
 const App = () => {
   return (
@@ -56,8 +57,8 @@ const App = () => {
           Top 20
         </h2>
       </Hidden>
-      {[...Array(10)].map((e, i) => (
-        <VideoViewInfo key={i} top={i + 1} />
+      {TopVideos.map((e, i) => (
+        <VideoViewInfo key={i} top={i + 1} data={e} />
       ))}
       <Hidden only={["md", "lg", "xl"]}>
         <h2
@@ -71,9 +72,11 @@ const App = () => {
           Hot 20
         </h2>
       </Hidden>
-      {[...Array(10)].map((e, i) => (
-        <VideoViewSimple key={i} top={i + 1} />
-      ))}
+      {TopVideos.slice(0)
+        .reverse()
+        .map((e, i) => (
+          <VideoViewSimple key={i} top={i + 1} videoId={e.videoId} />
+        ))}
       <Banner />
       <Footer />
     </>

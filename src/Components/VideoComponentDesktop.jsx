@@ -4,6 +4,7 @@ import VideoViewInfoDesktop from "./CustomComponents/VideoViewInfoDesktop";
 
 import VideoVIewSimpleDesktop from "./CustomComponents/VideoVIewSimpleDesktop";
 import { Hidden } from "@material-ui/core";
+import { TopVideos } from "../VideoConfig.json";
 
 const VideoComponentDesktop = (props) => {
   return (
@@ -14,8 +15,8 @@ const VideoComponentDesktop = (props) => {
         spacing={2}
       >
         <Grid item xs={8}>
-          {[...Array(10)].map((e, i) => (
-            <VideoViewInfoDesktop key={i} top={i + 1} />
+          {TopVideos.map((e, i) => (
+            <VideoViewInfoDesktop key={i} top={i + 1} data={e} />
           ))}
         </Grid>
 
@@ -31,9 +32,11 @@ const VideoComponentDesktop = (props) => {
           }}
           id="hotvideosection"
         >
-          {[...Array(10)].map((e, i) => (
-            <VideoVIewSimpleDesktop key={i} top={i + 1} />
-          ))}
+          {TopVideos.slice(0)
+            .reverse()
+            .map((e, i) => (
+              <VideoVIewSimpleDesktop key={i} top={i + 1} videoId={e.videoId} />
+            ))}
         </Grid>
       </Grid>
     </Hidden>

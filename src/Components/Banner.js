@@ -19,7 +19,7 @@ const Banner = () => {
             container
             spacing={0}
           >
-            <img src={image1} alt="banner-image" className="bannerImage" />
+            <img src={image1} alt="banner" className="bannerImage" />
           </Grid>
           <Grid
             item
@@ -28,7 +28,7 @@ const Banner = () => {
             container
             spacing={0}
           >
-            <img src={image2} alt="banner-image" className="bannerImage" />
+            <img src={image2} alt="banner" className="bannerImage" />
           </Grid>
           <Grid
             item
@@ -37,7 +37,7 @@ const Banner = () => {
             container
             spacing={0}
           >
-            <img src={image3} alt="banner-image" className="bannerImage" />
+            <img src={image3} alt="banner" className="bannerImage" />
           </Grid>
           <Grid
             item
@@ -46,7 +46,7 @@ const Banner = () => {
             container
             spacing={0}
           >
-            <img src={image4} alt="banner-image" className="bannerImage" />
+            <img src={image4} alt="banner" className="bannerImage" />
           </Grid>
         </Grid>
       </Hidden>
@@ -54,41 +54,25 @@ const Banner = () => {
         <Grid container className="bannerMainContainerDesktop">
           <Grid item xs={3} className="bannerInnerContainerDesktop">
             <Card>
-              <img
-                src={image1}
-                alt="banner-image"
-                className="bannerImageDesktop"
-              />
+              <img src={image1} alt="banner" className="bannerImageDesktop" />
               <p className="bannerImageText">Supports Charity</p>
             </Card>
           </Grid>
           <Grid item xs={3} className="bannerInnerContainerDesktop">
             <Card>
-              <img
-                src={image2}
-                alt="banner-image"
-                className="bannerImageDesktop"
-              />
+              <img src={image2} alt="banner" className="bannerImageDesktop" />
               <p className="bannerImageText">Supports Charity</p>
             </Card>
           </Grid>
           <Grid item xs={3} className="bannerInnerContainerDesktop">
             <Card>
-              <img
-                src={image3}
-                alt="banner-image"
-                className="bannerImageDesktop"
-              />
+              <img src={image3} alt="banner" className="bannerImageDesktop" />
               <p className="bannerImageText">Supports Charity</p>
             </Card>
           </Grid>
           <Grid item xs={3} className="bannerInnerContainerDesktop">
             <Card>
-              <img
-                src={image4}
-                alt="banner-image"
-                className="bannerImageDesktop"
-              />
+              <img src={image4} alt="banner" className="bannerImageDesktop" />
               <p className="bannerImageText">Supports Charity</p>
             </Card>
           </Grid>

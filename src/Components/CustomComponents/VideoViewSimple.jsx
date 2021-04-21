@@ -10,8 +10,11 @@ import { Hidden } from "@material-ui/core";
 const VideoViewSimple = (props) => {
   const [open, setOpen] = useState(false);
 
-  let handelClick = () => {
+  const [dynamicVideo, setDynamicVideo] = useState("");
+
+  let handelClick = (e) => {
     setOpen(true);
+    setDynamicVideo(e);
   };
   const handleClose = () => {
     setOpen(false);
@@ -28,7 +31,7 @@ const VideoViewSimple = (props) => {
           <iframe
             width="100%"
             height="300"
-            src="https://www.youtube.com/embed/pRpeEdMmmQ0?autoplay=1"
+            src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -42,11 +45,14 @@ const VideoViewSimple = (props) => {
           xs={12}
           style={{ paddingLeft: "10px", paddingRight: "10px" }}
         >
-          <div className="frameContainer" onClick={() => handelClick()}>
+          <div
+            className="frameContainer"
+            onClick={() => handelClick(props.videoId)}
+          >
             <iframe
               width="100%"
               height="200"
-              src="https://www.youtube.com/embed/pRpeEdMmmQ0"
+              src={`https://www.youtube.com/embed/${props.videoId}`}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
