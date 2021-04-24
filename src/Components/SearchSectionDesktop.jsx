@@ -119,7 +119,6 @@ const SearchSectionDesktop = () => {
             <Grid item xs={12}>
               <Tabs
                 onChange={handleChange}
-                indicatorColor="primary"
                 textColor="primary"
                 variant="scrollable"
                 aria-label="scrollable auto tabs example"

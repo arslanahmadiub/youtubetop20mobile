@@ -302,9 +302,13 @@ body {
   display: flex;
 }
 
-.PrivateTabIndicator-colorPrimary-4 {
-  background-color: #f0efef !important;
+#aboutus {
+  padding-left: 5%;
+  padding-top: 3%;
+  padding-right: 5%;
+  padding-bottom: 5%;
 }
-.jss4 {
-  background-color: #f0efef !important;
+
+#aboutus p {
+  text-align: justify;
 }

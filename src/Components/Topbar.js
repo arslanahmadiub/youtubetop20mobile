@@ -6,12 +6,21 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Hidden } from "@material-ui/core";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import { useHistory } from "react-router-dom";
 
 const Topbar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  let history = useHistory();
 
   let handelMenuShow = () => {
     setShowMenu(!showMenu);
+  };
+
+  let handeHomePage = () => {
+    history.push("/");
+  };
+  let handelAboutUs = () => {
+    history.push("/about");
   };
 
   return (
@@ -33,13 +42,14 @@ const Topbar = () => {
                 width: "100%",
                 justifyContent: "center",
                 display: "flex",
+                cursor: "pointer",
               }}
             >
               YouTubeTop20
             </Typography>
           </Toolbar>
           <div id={showMenu ? "mobileMenu" : "mobileMenuOff"}>
-            <div className="mobilemenuoption">
+            <div className="mobilemenuoption" onClick={handelAboutUs}>
               <p>About Us</p>
             </div>
             <div className="mobilemenuoption">
@@ -57,7 +67,13 @@ const Topbar = () => {
       <Hidden only={["sm", "xs"]}>
         <AppBar position="static">
           <Toolbar style={{ paddingLeft: "6%", paddingRight: "6%" }}>
-            <Typography variant="h6">YouTubeTop20</Typography>
+            <Typography
+              variant="h6"
+              style={{ cursor: "pointer" }}
+              onClick={handeHomePage}
+            >
+              YouTubeTop20
+            </Typography>
 
             <div
               style={{
@@ -66,7 +82,9 @@ const Topbar = () => {
                 justifyContent: "flex-end",
               }}
             >
-              <p className="desktop-menu">About Us</p>
+              <p className="desktop-menu" onClick={handelAboutUs}>
+                About Us
+              </p>
               <p className="desktop-menu">Advertise</p>
               <p className="desktop-menu">Charaties</p>
               <p className="desktop-menu">Analytics</p>
