@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/youtubetop20mobile/static/css/main.1d341f00.chunk.css",
-    "main.js": "/youtubetop20mobile/static/js/main.8912cfa6.chunk.js",
-    "main.js.map": "/youtubetop20mobile/static/js/main.8912cfa6.chunk.js.map",
+    "main.css": "/youtubetop20mobile/static/css/main.2f706ba6.chunk.css",
+    "main.js": "/youtubetop20mobile/static/js/main.51a281eb.chunk.js",
+    "main.js.map": "/youtubetop20mobile/static/js/main.51a281eb.chunk.js.map",
     "runtime-main.js": "/youtubetop20mobile/static/js/runtime-main.4678383e.js",
     "runtime-main.js.map": "/youtubetop20mobile/static/js/runtime-main.4678383e.js.map",
     "static/css/2.835acb34.chunk.css": "/youtubetop20mobile/static/css/2.835acb34.chunk.css",
-    "static/js/2.191b7f9f.chunk.js": "/youtubetop20mobile/static/js/2.191b7f9f.chunk.js",
-    "static/js/2.191b7f9f.chunk.js.map": "/youtubetop20mobile/static/js/2.191b7f9f.chunk.js.map",
+    "static/js/2.c6bfc58a.chunk.js": "/youtubetop20mobile/static/js/2.c6bfc58a.chunk.js",
+    "static/js/2.c6bfc58a.chunk.js.map": "/youtubetop20mobile/static/js/2.c6bfc58a.chunk.js.map",
     "index.html": "/youtubetop20mobile/index.html",
     "static/css/2.835acb34.chunk.css.map": "/youtubetop20mobile/static/css/2.835acb34.chunk.css.map",
-    "static/css/main.1d341f00.chunk.css.map": "/youtubetop20mobile/static/css/main.1d341f00.chunk.css.map",
-    "static/js/2.191b7f9f.chunk.js.LICENSE.txt": "/youtubetop20mobile/static/js/2.191b7f9f.chunk.js.LICENSE.txt",
+    "static/css/main.2f706ba6.chunk.css.map": "/youtubetop20mobile/static/css/main.2f706ba6.chunk.css.map",
+    "static/js/2.c6bfc58a.chunk.js.LICENSE.txt": "/youtubetop20mobile/static/js/2.c6bfc58a.chunk.js.LICENSE.txt",
     "static/media/1.228956ce.jpg": "/youtubetop20mobile/static/media/1.228956ce.jpg",
     "static/media/2.d57d1454.png": "/youtubetop20mobile/static/media/2.d57d1454.png",
     "static/media/3.386e7ac8.png": "/youtubetop20mobile/static/media/3.386e7ac8.png",
@@ -20,8 +20,8 @@
   "entrypoints": [
     "static/js/runtime-main.4678383e.js",
     "static/css/2.835acb34.chunk.css",
-    "static/js/2.191b7f9f.chunk.js",
-    "static/css/main.1d341f00.chunk.css",
-    "static/js/main.8912cfa6.chunk.js"
+    "static/js/2.c6bfc58a.chunk.js",
+    "static/css/main.2f706ba6.chunk.css",
+    "static/js/main.51a281eb.chunk.js"
   ]
 }
