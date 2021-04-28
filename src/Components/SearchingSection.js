@@ -40,7 +40,7 @@ const SearchingSection = () => {
           <Grid item xs={8}>
             <div id="searchinputmain">
               <input
-                placeholder="YouTube Top 20 Search"
+                placeholder="Global Top 20 Search"
                 className="searchInput"
               />
               <SearchIcon id="searchinputicon" />
