@@ -25,7 +25,7 @@ export default function ScrollableTabsButtonAuto() {
         <Grid item xs={11}>
           <Tabs
             onChange={handleChange}
-            indicatorColor="primary"
+            indicatorColor="#F5F5F5"
             textColor="primary"
             variant="scrollable"
             scrollButtons="auto"

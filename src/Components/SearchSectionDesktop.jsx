@@ -120,6 +120,7 @@ const SearchSectionDesktop = () => {
               <Tabs
                 onChange={handleChange}
                 textColor="primary"
+                indicatorColor="#F5F5F5"
                 variant="scrollable"
                 aria-label="scrollable auto tabs example"
                 id="desktopTab"
