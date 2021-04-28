@@ -18,7 +18,7 @@ const Footer = () => {
               justifyContent: "center",
             }}
           >
-            <h2 style={{ color: "white" }}>YouTubeTop20</h2>
+            <h2 style={{ color: "white" }}>GlobalTop20</h2>
           </Grid>
           <Grid
             item
@@ -68,7 +68,7 @@ const Footer = () => {
                 }}
               >
                 <h4 style={{ color: "white", marginTop: "15px" }}>
-                  Copyright @ 2021 YouTubeTop20
+                  Copyright @ 2021 GlobalTop20
                 </h4>
               </Grid>
             </Grid>
@@ -88,7 +88,7 @@ const Footer = () => {
               justifyContent: "center",
             }}
           >
-            <h2 style={{ color: "white" }}>YouTubeTop20</h2>
+            <h2 style={{ color: "white" }}>GlobalTop20</h2>
           </Grid>
           <Grid
             item
@@ -137,7 +137,7 @@ const Footer = () => {
                 }}
               >
                 <h4 style={{ color: "white", marginTop: "15px" }}>
-                  Copyright @ 2021 YouTubeTop20
+                  Copyright @ 2021 GlobalTop20
                 </h4>
               </Grid>
             </Grid>

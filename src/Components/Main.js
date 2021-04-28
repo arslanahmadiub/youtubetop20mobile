@@ -4,7 +4,6 @@ import Banner from "./Banner";
 import FilterSection from "./CustomComponents/FilterSection";
 import VideoViewInfo from "./CustomComponents/VideoViewInfo";
 import VideoViewSimple from "../Components/CustomComponents/VideoViewSimple";
-import Footer from "./Footer";
 
 import SearchingSection from "./SearchingSection";
 

@@ -4,7 +4,7 @@ import Topbar from "./Components/Topbar";
 import Main from "./Components/Main";
 import { Route, Switch } from "react-router-dom";
 import AboutUs from "./Components/AboutUs";
-import Banner from "./Components/Banner";
+
 import Footer from "./Components/Footer";
 
 const App = () => {

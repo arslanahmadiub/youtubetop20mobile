@@ -45,7 +45,7 @@ const Topbar = () => {
                 cursor: "pointer",
               }}
             >
-              YouTubeTop20
+              GlobalTop20
             </Typography>
           </Toolbar>
           <div id={showMenu ? "mobileMenu" : "mobileMenuOff"}>
@@ -72,7 +72,7 @@ const Topbar = () => {
               style={{ cursor: "pointer" }}
               onClick={handeHomePage}
             >
-              YouTubeTop20
+              GlobalTop20
             </Typography>
 
             <div
