@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Hidden } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -9,8 +9,19 @@ import Button from "@material-ui/core/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
+import {
+  getUniqueRegions,
+  getRegionalGlobalHot20List,
+  getRegionalGlobalTop20List,
+} from "../Services/GlobalServices";
+
+import { useDispatch, useSelector } from "react-redux";
+import { regionsDataAction } from "../action/GlobalAction";
+import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
 
 const SearchSectionDesktop = () => {
+  const dispatch = useDispatch();
+
   const [value, setValue] = useState(0);
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
@@ -40,6 +51,50 @@ const SearchSectionDesktop = () => {
     setshowMenuBar(false);
   };
   let handelCalanderChange = () => {};
+
+  const regionData = useSelector((state) => state.globalData.regions);
+
+  let getRegions = async () => {
+    try {
+      let { data } = await getUniqueRegions();
+
+      dispatch(regionsDataAction(data.Data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let regionalHot20 = async () => {
+    try {
+      if (menuText !== "Select") {
+        let { data } = await getRegionalGlobalHot20List(menuText);
+
+        dispatch(hot20DataAction(data.Data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let regionalTop20 = async () => {
+    try {
+      if (menuText !== "Select") {
+        let { data } = await getRegionalGlobalTop20List(menuText);
+        dispatch(top20DataAction(data.Data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    regionalTop20();
+    regionalHot20();
+  }, [menuText]);
+
+  useEffect(() => {
+    getRegions();
+  }, []);
+
   return (
     <Hidden only={["sm", "xs"]}>
       <Grid container className="searchSectionMainContainerDesktop">
@@ -80,10 +135,14 @@ const SearchSectionDesktop = () => {
                 <button className="searchSelector">{menuText}</button>
                 {showMenuBar && (
                   <div className="selectorMenu">
-                    <p onClick={handelMenuClick}>Volvo</p>
-                    <p onClick={handelMenuClick}>Saab</p>
-                    <p onClick={handelMenuClick}>Mercedes</p>
-                    <p onClick={handelMenuClick}>Audi</p>
+                    {regionData.length > 0 &&
+                      regionData.map((item, index) => {
+                        return (
+                          <p onClick={handelMenuClick} key={index}>
+                            {item}
+                          </p>
+                        );
+                      })}
                   </div>
                 )}
 
@@ -120,7 +179,11 @@ const SearchSectionDesktop = () => {
               <Tabs
                 onChange={handleChange}
                 textColor="primary"
-                indicatorColor="#F5F5F5"
+                TabIndicatorProps={{
+                  style: {
+                    display: "none",
+                  },
+                }}
                 variant="scrollable"
                 aria-label="scrollable auto tabs example"
                 id="desktopTab"

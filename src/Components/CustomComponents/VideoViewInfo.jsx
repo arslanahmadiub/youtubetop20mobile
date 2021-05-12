@@ -9,7 +9,13 @@ import { Hidden } from "@material-ui/core";
 
 const VideoViewInfo = (props) => {
   const [open, setOpen] = useState(false);
-  let { channel, startDate, videoId, videoName, views } = props.data;
+  let {
+    video_channelTitle,
+    video_publishedAt,
+    video_id,
+    video_title,
+    video_viewCount,
+  } = props.data;
   const [dynamicVideo, setDynamicVideo] = useState("");
   let handelClick = (e) => {
     setOpen(true);
@@ -48,12 +54,12 @@ const VideoViewInfo = (props) => {
           <Card>
             <div
               className="frameContainer"
-              onClick={() => handelClick(videoId)}
+              onClick={() => handelClick(video_id)}
             >
               <iframe
                 width="100%"
                 height="200"
-                src={`https://www.youtube.com/embed/${videoId}`}
+                src={`https://www.youtube.com/embed/${video_id}`}
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -77,7 +83,7 @@ const VideoViewInfo = (props) => {
                 xs={12}
                 style={{ paddingLeft: "5px", paddingRight: "5px" }}
               >
-                <h5>{videoName}</h5>
+                <h5>{video_title}</h5>
               </Grid>
             </Grid>
             <Grid
@@ -90,19 +96,19 @@ const VideoViewInfo = (props) => {
             >
               <Grid item xs={3}>
                 <h6>Channel </h6>
-                <h6>{channel}</h6>
+                <h6>{video_channelTitle}</h6>
               </Grid>
               <Grid item xs={3}>
                 <h6>Start Date</h6>
-                <h6>{startDate}</h6>
+                <h6>{video_publishedAt}</h6>
               </Grid>
               <Grid item xs={2}>
                 <h6>Days Old</h6>
                 <h6>28</h6>
               </Grid>
               <Grid item xs={4}>
-                <h6>Views over 24 Hours</h6>
-                <h6>{views}</h6>
+                <h6>Views </h6>
+                <h6>{video_viewCount}</h6>
               </Grid>
             </Grid>
           </Card>

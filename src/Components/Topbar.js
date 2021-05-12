@@ -23,6 +23,10 @@ const Topbar = () => {
     history.push("/about");
   };
 
+  let handelCharity = () => {
+    history.push("/charity");
+  };
+
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
@@ -52,21 +56,16 @@ const Topbar = () => {
             <div className="mobilemenuoption" onClick={handelAboutUs}>
               <p>About Us</p>
             </div>
+
             <div className="mobilemenuoption">
-              <p>Advertise</p>
-            </div>
-            <div className="mobilemenuoption">
-              <p>Charaties</p>
-            </div>
-            <div className="mobilemenuoption">
-              <p>Analytics</p>
+              <p onClick={handelCharity}>Charities</p>
             </div>
           </div>
         </AppBar>
       </Hidden>
       <Hidden only={["sm", "xs"]}>
         <AppBar position="static">
-          <Toolbar style={{ paddingLeft: "6%", paddingRight: "6%" }}>
+          <Toolbar style={{ paddingRight: "6%" }}>
             <Typography
               variant="h6"
               style={{ cursor: "pointer" }}
@@ -74,7 +73,10 @@ const Topbar = () => {
             >
               GlobalTop20
             </Typography>
-
+            <p style={{ fontSize: "10px", display: "flex", marginLeft: "5px" }}>
+              Beta{" "}
+            </p>
+            <p style={{ fontSize: "10px", marginLeft: "2px" }}>1.0</p>
             <div
               style={{
                 display: "flex",
@@ -85,13 +87,11 @@ const Topbar = () => {
               <p className="desktop-menu" onClick={handelAboutUs}>
                 About Us
               </p>
-              <p className="desktop-menu">Advertise</p>
-              <p className="desktop-menu">Charaties</p>
-              <p className="desktop-menu">Analytics</p>
 
-              <p className="desktop-menu">Login</p>
+              <p className="desktop-menu" onClick={handelCharity}>
+                Charities
+              </p>
             </div>
-            <button className="desktop-button">Sign Up</button>
           </Toolbar>
         </AppBar>
       </Hidden>

@@ -6,7 +6,13 @@ import Dialog from "@material-ui/core/Dialog";
 const VideoViewInfoDesktop = (props) => {
   const [open, setOpen] = useState(false);
 
-  let { channel, startDate, videoId, videoName, views } = props.data;
+  let {
+    video_channelTitle,
+    video_publishedAt,
+    video_id,
+    video_title,
+    video_viewCount,
+  } = props.data;
   const [dynamicVideo, setDynamicVideo] = useState("");
   let handelClick = (e) => {
     setOpen(true);
@@ -44,25 +50,25 @@ const VideoViewInfoDesktop = (props) => {
                 #{props.top}
               </p>
 
-              <p className="videoTags">{channel}</p>
+              <p className="videoTags">{video_channelTitle}</p>
               <p className="videoTagsSimple">Video Name</p>
-              <p className="videoTags">{videoName}</p>
+              <p className="videoTags">{video_title}</p>
               <p className="videoTagsSimple">Start Date</p>
-              <p className="videoTags">{startDate}</p>
+              <p className="videoTags">{video_publishedAt}</p>
               <p className="videoTagsSimple">Days Old</p>
               <p className="videoTags">10 Days Old</p>
-              <p className="videoTagsSimple">Views over 24 hours</p>
-              <p className="videoTags">{views}</p>
+              <p className="videoTagsSimple">Total Views</p>
+              <p className="videoTags">{video_viewCount}</p>
             </Grid>
             <Grid item xs={7}>
               <div
                 className="frameContainer"
-                onClick={() => handelClick(videoId)}
+                onClick={() => handelClick(video_id)}
               >
                 <iframe
                   width="100%"
                   height="300"
-                  src={`https://www.youtube.com/embed/${videoId}`}
+                  src={`https://www.youtube.com/embed/${video_id}`}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

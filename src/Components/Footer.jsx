@@ -1,8 +1,24 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { Hidden } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const Footer = () => {
+  let history = useHistory();
+  let handelAboutUs = () => {
+    history.push("/about");
+  };
+  let handeHomePage = () => {
+    history.push("/");
+  };
+
+  let handelPrivacyPolicy = () => {
+    history.push("/privacy");
+  };
+  let handelCharity = () => {
+    history.push("/charity");
+  };
+
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
@@ -40,9 +56,12 @@ const Footer = () => {
                   alignItems: "center",
                 }}
               >
-                <h4 style={{ color: "white" }}>About Us</h4>
-
-                <h4 style={{ color: "white", marginTop: "10px" }}>Advertise</h4>
+                <h4
+                  style={{ color: "white", cursor: "pointer" }}
+                  onClick={handelAboutUs}
+                >
+                  About Us
+                </h4>
               </Grid>
               <Grid
                 item
@@ -54,9 +73,12 @@ const Footer = () => {
                   alignItems: "center",
                 }}
               >
-                <h4 style={{ color: "white" }}>Charaties</h4>
-
-                <h4 style={{ color: "white", marginTop: "10px" }}>Analysis</h4>
+                <h4
+                  style={{ color: "white", cursor: "pointer" }}
+                  onClick={handelCharity}
+                >
+                  Charities
+                </h4>
               </Grid>
               <Grid
                 item
@@ -76,7 +98,13 @@ const Footer = () => {
         </Grid>
       </Hidden>
       <Hidden only={["sm", "xs"]}>
-        <Grid container style={{ background: "#3f51b5", marginTop: "25px" }}>
+        <Grid
+          container
+          style={{
+            background: "#3f51b5",
+            marginTop: "25px",
+          }}
+        >
           <Grid
             item
             xs={12}
@@ -88,7 +116,12 @@ const Footer = () => {
               justifyContent: "center",
             }}
           >
-            <h2 style={{ color: "white" }}>GlobalTop20</h2>
+            <h2
+              style={{ color: "white", cursor: "pointer" }}
+              onClick={handeHomePage}
+            >
+              GlobalTop20
+            </h2>
           </Grid>
           <Grid
             item
@@ -118,12 +151,25 @@ const Footer = () => {
                     width: "100%",
                   }}
                 >
-                  <h4 style={{ color: "white" }}>About Us</h4>
+                  <h4
+                    style={{ color: "white", cursor: "pointer" }}
+                    onClick={handelAboutUs}
+                  >
+                    About Us
+                  </h4>
 
-                  <h4 style={{ color: "white" }}>Advertise</h4>
-                  <h4 style={{ color: "white" }}>Charaties</h4>
-
-                  <h4 style={{ color: "white" }}>Analysis</h4>
+                  <h4
+                    style={{ color: "white", cursor: "pointer" }}
+                    onClick={handelPrivacyPolicy}
+                  >
+                    Privacy policy
+                  </h4>
+                  <h4
+                    style={{ color: "white", cursor: "pointer" }}
+                    onClick={handelCharity}
+                  >
+                    Charities
+                  </h4>
                 </div>
               </Grid>
 

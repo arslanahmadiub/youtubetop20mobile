@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -8,7 +8,19 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import { Hidden } from "@material-ui/core";
 
+import {
+  getUniqueRegions,
+  getRegionalGlobalHot20List,
+  getRegionalGlobalTop20List,
+} from "../Services/GlobalServices";
+
+import { useDispatch, useSelector } from "react-redux";
+import { regionsDataAction } from "../action/GlobalAction";
+import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
+
 const SearchingSection = () => {
+  const dispatch = useDispatch();
+
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
   let handelDayClick = (e) => {
@@ -32,6 +44,48 @@ const SearchingSection = () => {
     setMenuText(e.target.textContent);
     setshowMenuBar(false);
   };
+  const regionData = useSelector((state) => state.globalData.regions);
+
+  let getRegions = async () => {
+    try {
+      let { data } = await getUniqueRegions();
+
+      dispatch(regionsDataAction(data.Data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let regionalHot20 = async () => {
+    try {
+      if (menuText !== "Select") {
+        let { data } = await getRegionalGlobalHot20List(menuText);
+
+        dispatch(hot20DataAction(data.Data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let regionalTop20 = async () => {
+    try {
+      if (menuText !== "Select") {
+        let { data } = await getRegionalGlobalTop20List(menuText);
+        dispatch(top20DataAction(data.Data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    regionalTop20();
+    regionalHot20();
+  }, [menuText]);
+
+  useEffect(() => {
+    getRegions();
+  }, []);
   let handelCalanderChange = () => {};
   return (
     <>
@@ -93,10 +147,14 @@ const SearchingSection = () => {
               <button className="searchSelector">{menuText}</button>
               {showMenuBar && (
                 <div className="selectorMenu">
-                  <p onClick={handelMenuClick}>Volvo</p>
-                  <p onClick={handelMenuClick}>Saab</p>
-                  <p onClick={handelMenuClick}>Mercedes</p>
-                  <p onClick={handelMenuClick}>Audi</p>
+                  {regionData.length > 0 &&
+                    regionData.map((item, index) => {
+                      return (
+                        <p onClick={handelMenuClick} key={index}>
+                          {item}
+                        </p>
+                      );
+                    })}
                 </div>
               )}
               <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} />
