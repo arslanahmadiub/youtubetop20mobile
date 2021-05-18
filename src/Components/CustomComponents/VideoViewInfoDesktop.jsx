@@ -32,7 +32,7 @@ const VideoViewInfoDesktop = (props) => {
   let {
     video_channelTitle,
     video_publishedAt,
-    video_description,
+    // video_description,
     video_id,
     video_title,
     video_viewCount,
@@ -100,7 +100,7 @@ const VideoViewInfoDesktop = (props) => {
               </Tooltip>
               <p className="videoTags">{video_channelTitle}</p>
 
-              <p className="videoTagsSimple">Description</p>
+              {/* <p className="videoTagsSimple">Description</p>
 
               <Tooltip
                 arrow
@@ -110,7 +110,7 @@ const VideoViewInfoDesktop = (props) => {
                 title={video_description}
               >
                 <Typography noWrap>{video_description}</Typography>
-              </Tooltip>
+              </Tooltip> */}
 
               <p className="videoTagsSimple">Published Date</p>
               <p className="videoTags">{video_publishedAt}</p>

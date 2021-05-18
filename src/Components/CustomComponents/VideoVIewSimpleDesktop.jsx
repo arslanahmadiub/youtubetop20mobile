@@ -60,7 +60,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
         <Skeleton
           variant="rect"
           width="100%"
-          height="200px"
+          height="250px"
           style={{
             position: "absolute",
             top: 0,
@@ -70,7 +70,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
         />
         <iframe
           width="100%"
-          height="200"
+          height="250"
           src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
           frameBorder="0"

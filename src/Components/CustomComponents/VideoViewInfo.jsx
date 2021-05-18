@@ -139,14 +139,14 @@ const VideoViewInfo = (props) => {
                   <Typography noWrap>{video_title}</Typography>
                 </Tooltip>
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 xs={12}
                 style={{ paddingLeft: "5px", paddingRight: "5px" }}
               >
                 <Typography variant="subtitle1">Description</Typography>
-              </Grid>
-              <Grid
+              </Grid> */}
+              {/* <Grid
                 item
                 xs={12}
                 style={{ paddingLeft: "5px", paddingRight: "5px" }}
@@ -160,7 +160,7 @@ const VideoViewInfo = (props) => {
                 >
                   <Typography noWrap>{video_description}</Typography>
                 </Tooltip>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Grid
               container
