@@ -34,7 +34,12 @@ const Footer = () => {
               justifyContent: "center",
             }}
           >
-            <h2 style={{ color: "white" }}>GlobalTop20</h2>
+            <h2
+              style={{ color: "white", cursor: "pointer" }}
+              onClick={handeHomePage}
+            >
+              GlobalTop20
+            </h2>
           </Grid>
           <Grid
             item
@@ -78,6 +83,27 @@ const Footer = () => {
                   onClick={handelCharity}
                 >
                   Charities
+                </h4>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <h4
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingTop: "10px",
+                  }}
+                  onClick={handelPrivacyPolicy}
+                >
+                  Privacy policy
                 </h4>
               </Grid>
               <Grid

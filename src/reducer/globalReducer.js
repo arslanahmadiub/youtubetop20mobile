@@ -2,6 +2,7 @@ const initalState = {
   top20Videos: [],
   hot20Videos: [],
   regions: [],
+  top20Loading: true,
 };
 
 export const globalReducer = (state = initalState, action) => {
@@ -21,6 +22,11 @@ export const globalReducer = (state = initalState, action) => {
       return {
         ...state,
         regions: action.payload,
+      };
+    case "SET_LOADING":
+      return {
+        ...state,
+        top20Loading: action.payload,
       };
 
     case "RESET":

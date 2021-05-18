@@ -10,9 +10,17 @@ export const hot20DataAction = (data) => {
     payload: data,
   };
 };
+
 export const regionsDataAction = (data) => {
   return {
     type: "REGIONS_DATA",
+    payload: data,
+  };
+};
+
+export const setLoading = (data) => {
+  return {
+    type: "SET_LOADING",
     payload: data,
   };
 };

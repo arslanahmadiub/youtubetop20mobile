@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Dialog from "@material-ui/core/Dialog";
-
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import { Hidden } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
+import { Typography } from "@material-ui/core";
 
 const VideoViewInfo = (props) => {
   const [open, setOpen] = useState(false);
   let {
     video_channelTitle,
     video_publishedAt,
+    video_description,
     video_id,
     video_title,
     video_viewCount,
+    view_count_per_24hour,
   } = props.data;
   const [dynamicVideo, setDynamicVideo] = useState("");
   let handelClick = (e) => {
@@ -25,6 +28,34 @@ const VideoViewInfo = (props) => {
     setOpen(false);
   };
 
+  const [toolTipOpen, setToolTipOpen] = useState(false);
+
+  const handleCloseTooltip = () => {
+    setToolTipOpen(false);
+  };
+
+  const handleOpenTooltip = () => {
+    setToolTipOpen(true);
+  };
+
+  const [toolTipOpen2, setToolTipOpen2] = useState(false);
+
+  const handleCloseTooltip2 = () => {
+    setToolTipOpen2(false);
+  };
+
+  const handleOpenTooltip2 = () => {
+    setToolTipOpen2(true);
+  };
+
+  const [loading, setLoading] = useState(true);
+
+  let offLoading = () => {
+    setLoading(false);
+  };
+  useEffect(() => {
+    setLoading(true);
+  }, [video_id]);
   return (
     <Hidden only={["md", "lg", "xl"]}>
       <React.Fragment>
@@ -37,6 +68,7 @@ const VideoViewInfo = (props) => {
           <iframe
             width="100%"
             height="300"
+            loading="lazy"
             src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
@@ -59,11 +91,14 @@ const VideoViewInfo = (props) => {
               <iframe
                 width="100%"
                 height="200"
+                loading="lazy"
                 src={`https://www.youtube.com/embed/${video_id}`}
                 title="YouTube video player"
                 frameBorder="0"
+                onLoad={offLoading}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                style={{ zIndex: loading ? "-50" : "1" }}
               ></iframe>
               <div
                 style={{
@@ -76,6 +111,17 @@ const VideoViewInfo = (props) => {
                   cursor: "pointer",
                 }}
               ></div>
+              <Skeleton
+                variant="rect"
+                width="100%"
+                height="300px"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  zIndex: "6",
+                }}
+              />
             </div>
             <Grid container>
               <Grid
@@ -83,7 +129,37 @@ const VideoViewInfo = (props) => {
                 xs={12}
                 style={{ paddingLeft: "5px", paddingRight: "5px" }}
               >
-                <h5>{video_title}</h5>
+                <Tooltip
+                  arrow
+                  open={toolTipOpen}
+                  onClose={handleCloseTooltip}
+                  onOpen={handleOpenTooltip}
+                  title={video_title}
+                >
+                  <Typography noWrap>{video_title}</Typography>
+                </Tooltip>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                style={{ paddingLeft: "5px", paddingRight: "5px" }}
+              >
+                <Typography variant="subtitle1">Description</Typography>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                style={{ paddingLeft: "5px", paddingRight: "5px" }}
+              >
+                <Tooltip
+                  arrow
+                  open={toolTipOpen2}
+                  onClose={handleCloseTooltip2}
+                  onOpen={handleOpenTooltip2}
+                  title={video_description}
+                >
+                  <Typography noWrap>{video_description}</Typography>
+                </Tooltip>
               </Grid>
             </Grid>
             <Grid
@@ -99,14 +175,14 @@ const VideoViewInfo = (props) => {
                 <h6>{video_channelTitle}</h6>
               </Grid>
               <Grid item xs={3}>
-                <h6>Start Date</h6>
+                <h6>Published Date</h6>
                 <h6>{video_publishedAt}</h6>
               </Grid>
-              <Grid item xs={2}>
-                <h6>Days Old</h6>
-                <h6>28</h6>
+              <Grid item xs={3}>
+                <h6>Views in 24 hours</h6>
+                <h6>{view_count_per_24hour}</h6>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <h6>Views </h6>
                 <h6>{video_viewCount}</h6>
               </Grid>

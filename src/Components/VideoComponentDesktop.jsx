@@ -58,8 +58,8 @@ const VideoComponentDesktop = () => {
           style={{
             paddingLeft: "1%",
             paddingRight: "1%",
-            height: "100vh",
-            overflow: "auto",
+            borderLeft: "2px solid #3F51B5",
+            marginTop: "2%",
             direction: "rtl",
           }}
           id="hotvideosection"

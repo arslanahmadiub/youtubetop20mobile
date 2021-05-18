@@ -13,11 +13,16 @@ import {
   getUniqueRegions,
   getRegionalGlobalHot20List,
   getRegionalGlobalTop20List,
+  getGlobalTop20List,
+  getGlobalHot20List,
 } from "../Services/GlobalServices";
 
 import { useDispatch, useSelector } from "react-redux";
-import { regionsDataAction } from "../action/GlobalAction";
-import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
+import {
+  top20DataAction,
+  hot20DataAction,
+  regionsDataAction,
+} from "../action/GlobalAction";
 
 const SearchSectionDesktop = () => {
   const dispatch = useDispatch();
@@ -40,7 +45,7 @@ const SearchSectionDesktop = () => {
   };
 
   const [showMenuBar, setshowMenuBar] = useState(false);
-  const [menuText, setMenuText] = useState("Select");
+  const [menuText, setMenuText] = useState("Global");
 
   let handelSelector = () => {
     setshowMenuBar(!showMenuBar);
@@ -66,9 +71,12 @@ const SearchSectionDesktop = () => {
 
   let regionalHot20 = async () => {
     try {
-      if (menuText !== "Select") {
+      if (menuText !== "Global") {
         let { data } = await getRegionalGlobalHot20List(menuText);
 
+        dispatch(hot20DataAction(data.Data));
+      } else {
+        let { data } = await getGlobalHot20List();
         dispatch(hot20DataAction(data.Data));
       }
     } catch (error) {
@@ -77,8 +85,11 @@ const SearchSectionDesktop = () => {
   };
   let regionalTop20 = async () => {
     try {
-      if (menuText !== "Select") {
+      if (menuText !== "Global") {
         let { data } = await getRegionalGlobalTop20List(menuText);
+        dispatch(top20DataAction(data.Data));
+      } else {
+        let { data } = await getGlobalTop20List();
         dispatch(top20DataAction(data.Data));
       }
     } catch (error) {
@@ -132,7 +143,10 @@ const SearchSectionDesktop = () => {
             </Grid>
             <Grid item xs={2}>
               <div id="searchinputmain">
-                <button className="searchSelector">{menuText}</button>
+                <button className="searchSelector" onClick={handelSelector}>
+                  {menuText}
+                </button>
+
                 {showMenuBar && (
                   <div className="selectorMenu">
                     {regionData.length > 0 &&

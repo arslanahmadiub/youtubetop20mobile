@@ -51,6 +51,16 @@ const Topbar = () => {
             >
               GlobalTop20
             </Typography>
+            <Typography
+              style={{
+                width: "100%",
+                display: "flex",
+                cursor: "pointer",
+                fontSize: "12px",
+              }}
+            >
+              Beta 1.0
+            </Typography>
           </Toolbar>
           <div id={showMenu ? "mobileMenu" : "mobileMenuOff"}>
             <div className="mobilemenuoption" onClick={handelAboutUs}>
@@ -74,7 +84,7 @@ const Topbar = () => {
               GlobalTop20
             </Typography>
             <p style={{ fontSize: "10px", display: "flex", marginLeft: "5px" }}>
-              Beta{" "}
+              Beta
             </p>
             <p style={{ fontSize: "10px", marginLeft: "2px" }}>1.0</p>
             <div

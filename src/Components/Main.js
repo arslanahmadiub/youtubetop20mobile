@@ -27,6 +27,7 @@ const Main = () => {
   let globalTop20Data = async () => {
     try {
       let { data } = await getGlobalTop20List();
+
       dispatch(top20DataAction(data.Data));
     } catch (error) {
       console.log(error);
@@ -90,7 +91,8 @@ const Main = () => {
           Top 20
         </h2>
       </Hidden>
-      {top20Data.length > 0 &&
+      {top20Data !== "undefined" &&
+        top20Data.length > 0 &&
         top20Data.map((e, i) => <VideoViewInfo key={i} top={i + 1} data={e} />)}
       <Hidden only={["md", "lg", "xl"]}>
         <h2

@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import { Hidden } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
+import Skeleton from "@material-ui/lab/Skeleton";
 
-const VideoVIewSimpleDesktop = (props) => {
+const VideoVIewSimpleDesktop = ({ top, videoId }) => {
   const [open, setOpen] = useState(false);
   const [dynamicVideo, setDynamicVideo] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  let offLoading = () => {
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+  }, [videoId]);
 
   let handelClick = (e) => {
     setOpen(true);
@@ -15,6 +25,7 @@ const VideoVIewSimpleDesktop = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <Hidden only={["xs", "sm"]}>
       <React.Fragment>
@@ -27,6 +38,7 @@ const VideoVIewSimpleDesktop = (props) => {
           <iframe
             width="100%"
             height="500px"
+            loading="lazy"
             src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
@@ -36,15 +48,37 @@ const VideoVIewSimpleDesktop = (props) => {
         </Dialog>
       </React.Fragment>
       <div style={{ position: "relative", marginBottom: "30px" }}>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            background: "#F0EFEF",
+            position: "absolute",
+            zIndex: loading ? "3" : "-55",
+          }}
+        ></div>
+        <Skeleton
+          variant="rect"
+          width="100%"
+          height="200px"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: "4",
+          }}
+        />
         <iframe
           width="100%"
           height="200"
-          src={`https://www.youtube.com/embed/${props.videoId}`}
+          src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+          onLoad={offLoading}
           className="videoView"
+          style={{ zIndex: loading ? "-55" : "1" }}
         ></iframe>
         <Tooltip
           title="Add"
@@ -58,7 +92,7 @@ const VideoVIewSimpleDesktop = (props) => {
           }}
         >
           <Fab color="primary">
-            <h3>#{props.top}</h3>
+            <h3>#{top}</h3>
           </Fab>
         </Tooltip>
         <div
@@ -71,7 +105,7 @@ const VideoVIewSimpleDesktop = (props) => {
             height: "100%",
             cursor: "pointer",
           }}
-          onClick={() => handelClick(props.videoId)}
+          onClick={() => handelClick(videoId)}
         ></div>
       </div>
     </Hidden>
