@@ -5,6 +5,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Typography } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
+import YouTube from "react-youtube";
 
 const VideoViewInfoDesktop = (props) => {
   const [open, setOpen] = useState(false);
@@ -57,6 +58,15 @@ const VideoViewInfoDesktop = (props) => {
     setOpen(false);
   };
 
+  let opts = {
+    height: "250px",
+    width: "500px",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
   return (
     <Hidden only={["xs", "sm"]}>
       <React.Fragment>
@@ -79,7 +89,7 @@ const VideoViewInfoDesktop = (props) => {
         </Dialog>
       </React.Fragment>
 
-      <Grid container style={{ marginBottom: "30px" }}>
+      <Grid container>
         <Grid item xs={12}>
           <Grid container className="videoviewdesktop">
             <Grid item xs={5}>
@@ -112,12 +122,12 @@ const VideoViewInfoDesktop = (props) => {
                 <Typography noWrap>{video_description}</Typography>
               </Tooltip> */}
 
-              <p className="videoTagsSimple">Published Date</p>
+              <p className="videoTagsSimple">Days Old</p>
               <p className="videoTags">{video_publishedAt}</p>
 
               <p className="videoTagsSimple">Total Views</p>
               <p className="videoTags">{video_viewCount}</p>
-              <p className="videoTagsSimple">Views in 24 Hour</p>
+              <p className="videoTagsSimple">Views in 24 Hours</p>
               <p className="videoTags">{view_count_per_24hour}</p>
             </Grid>
             <Grid item xs={7}>
@@ -127,7 +137,7 @@ const VideoViewInfoDesktop = (props) => {
               >
                 <iframe
                   width="100%"
-                  height="300"
+                  height="250"
                   src={`https://www.youtube.com/embed/${video_id}`}
                   title="YouTube video player"
                   frameBorder="0"
@@ -137,6 +147,7 @@ const VideoViewInfoDesktop = (props) => {
                   className="videoView"
                   style={{ zIndex: loading ? "-50" : "1" }}
                 ></iframe>
+                {/* <YouTube videoId={video_id} opts={opts} /> */}
                 <div
                   style={{
                     background: "transperent",

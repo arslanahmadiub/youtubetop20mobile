@@ -8,12 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGlobalTop20List } from "../Services/GlobalServices";
 import { getGlobalHot20List } from "../Services/GlobalServices";
 import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
+import _ from "lodash";
 
 const VideoComponentDesktop = () => {
   const dispatch = useDispatch();
 
   const hot20Data = useSelector((state) => state.globalData.hot20Videos);
   const top20Data = useSelector((state) => state.globalData.top20Videos);
+
+  top20Data.forEach(function (element, index) {
+    element.hotData = hot20Data[index];
+  });
 
   let globalTop20Data = async () => {
     try {
@@ -40,12 +45,12 @@ const VideoComponentDesktop = () => {
 
   return (
     <Hidden only={["xs", "sm"]}>
-      <Grid
+      {/* <Grid
         container
         style={{ paddingLeft: "6%", paddingTop: "2%" }}
         spacing={2}
       >
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           {top20Data.length > 0 &&
             top20Data.map((e, i) => (
               <VideoViewInfoDesktop key={i} top={i + 1} data={e} />
@@ -54,12 +59,11 @@ const VideoComponentDesktop = () => {
 
         <Grid
           item
-          xs={4}
+          xs={5}
           style={{
             paddingLeft: "1%",
             paddingRight: "1%",
             borderLeft: "2px solid #3F51B5",
-            marginTop: "2%",
             direction: "rtl",
           }}
           id="hotvideosection"
@@ -68,7 +72,37 @@ const VideoComponentDesktop = () => {
             <VideoVIewSimpleDesktop key={i} top={i + 1} videoId={e.video_id} />
           ))}
         </Grid>
-      </Grid>
+      </Grid> */}
+      {top20Data.length > 0 &&
+        top20Data.map((e, i) => {
+          return (
+            <Grid container style={{ paddingLeft: "6%" }} spacing={5} key={i}>
+              <Grid item xs={7}>
+                <VideoViewInfoDesktop key={i} top={e.id} data={e} />
+              </Grid>
+
+              {e.hotData !== undefined ? (
+                <Grid
+                  item
+                  xs={5}
+                  style={{
+                    paddingLeft: "1%",
+                    paddingRight: "1%",
+                    borderLeft: "2px solid #3F51B5",
+                    direction: "rtl",
+                  }}
+                  id="hotvideosection"
+                >
+                  <VideoVIewSimpleDesktop
+                    key={i}
+                    top={e.hotData !== undefined ? e.hotData.id : ""}
+                    videoId={e.hotData !== undefined ? e.hotData.video_id : ""}
+                  />
+                </Grid>
+              ) : null}
+            </Grid>
+          );
+        })}
     </Hidden>
   );
 };

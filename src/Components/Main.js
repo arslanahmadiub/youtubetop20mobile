@@ -53,13 +53,14 @@ const Main = () => {
       <Banner />
       <SearchSectionDesktop />
       <SearchingSection />
-      <FilterSection />
+      {/* <FilterSection /> */}
       <Hidden only={["xs", "sm"]}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <h2
             style={{
               paddingLeft: "7%",
               paddingTop: "3%",
+              paddingBottom: "2%",
               color: "#3f51b5",
             }}
           >
@@ -67,8 +68,10 @@ const Main = () => {
           </h2>
           <h2
             style={{
-              paddingRight: "23%",
+              paddingRight: "32%",
               paddingTop: "3%",
+              paddingBottom: "2%",
+
               color: "#3f51b5",
             }}
           >

@@ -36,6 +36,11 @@ const SearchSectionDesktop = () => {
     setShowCalander(false);
   };
 
+  useEffect(() => {
+    let dateValue = moment().format("yyyy-MM-DD");
+    setCalander(dateValue);
+  }, []);
+
   let handelCalanderShow = () => {
     setShowCalander(!showCalander);
   };
@@ -116,7 +121,7 @@ const SearchSectionDesktop = () => {
             className="customCard"
             spacing={3}
           >
-            <Grid item xs={2}>
+            <Grid item xs={6}>
               <div id="searchinputmainDesktop">
                 <input
                   placeholder="2021-04-22"
@@ -137,11 +142,11 @@ const SearchSectionDesktop = () => {
                     overflow: "auto",
                   }}
                 >
-                  <Calendar onClickDay={handelDayClick} />
+                  <Calendar maxDate={new Date()} onClickDay={handelDayClick} />
                 </div>
               </div>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={6}>
               <div id="searchinputmain">
                 <button className="searchSelector" onClick={handelSelector}>
                   {menuText}
@@ -163,7 +168,7 @@ const SearchSectionDesktop = () => {
                 <ExpandMoreIcon id="searchinputicon" onClick={handelSelector} />
               </div>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <div id="searchinputmain">
                 <input
                   placeholder="Global Top 20 Search"
@@ -171,8 +176,8 @@ const SearchSectionDesktop = () => {
                 />
                 <SearchIcon id="searchinputicon" />
               </div>
-            </Grid>
-            <Grid
+            </Grid> */}
+            {/* <Grid
               item
               xs={2}
               style={{
@@ -188,8 +193,8 @@ const SearchSectionDesktop = () => {
               >
                 Search
               </Button>
-            </Grid>
-            <Grid item xs={12}>
+            </Grid> */}
+            {/* <Grid item xs={12}>
               <Tabs
                 onChange={handleChange}
                 textColor="primary"
@@ -230,7 +235,7 @@ const SearchSectionDesktop = () => {
                 <Tab label="Filter" id="tabStyle" />
                 <Tab label="Filter" id="tabStyle" />
               </Tabs>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>

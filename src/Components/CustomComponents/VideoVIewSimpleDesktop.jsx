@@ -47,7 +47,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
           ></iframe>
         </Dialog>
       </React.Fragment>
-      <div style={{ position: "relative", marginBottom: "30px" }}>
+      <div style={{ position: "relative" }}>
         <div
           style={{
             width: "100%",
@@ -60,7 +60,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
         <Skeleton
           variant="rect"
           width="100%"
-          height="250px"
+          height="280px"
           style={{
             position: "absolute",
             top: 0,
@@ -70,7 +70,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
         />
         <iframe
           width="100%"
-          height="250"
+          height="280"
           src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
           frameBorder="0"

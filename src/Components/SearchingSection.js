@@ -106,7 +106,7 @@ const SearchingSection = () => {
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
-        <Grid container>
+        {/* <Grid container>
           <Grid item xs={8}>
             <div id="searchinputmain">
               <input
@@ -132,7 +132,7 @@ const SearchingSection = () => {
               Search
             </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
         <br />
         <Grid container>
           <Grid item xs={6}>
