@@ -4,11 +4,16 @@ import Fab from "@material-ui/core/Fab";
 import { Hidden } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import Skeleton from "@material-ui/lab/Skeleton";
+import youtubeicon from "../images/youtubeicon.svg";
+import { useSelector } from "react-redux";
 
-const VideoVIewSimpleDesktop = ({ top, videoId }) => {
+const VideoVIewSimpleDesktop = ({ top, videoId, thumbnail }) => {
   const [open, setOpen] = useState(false);
   const [dynamicVideo, setDynamicVideo] = useState("");
   const [loading, setLoading] = useState(true);
+  const colorSelector = useSelector((state) => state.globalData.colorState);
+
+  const cHeight = useSelector((state) => state.globalData.componentHeight);
 
   let offLoading = () => {
     setLoading(false);
@@ -26,6 +31,9 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
     setOpen(false);
   };
 
+  var n = thumbnail.indexOf(",");
+
+  let imageUrl = thumbnail.substring(9, n - 1);
   return (
     <Hidden only={["xs", "sm"]}>
       <React.Fragment>
@@ -35,7 +43,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
           open={open}
           onClose={handleClose}
         >
-          <iframe
+          {/* <iframe
             width="100%"
             height="500px"
             loading="lazy"
@@ -44,11 +52,20 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+          ></iframe> */}
+          <iframe
+            width="100%"
+            height="500"
+            src={`https://www.youtube.com/embed/${dynamicVideo}?rel=0`}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
           ></iframe>
         </Dialog>
       </React.Fragment>
       <div style={{ position: "relative" }}>
-        <div
+        {/* <div
           style={{
             width: "100%",
             height: "100%",
@@ -56,8 +73,8 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
             position: "absolute",
             zIndex: loading ? "3" : "-55",
           }}
-        ></div>
-        <Skeleton
+        ></div> */}
+        {/* <Skeleton
           variant="rect"
           width="100%"
           height="280px"
@@ -67,8 +84,8 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
             left: 0,
             zIndex: "4",
           }}
-        />
-        <iframe
+        /> */}
+        {/* <iframe
           width="100%"
           height="280"
           src={`https://www.youtube.com/embed/${videoId}`}
@@ -79,7 +96,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
           onLoad={offLoading}
           className="videoView"
           style={{ zIndex: loading ? "-55" : "1" }}
-        ></iframe>
+        ></iframe> */}
         <Tooltip
           title="Add"
           aria-label="add"
@@ -89,6 +106,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
             right: "15px",
             width: "40px",
             height: "40px",
+            background: colorSelector ? "#424242" : "#3F51B5",
           }}
         >
           <Fab color="primary">
@@ -107,6 +125,21 @@ const VideoVIewSimpleDesktop = ({ top, videoId }) => {
           }}
           onClick={() => handelClick(videoId)}
         ></div>
+
+        {cHeight !== null && (
+          <img
+            src={imageUrl}
+            width="100%"
+            height={cHeight + "px"}
+            className="videoView"
+            style={{ cursor: "pointer" }}
+          />
+        )}
+
+        <img
+          src={youtubeicon}
+          style={{ position: "absolute", left: "45%", top: "40%" }}
+        />
       </div>
     </Hidden>
   );

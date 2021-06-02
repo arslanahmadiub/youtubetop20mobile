@@ -22,8 +22,8 @@ export default function ScrollableTabsButtonAuto() {
           marginTop: "15px",
         }}
       >
-        <Grid item xs={11}>
-          <Tabs
+        <Grid item xs={12}>
+          {/* <Tabs
             onChange={handleChange}
             TabIndicatorProps={{
               style: {
@@ -44,6 +44,32 @@ export default function ScrollableTabsButtonAuto() {
             <Tab label="Filter" id="tabStyle" />
             <Tab label="Filter" id="tabStyle" />
             <Tab label="Filter" id="tabStyle" />
+          </Tabs> */}
+
+          <Tabs
+            onChange={handleChange}
+            textColor="primary"
+            TabIndicatorProps={{
+              style: {
+                display: "none",
+              },
+            }}
+            // variant="scrollable"
+            aria-label="scrollable auto tabs example"
+            id="desktopTab"
+            value={value}
+          >
+            {["All", "Music", "Movies", "Sports", "Gaming"].map(
+              (item, index) => {
+                return (
+                  <Tab
+                    label={item}
+                    key={index}
+                    id={value === index ? "tabStyleActive" : "tabStyle"}
+                  />
+                );
+              }
+            )}
           </Tabs>
         </Grid>
       </Grid>

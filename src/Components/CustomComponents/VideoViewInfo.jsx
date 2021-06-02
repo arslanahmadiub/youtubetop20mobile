@@ -7,8 +7,11 @@ import Fab from "@material-ui/core/Fab";
 import { Hidden } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Typography } from "@material-ui/core";
-
+import youtubeicon from "../images/youtubeicon.svg";
+import { useSelector } from "react-redux";
 const VideoViewInfo = (props) => {
+  const colorSelector = useSelector((state) => state.globalData.colorState);
+
   const [open, setOpen] = useState(false);
   let {
     video_channelTitle,
@@ -18,6 +21,7 @@ const VideoViewInfo = (props) => {
     video_title,
     video_viewCount,
     view_count_per_24hour,
+    video_thumbnails,
   } = props.data;
   const [dynamicVideo, setDynamicVideo] = useState("");
   let handelClick = (e) => {
@@ -56,6 +60,10 @@ const VideoViewInfo = (props) => {
   useEffect(() => {
     setLoading(true);
   }, [video_id]);
+
+  var n = video_thumbnails.indexOf(",");
+
+  let imageUrl = video_thumbnails.substring(9, n - 1);
   return (
     <Hidden only={["md", "lg", "xl"]}>
       <React.Fragment>
@@ -65,7 +73,7 @@ const VideoViewInfo = (props) => {
           open={open}
           onClose={handleClose}
         >
-          <iframe
+          {/* <iframe
             width="100%"
             height="300"
             loading="lazy"
@@ -74,6 +82,31 @@ const VideoViewInfo = (props) => {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+          ></iframe> */}
+          {/* <iframe
+            width="100%"
+            height="300"
+            src={`https://www.youtube.com/embed/${dynamicVideo}`}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe> */}
+          {/* <iframe
+            width="700"
+            height="330"
+            src={`https://www.youtube.com/embed/${dynamicVideo}?rel=0`}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe> */}
+          <iframe
+            src={`https://www.youtube.com/embed/${dynamicVideo}?rel=0`}
+            width="560"
+            height="315"
+            frameborder="0"
+            allowfullscreen
           ></iframe>
         </Dialog>
       </React.Fragment>
@@ -88,7 +121,7 @@ const VideoViewInfo = (props) => {
               className="frameContainer"
               onClick={() => handelClick(video_id)}
             >
-              <iframe
+              {/* <iframe
                 width="100%"
                 height="200"
                 loading="lazy"
@@ -121,13 +154,28 @@ const VideoViewInfo = (props) => {
                   left: 0,
                   zIndex: "6",
                 }}
+              /> */}
+              <img
+                src={imageUrl}
+                width="100%"
+                className="videoView"
+                style={{ cursor: "pointer" }}
+              />
+              <img
+                src={youtubeicon}
+                style={{ position: "absolute", left: "40%", top: "40%" }}
               />
             </div>
             <Grid container>
               <Grid
                 item
                 xs={12}
-                style={{ paddingLeft: "5px", paddingRight: "5px" }}
+                style={{
+                  paddingLeft: "5px",
+                  paddingRight: "5px",
+                  background: colorSelector ? "#616161" : "white",
+                  color: colorSelector ? "white" : "black",
+                }}
               >
                 <Tooltip
                   arrow
@@ -168,6 +216,8 @@ const VideoViewInfo = (props) => {
                 paddingLeft: "5px",
                 paddingRight: "5px",
                 paddingBottom: "10px",
+                background: colorSelector ? "#616161" : "white",
+                color: colorSelector ? "white" : "black",
               }}
             >
               <Grid item xs={3}>
@@ -198,6 +248,7 @@ const VideoViewInfo = (props) => {
             right: "15px",
             width: "40px",
             height: "40px",
+            background: colorSelector ? "#424242" : "#3F51B5",
           }}
         >
           <Fab color="primary">

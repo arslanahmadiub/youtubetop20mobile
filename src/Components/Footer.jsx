@@ -2,8 +2,11 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { Hidden } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
+  const colorSelector = useSelector((state) => state.globalData.colorState);
+
   let history = useHistory();
   let handelAboutUs = () => {
     history.push("/about");
@@ -22,7 +25,10 @@ const Footer = () => {
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
-        <Grid container style={{ background: "#3f51b5" }}>
+        <Grid
+          container
+          style={{ background: colorSelector ? "#000000" : "#3f51b5" }}
+        >
           <Grid
             item
             xs={12}
@@ -127,7 +133,7 @@ const Footer = () => {
         <Grid
           container
           style={{
-            background: "#3f51b5",
+            background: colorSelector ? "#000000" : "#3f51b5",
             marginTop: "25px",
           }}
         >

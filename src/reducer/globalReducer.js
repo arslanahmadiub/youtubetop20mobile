@@ -3,6 +3,8 @@ const initalState = {
   hot20Videos: [],
   regions: [],
   top20Loading: true,
+  componentHeight: null,
+  colorState: false,
 };
 
 export const globalReducer = (state = initalState, action) => {
@@ -27,6 +29,16 @@ export const globalReducer = (state = initalState, action) => {
       return {
         ...state,
         top20Loading: action.payload,
+      };
+    case "SET_COMPONENT_HEIGHT":
+      return {
+        ...state,
+        componentHeight: action.payload,
+      };
+    case "SET_COMPONENT_MODE":
+      return {
+        ...state,
+        colorState: action.payload,
       };
 
     case "RESET":

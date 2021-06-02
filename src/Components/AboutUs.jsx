@@ -1,8 +1,10 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
 const AboutUs = () => {
+  const colorSelector = useSelector((state) => state.globalData.colorState);
+
   return (
-    <div id="aboutus">
+    <div id={colorSelector ? "aboutusdark" : "aboutus"}>
       <h1>How does it work?</h1>
       <p>
         We have developed a unique algorithm which by default takes a snapshot

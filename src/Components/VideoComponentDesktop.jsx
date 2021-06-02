@@ -12,13 +12,15 @@ import _ from "lodash";
 
 const VideoComponentDesktop = () => {
   const dispatch = useDispatch();
+  const colorSelector = useSelector((state) => state.globalData.colorState);
 
   const hot20Data = useSelector((state) => state.globalData.hot20Videos);
   const top20Data = useSelector((state) => state.globalData.top20Videos);
 
-  top20Data.forEach(function (element, index) {
-    element.hotData = hot20Data[index];
-  });
+  top20Data &&
+    top20Data.forEach(function (element, index) {
+      element.hotData = hot20Data[index];
+    });
 
   let globalTop20Data = async () => {
     try {
@@ -73,7 +75,8 @@ const VideoComponentDesktop = () => {
           ))}
         </Grid>
       </Grid> */}
-      {top20Data.length > 0 &&
+      {top20Data !== undefined &&
+        top20Data.length > 0 &&
         top20Data.map((e, i) => {
           return (
             <Grid container style={{ paddingLeft: "6%" }} spacing={5} key={i}>
@@ -88,7 +91,9 @@ const VideoComponentDesktop = () => {
                   style={{
                     paddingLeft: "1%",
                     paddingRight: "1%",
-                    borderLeft: "2px solid #3F51B5",
+                    borderLeft: colorSelector
+                      ? "2px solid #ffffff"
+                      : "2px solid #3F51B5",
                     direction: "rtl",
                   }}
                   id="hotvideosection"
@@ -97,6 +102,9 @@ const VideoComponentDesktop = () => {
                     key={i}
                     top={e.hotData !== undefined ? e.hotData.id : ""}
                     videoId={e.hotData !== undefined ? e.hotData.video_id : ""}
+                    thumbnail={
+                      e.hotData !== undefined ? e.hotData.video_thumbnails : ""
+                    }
                   />
                 </Grid>
               ) : null}

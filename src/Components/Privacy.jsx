@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Privacy = () => {
+  const colorSelector = useSelector((state) => state.globalData.colorState);
+
   return (
-    <div id="privacy">
+    <div id={colorSelector ? "privacydark" : "privacy"}>
       <h1>Privacy Policy</h1>
       <p>Last updated: May 11, 2021</p>
       <p>

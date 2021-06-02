@@ -5,12 +5,15 @@ import Dialog from "@material-ui/core/Dialog";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Typography } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
-import YouTube from "react-youtube";
+import youtubeicon from "../images/youtubeicon.svg";
+import { componentHeight } from "../../action/GlobalAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const VideoViewInfoDesktop = (props) => {
   const [open, setOpen] = useState(false);
-
+  const dispatch = useDispatch();
   const [toolTipOpen, setToolTipOpen] = useState(false);
+  const colorSelector = useSelector((state) => state.globalData.colorState);
 
   const handleCloseTooltip = () => {
     setToolTipOpen(false);
@@ -38,6 +41,7 @@ const VideoViewInfoDesktop = (props) => {
     video_title,
     video_viewCount,
     view_count_per_24hour,
+    video_thumbnails,
   } = props.data;
   const [dynamicVideo, setDynamicVideo] = useState("");
   const [loading, setLoading] = useState(true);
@@ -58,14 +62,27 @@ const VideoViewInfoDesktop = (props) => {
     setOpen(false);
   };
 
-  let opts = {
-    height: "250px",
-    width: "500px",
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
-    },
+  var n = video_thumbnails.indexOf(",");
+
+  let imageUrl = video_thumbnails.substring(9, n - 1);
+
+  const [loadImage, setLoadImage] = useState(false);
+
+  let handelLoadImage = () => {
+    setLoadImage(true);
   };
+
+  let box = document.getElementById("cardFull");
+  let height;
+  if (box !== null && loadImage) {
+    height = box.offsetHeight;
+  }
+
+  useEffect(() => {
+    if (loadImage) {
+      dispatch(componentHeight(height));
+    }
+  }, [height]);
 
   return (
     <Hidden only={["xs", "sm"]}>
@@ -76,22 +93,38 @@ const VideoViewInfoDesktop = (props) => {
           open={open}
           onClose={handleClose}
         >
-          <iframe
+          {/* <iframe
             width="100%"
             height="500px"
             loading="lazy"
-            src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
+            // src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
+            src={`https://www.youtube.com/embed/${dynamicVideo}?modestbranding=0&autohide=1&showinfo=1&controls=1&autoplay=1`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+          ></iframe> */}
+
+          <iframe
+            width="100%"
+            height="500"
+            src={`https://www.youtube.com/embed/${dynamicVideo}?rel=0`}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
           ></iframe>
         </Dialog>
       </React.Fragment>
 
-      <Grid container>
+      <Grid container id="cardFull">
         <Grid item xs={12}>
-          <Grid container className="videoviewdesktop">
+          <Grid
+            container
+            className={
+              colorSelector ? "videoviewdesktopDark" : "videoviewdesktop"
+            }
+          >
             <Grid item xs={5}>
               <p style={{ fontSize: "20px", fontWeight: "bold" }}>
                 #{props.top}
@@ -135,7 +168,7 @@ const VideoViewInfoDesktop = (props) => {
                 className="frameContainer"
                 onClick={() => handelClick(video_id)}
               >
-                <iframe
+                {/* <iframe
                   width="100%"
                   height="250"
                   src={`https://www.youtube.com/embed/${video_id}`}
@@ -146,9 +179,23 @@ const VideoViewInfoDesktop = (props) => {
                   allowFullScreen
                   className="videoView"
                   style={{ zIndex: loading ? "-50" : "1" }}
-                ></iframe>
-                {/* <YouTube videoId={video_id} opts={opts} /> */}
-                <div
+                ></iframe> */}
+                <img
+                  src={imageUrl}
+                  width="100%"
+                  className="videoView"
+                  onLoad={handelLoadImage}
+                />
+                <img
+                  src={youtubeicon}
+                  style={{
+                    position: "absolute",
+                    left: "45%",
+                    top: "40%",
+                    cursor: "pointer",
+                  }}
+                />
+                {/* <div
                   style={{
                     background: "transperent",
                     zIndex: "5",
@@ -170,7 +217,7 @@ const VideoViewInfoDesktop = (props) => {
                     left: 0,
                     zIndex: "6",
                   }}
-                />
+                /> */}
               </div>
             </Grid>
           </Grid>

@@ -18,6 +18,20 @@ export const regionsDataAction = (data) => {
   };
 };
 
+export const componentHeight = (data) => {
+  return {
+    type: "SET_COMPONENT_HEIGHT",
+    payload: data,
+  };
+};
+
+export const componentMode = (data) => {
+  return {
+    type: "SET_COMPONENT_MODE",
+    payload: data,
+  };
+};
+
 export const setLoading = (data) => {
   return {
     type: "SET_LOADING",

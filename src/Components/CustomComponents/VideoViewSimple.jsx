@@ -5,8 +5,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import { Hidden } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
+import youtubeicon from "../images/youtubeicon.svg";
 
-const VideoViewSimple = ({ top, videoId }) => {
+const VideoViewSimple = ({ top, videoId, thumbnail }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +30,10 @@ const VideoViewSimple = ({ top, videoId }) => {
     setLoading(true);
   }, [videoId]);
 
+  var n = thumbnail.indexOf(",");
+
+  let imageUrl = thumbnail.substring(9, n - 1);
+
   return (
     <Hidden only={["md", "lg", "xl"]}>
       <React.Fragment>
@@ -38,7 +43,7 @@ const VideoViewSimple = ({ top, videoId }) => {
           open={open}
           onClose={handleClose}
         >
-          <iframe
+          {/* <iframe
             width="100%"
             height="300"
             loading="lazy"
@@ -47,6 +52,15 @@ const VideoViewSimple = ({ top, videoId }) => {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+          ></iframe> */}
+          <iframe
+            width="100%"
+            height="400"
+            src={`https://www.youtube.com/embed/${dynamicVideo}`}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
           ></iframe>
         </Dialog>
       </React.Fragment>
@@ -61,7 +75,7 @@ const VideoViewSimple = ({ top, videoId }) => {
             onClick={() => handelClick(videoId)}
             style={{ position: "relative" }}
           >
-            <div
+            {/* <div
               className="iframeStyle"
               style={{
                 width: "100%",
@@ -72,8 +86,8 @@ const VideoViewSimple = ({ top, videoId }) => {
                 top: 0,
                 left: 0,
               }}
-            ></div>
-            <iframe
+            ></div> */}
+            {/* <iframe
               width="100%"
               height="200"
               loading="lazy"
@@ -96,8 +110,18 @@ const VideoViewSimple = ({ top, videoId }) => {
                 left: 0,
                 zIndex: "4",
               }}
+            /> */}
+            <img
+              src={imageUrl}
+              width="100%"
+              className="videoView"
+              style={{ cursor: "pointer" }}
             />
-            <div
+            <img
+              src={youtubeicon}
+              style={{ position: "absolute", left: "40%", top: "40%" }}
+            />
+            {/* <div
               style={{
                 background: "transperent",
                 zIndex: "5",
@@ -107,7 +131,7 @@ const VideoViewSimple = ({ top, videoId }) => {
                 height: "100%",
                 cursor: "pointer",
               }}
-            ></div>
+            ></div> */}
           </div>
         </Grid>
         <Tooltip

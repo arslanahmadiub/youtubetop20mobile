@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Charity = () => {
+  const colorSelector = useSelector((state) => state.globalData.colorState);
+
   return (
-    <div id="charity">
+    <div id={colorSelector ? "charitydark" : "charity"}>
       <p>
         As a charitable organization, we have pledged to donate 50% of our
         revenue to charity. That means half of every ad dollar our company
