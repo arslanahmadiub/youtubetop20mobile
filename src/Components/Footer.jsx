@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { Hidden } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -6,8 +6,10 @@ import { useSelector } from "react-redux";
 
 const Footer = () => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
+  const historyObject = useSelector((state) => state.globalData.historyState);
 
   let history = useHistory();
+
   let handelAboutUs = () => {
     history.push("/about");
   };
@@ -130,12 +132,28 @@ const Footer = () => {
         </Grid>
       </Hidden>
       <Hidden only={["sm", "xs"]}>
+        <style>{`
+        .allPages{
+          background: ${colorSelector ? "#000000" : "#3f51b5"};
+          margin-top: 25px;
+        }
+        .selectivePage{
+          background: ${colorSelector ? "#000000" : "#3f51b5"};
+          margin-top: 25px;
+          clear: both;
+          position: absolute;
+          bottom:0;
+          overflow:auto;
+        }
+
+`}</style>
         <Grid
           container
-          style={{
-            background: colorSelector ? "#000000" : "#3f51b5",
-            marginTop: "25px",
-          }}
+          className={
+            historyObject === "/about" || historyObject === "/charity"
+              ? "selectivePage"
+              : "allPages"
+          }
         >
           <Grid
             item

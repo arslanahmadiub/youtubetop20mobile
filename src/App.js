@@ -4,7 +4,6 @@ import Topbar from "./Components/Topbar";
 import Main from "./Components/Main";
 import { Route, Switch } from "react-router-dom";
 import AboutUs from "./Components/AboutUs";
-
 import Footer from "./Components/Footer";
 import Charity from "./Components/Charity";
 import Privacy from "./Components/Privacy";

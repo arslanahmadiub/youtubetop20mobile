@@ -14,6 +14,7 @@ import {
   getRegionalGlobalTop20List,
   getGlobalTop20List,
   getGlobalHot20List,
+  getAdvanceSearchResult,
 } from "../Services/GlobalServices";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +30,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import CustomSelectorWithTick from "./CustomComponents/CustomSelectorWithTick";
+import CustomSelector from "./CustomComponents/CustomSelector";
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -43,12 +45,13 @@ const SearchingSection = () => {
   const [loadBackdrop, setLoadBackdrop] = useState(true);
   const colorSelector = useSelector((state) => state.globalData.colorState);
   const [listOfRegions, setListOfRegions] = useState([]);
+  const [tabText, setTabText] = useState("All");
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoadBackdrop(false);
-    }, 3000);
-  }, []);
+  const [customTags, setCustomTags] = useState("");
+
+  let handelCustomTagsChanges = (e) => {
+    setCustomTags(e.target.value);
+  };
 
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
@@ -63,32 +66,17 @@ const SearchingSection = () => {
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoadBackdrop(false);
+    }, 3000);
+  }, []);
+
+  useEffect(() => {
     let dateValue = moment().format("yyyy-MM-DD");
     setCalander(dateValue);
   }, []);
   const [showMenuBar, setshowMenuBar] = useState(false);
-  const [menuText, setMenuText] = useState("Global");
 
-  let handelSelector = () => {
-    // setLoadBackdrop(true);
-    if (filterRegionData.length < 1) {
-      setFilterRegionData(regionData);
-    }
-    setshowMenuBar(!showMenuBar);
-  };
-
-  let handelMenuClick = (e) => {
-    setLoadBackdrop(true);
-
-    setMenuText(e.target.textContent);
-    setshowMenuBar(false);
-
-    regionalTop20(e.target.textContent);
-    regionalHot20(e.target.textContent);
-    setTimeout(() => {
-      setLoadBackdrop(false);
-    }, 4000);
-  };
   const regionData = useSelector((state) => state.globalData.regions);
 
   let getRegions = async () => {
@@ -106,31 +94,46 @@ const SearchingSection = () => {
   let regionalHot20 = async (text) => {
     try {
       if (text !== "Global") {
+        setLoadBackdrop(true);
         let { data } = await getRegionalGlobalHot20List(text);
-
         dispatch(hot20DataAction(data.Data));
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 1000);
       } else {
+        setLoadBackdrop(true);
         let { data } = await getGlobalHot20List();
         dispatch(hot20DataAction(data.Data));
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
+      setLoadBackdrop(false);
     }
   };
 
   let regionalTop20 = async (text) => {
     try {
       if (text !== "Global") {
+        setLoadBackdrop(true);
         let { data } = await getRegionalGlobalTop20List(text);
-
         dispatch(top20DataAction(data.Data));
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 1000);
       } else {
+        setLoadBackdrop(true);
         let { data } = await getGlobalTop20List();
-
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 1000);
         dispatch(top20DataAction(data.Data));
       }
     } catch (error) {
       console.log(error);
+      setLoadBackdrop(false);
     }
   };
   let handleClickAway = () => {
@@ -138,89 +141,71 @@ const SearchingSection = () => {
       setShowCalander(false);
     }
   };
-  // useEffect(() => {
-  //   regionalTop20();
-  //   regionalHot20();
-  // }, [menuText]);
 
+  let getCustomSearch = async (
+    customDate,
+    listOfSelectedRegions,
+    tagsInput
+  ) => {
+    try {
+      setLoadBackdrop(true);
+
+      let { data } = await getAdvanceSearchResult(
+        customDate,
+        listOfSelectedRegions,
+        tagsInput
+      );
+
+      dispatch(hot20DataAction(data.Data.hot20.Data));
+      dispatch(top20DataAction(data.Data.top20.Data));
+
+      setTimeout(() => {
+        setLoadBackdrop(false);
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      setLoadBackdrop(false);
+    }
+  };
+
+  let handelSearch = () => {
+    getCustomSearch(
+      calander,
+      listOfRegions,
+      customTags === "" ? "All" : customTags
+    );
+  };
+
+  let updateAllData = (e) => {
+    regionalTop20(e);
+    regionalHot20(e);
+  };
   useEffect(() => {
     getRegions();
   }, []);
   let handelCalanderChange = () => {};
   const [filterRegionData, setFilterRegionData] = useState([]);
 
-  let handelRegionChange = (e) => {
-    const p = Array.from(e.target.value.toLowerCase()).reduce(
-      (a, v, i) => `${a}[^${e.target.value.toLowerCase().substr(i)}]*?${v}`,
-      ""
-    );
-    const re = RegExp(p);
-
-    let filterData = regionData.filter((v) => v.toLowerCase().match(re));
-
-    setFilterRegionData(filterData);
-    setshowMenuBar(true);
-    setMenuText(e.target.value);
-  };
-
-  let handelMenuFocus = () => {
-    if (filterRegionData.length < 1) {
-      setFilterRegionData(regionData);
-    }
-
-    setMenuText("");
-    setshowMenuBar(true);
-  };
-  let handleClickAwayFromSearchRegion = () => {
-    if (showMenuBar) {
-      setshowMenuBar(false);
-    }
-    if (menuText === "") {
-      setMenuText("Global");
-    }
-  };
-
   const [advanceSearch, setAdvanceSearch] = useState(false);
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
+    let tabsArray = ["All", "Music", "Movies", "Sports", "Gaming"];
+
     setValue(newValue);
+    setTabText(tabsArray[newValue]);
   };
 
+  useEffect(() => {
+    getCustomSearch(moment().format("yyyy-MM-DD"), "Global", tabText);
+  }, [tabText]);
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
         <Backdrop className={classes.backdrop} open={loadBackdrop}>
           <CircularProgress color="inherit" />
         </Backdrop>
-        {/* <Grid container>
-          <Grid item xs={8}>
-            <div id="searchinputmain">
-              <input
-                placeholder="Global Top 20 Search"
-                className="searchInput"
-              />
-              <SearchIcon id="searchinputicon" />
-            </div>
-          </Grid>
-          <Grid
-            item
-            xs={4}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ height: "38px" }}
-            >
-              Search
-            </Button>
-          </Grid>
-        </Grid> */}
-        <br />
+
         <Grid
           container
           spacing={2}
@@ -234,73 +219,17 @@ const SearchingSection = () => {
               display: advanceSearch ? "none" : "block",
             }}
           >
-            <ClickAwayListener onClickAway={handleClickAwayFromSearchRegion}>
-              <div id="searchinputmain">
-                <input
-                  className={colorSelector ? "searchInputDark" : "searchInput"}
-                  value={menuText}
-                  onChange={handelRegionChange}
-                  onFocus={handelMenuFocus}
-                />
-                {showMenuBar && (
-                  <div className="selectorMenu">
-                    {filterRegionData.length > 0 &&
-                      filterRegionData.map((item, index) => {
-                        return (
-                          <p onClick={handelMenuClick} key={index}>
-                            {item}
-                          </p>
-                        );
-                      })}
-                  </div>
-                )}
-                <ExpandMoreIcon
-                  id={colorSelector ? "searchinputiconDark" : "searchinputicon"}
-                  onClick={handelSelector}
-                />
-              </div>
-            </ClickAwayListener>
+            <CustomSelector
+              filterData={filterRegionData}
+              colorSelector={colorSelector}
+              regionData={regionData}
+              updateData={(value) => {
+                updateAllData(value);
+              }}
+            />
           </Grid>
 
           {/* advance search and search button */}
-
-          <Grid item xs={advanceSearch ? 6 : 12}>
-            <Button
-              style={{
-                height: "41px",
-                width: "100%",
-                fontWeight: "bold",
-                color: !colorSelector ? "#3F51B5" : "white",
-              }}
-              onClick={() => setAdvanceSearch(!advanceSearch)}
-            >
-              Advance Search
-            </Button>
-          </Grid>
-
-          <Grid
-            item
-            xs={6}
-            style={{
-              justifyContent: "center",
-              paddingRight: "5px",
-              zIndex: showMenuBar ? "0" : "5",
-              display: advanceSearch ? "block" : "none",
-            }}
-            className="showVisiblity"
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                height: "41px",
-                width: "100%",
-                background: !colorSelector ? "#3F51B5" : "#3F51B5",
-              }}
-            >
-              Search
-            </Button>
-          </Grid>
 
           <Grid
             item
@@ -337,7 +266,21 @@ const SearchingSection = () => {
               )}
             </Tabs>
           </Grid>
-
+          <Grid item xs={12}>
+            <Button
+              style={{
+                height: "41px",
+                width: "100%",
+                fontWeight: "bold",
+                color: !colorSelector ? "#3F51B5" : "white",
+                marginTop: !advanceSearch ? "-40px" : "0px",
+                marginBottom: advanceSearch ? "-5px" : "-15px",
+              }}
+              onClick={() => setAdvanceSearch(!advanceSearch)}
+            >
+              {!advanceSearch ? "Advance Search" : "Basic Search"}
+            </Button>
+          </Grid>
           <Grid
             item
             xs={12}
@@ -377,12 +320,34 @@ const SearchingSection = () => {
             style={{
               display: advanceSearch ? "block" : "none",
               paddingRight: "4%",
+              zIndex: showCalander ? "0" : "500",
+            }}
+          >
+            <CustomSelectorWithTick
+              filterData={filterRegionData}
+              colorSelector={colorSelector}
+              regionData={regionData}
+              updateCountries={(value) => {
+                setListOfRegions(value);
+              }}
+            />
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: advanceSearch ? "block" : "none",
+              paddingRight: "4%",
+              zIndex: "0",
             }}
           >
             <div id="searchinputmain">
               <input
-                placeholder="Global Top 20 Search"
+                placeholder="Search Custom Tag"
                 className={colorSelector ? "searchInputDark" : "searchInput"}
+                onChange={handelCustomTagsChanges}
+                value={customTags}
               />
               <SearchIcon
                 id={colorSelector ? "searchinputiconDark" : "searchinputicon"}
@@ -394,18 +359,26 @@ const SearchingSection = () => {
             item
             xs={12}
             style={{
+              justifyContent: "center",
+              paddingRight: "5px",
+              zIndex: showMenuBar ? "0" : "5",
               display: advanceSearch ? "block" : "none",
-              paddingRight: "4%",
+              marginBottom: "10px",
             }}
+            className="showVisiblity"
           >
-            <CustomSelectorWithTick
-              filterData={filterRegionData}
-              colorSelector={colorSelector}
-              regionData={regionData}
-              getListRegions={(value) => {
-                setListOfRegions(value);
+            <Button
+              variant="contained"
+              color="primary"
+              style={{
+                height: "41px",
+                width: "100%",
+                background: !colorSelector ? "#3F51B5" : "#616161",
               }}
-            />
+              onClick={handelSearch}
+            >
+              Search
+            </Button>
           </Grid>
 
           <style>{`
@@ -416,7 +389,7 @@ const SearchingSection = () => {
           min-width: 50px;
           min-height: 10px;
        
-         background:${colorSelector ? "#3f51b5" : "#3f51b5"}; 
+         background:${colorSelector ? "#616161" : "#3f51b5"}; 
           font-size: 10px;
         
           color: white;

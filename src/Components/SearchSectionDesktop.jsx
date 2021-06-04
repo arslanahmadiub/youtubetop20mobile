@@ -15,6 +15,7 @@ import {
   getRegionalGlobalTop20List,
   getGlobalTop20List,
   getGlobalHot20List,
+  getAdvanceSearchResult,
 } from "../Services/GlobalServices";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
@@ -41,16 +42,11 @@ const useStyles = makeStyles((theme) => ({
 const SearchSectionDesktop = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [loadBackdrop, setLoadBackdrop] = useState(true);
-  const [focused, setFocused] = useState(false);
+  const [loadBackdrop, setLoadBackdrop] = useState(false);
+  const [tabText, setTabText] = useState("All");
+
   const colorSelector = useSelector((state) => state.globalData.colorState);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoadBackdrop(false);
-    }, 3000);
-  }, []);
-
+  const [customTags, setCustomTags] = useState("");
   const [value, setValue] = useState(0);
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
@@ -58,6 +54,10 @@ const SearchSectionDesktop = () => {
     let dateValue = moment(e).format("yyyy-MM-DD");
     setCalander(dateValue);
     setShowCalander(false);
+  };
+
+  let handelCustomTagsChanges = (e) => {
+    setCustomTags(e.target.value);
   };
 
   useEffect(() => {
@@ -70,38 +70,13 @@ const SearchSectionDesktop = () => {
   };
 
   const handleChange = (event, newValue) => {
+    let tabsArray = ["All", "Music", "Movies", "Sports", "Gaming"];
     setValue(newValue);
+    setTabText(tabsArray[newValue]);
   };
 
   const [showMenuBar, setshowMenuBar] = useState(false);
-  const [menuText, setMenuText] = useState("Global");
-  const [oldMenuText, setOldMenuText] = useState("");
 
-  let handleClickAwayFromSearchRegion = () => {
-    if (showMenuBar) {
-      setshowMenuBar(false);
-    }
-    if (menuText === "") {
-      setMenuText("Global");
-    }
-  };
-
-  let handelSelector = () => {
-    setshowMenuBar(!showMenuBar);
-  };
-
-  let handelMenuClick = (e) => {
-    setLoadBackdrop(true);
-
-    setMenuText(e.target.textContent);
-    setshowMenuBar(false);
-
-    regionalTop20(e.target.textContent);
-    regionalHot20(e.target.textContent);
-    setTimeout(() => {
-      setLoadBackdrop(false);
-    }, 4000);
-  };
   let handelCalanderChange = () => {};
 
   const regionData = useSelector((state) => state.globalData.regions);
@@ -111,7 +86,7 @@ const SearchSectionDesktop = () => {
   let getRegions = async () => {
     try {
       let { data } = await getUniqueRegions();
-      console.log(data);
+
       dispatch(regionsDataAction(data.Data));
     } catch (error) {
       console.log(error);
@@ -124,6 +99,37 @@ const SearchSectionDesktop = () => {
     }
   };
 
+  let getCustomSearch = async (
+    customDate,
+    listOfSelectedRegions,
+    tagsInput
+  ) => {
+    try {
+      setLoadBackdrop(true);
+
+      let { data } = await getAdvanceSearchResult(
+        customDate,
+        listOfSelectedRegions,
+        tagsInput
+      );
+
+      dispatch(hot20DataAction(data.Data.hot20.Data));
+      dispatch(top20DataAction(data.Data.top20.Data));
+
+      setTimeout(() => {
+        setLoadBackdrop(false);
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      setLoadBackdrop(false);
+    }
+  };
+
+  useEffect(() => {
+    regionalHot20("Global");
+    regionalTop20("Global");
+  }, []);
+
   let regionalHot20 = async (text) => {
     try {
       if (text !== "Global") {
@@ -132,16 +138,22 @@ const SearchSectionDesktop = () => {
         let { data } = await getRegionalGlobalHot20List(text);
 
         dispatch(hot20DataAction(data.Data));
-        setLoadBackdrop(false);
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 2000);
       } else {
         setLoadBackdrop(true);
 
         let { data } = await getGlobalHot20List();
 
         dispatch(hot20DataAction(data.Data));
-        setLoadBackdrop(false);
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 2000);
       }
     } catch (error) {
+      setLoadBackdrop(false);
+
       console.log(error);
     }
   };
@@ -152,16 +164,22 @@ const SearchSectionDesktop = () => {
 
         let { data } = await getRegionalGlobalTop20List(text);
         dispatch(top20DataAction(data.Data));
-        setLoadBackdrop(false);
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 2000);
       } else {
         setLoadBackdrop(true);
 
         let { data } = await getGlobalTop20List();
 
         dispatch(top20DataAction(data.Data));
-        setLoadBackdrop(false);
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 2000);
       }
     } catch (error) {
+      setLoadBackdrop(false);
+
       console.log(error);
     }
   };
@@ -172,8 +190,6 @@ const SearchSectionDesktop = () => {
 
   const [advanceSearch, setAdvanceSearch] = useState(true);
   const [listOfRegions, setListOfRegions] = useState([]);
-
-  console.log(listOfRegions);
 
   const topFilterSection = useRef();
   const searchingSectionRef = useRef();
@@ -253,6 +269,18 @@ const SearchSectionDesktop = () => {
     }
   }, [advanceSearch]);
 
+  let handelSearch = () => {
+    getCustomSearch(
+      calander,
+      listOfRegions,
+      customTags === "" ? "All" : customTags
+    );
+  };
+
+  useEffect(() => {
+    getCustomSearch(moment().format("yyyy-MM-DD"), "Global", tabText);
+  }, [tabText]);
+
   return (
     <Hidden only={["sm", "xs"]}>
       <Backdrop className={classes.backdrop} open={loadBackdrop}>
@@ -271,40 +299,9 @@ const SearchSectionDesktop = () => {
           >
             <Grid
               item
-              xs={5}
+              xs={6}
               style={{ display: !advanceSearch ? "none" : "block" }}
             >
-              {/* <ClickAwayListener onClickAway={handleClickAwayFromSearchRegion}>
-                <div id="searchinputmain">
-                  <input
-                    className={
-                      colorSelector ? "searchInputDark" : "searchInput"
-                    }
-                    value={menuText}
-                    onChange={handelRegionChange}
-                    onFocus={handelMenuFocus}
-                  />
-                  {showMenuBar && (
-                    <div className="selectorMenu">
-                      {filterRegionData.length > 0 &&
-                        filterRegionData.map((item, index) => {
-                          return (
-                            <p onClick={handelMenuClick} key={index}>
-                              {item}
-                            </p>
-                          );
-                        })}
-                    </div>
-                  )}
-
-                  <ExpandMoreIcon
-                    id={
-                      colorSelector ? "searchinputiconDark" : "searchinputicon"
-                    }
-                    onClick={handelSelector}
-                  />
-                </div>
-              </ClickAwayListener> */}
               <CustomSelector
                 filterData={filterRegionData}
                 colorSelector={colorSelector}
@@ -314,7 +311,7 @@ const SearchSectionDesktop = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={advanceSearch ? 3 : 6}>
+            <Grid item xs={6}>
               <Button
                 style={{
                   height: "41px",
@@ -324,17 +321,18 @@ const SearchSectionDesktop = () => {
                 }}
                 onClick={() => setAdvanceSearch(!advanceSearch)}
               >
-                Advance Search
+                {advanceSearch ? "Advance Search" : "Basic Search"}
               </Button>
             </Grid>
 
             <Grid
               item
-              xs={advanceSearch ? 4 : 6}
+              xs={6}
               style={{
                 justifyContent: "center",
                 paddingRight: "5px",
                 zIndex: showMenuBar ? "0" : "5",
+                display: !advanceSearch ? "block" : "none",
               }}
               // className="showVisiblity"
             >
@@ -344,8 +342,9 @@ const SearchSectionDesktop = () => {
                 style={{
                   height: "41px",
                   width: "100%",
-                  background: !colorSelector ? "#3F51B5" : "#3F51B5",
+                  background: !colorSelector ? "#3F51B5" : "#424242",
                 }}
+                onClick={handelSearch}
               >
                 Search
               </Button>
@@ -438,7 +437,7 @@ const SearchSectionDesktop = () => {
                   filterData={filterRegionData}
                   colorSelector={colorSelector}
                   regionData={regionData}
-                  getListRegions={(value) => {
+                  updateCountries={(value) => {
                     setListOfRegions(value);
                   }}
                 />
@@ -446,10 +445,12 @@ const SearchSectionDesktop = () => {
               <Grid item xs={4} style={{ zIndex: showMenuBar ? "0" : "5" }}>
                 <div id="searchinputmain">
                   <input
-                    placeholder="Global Top 20 Search"
+                    placeholder="Search Custom Tag"
                     className={
                       colorSelector ? "searchInputDark" : "searchInput"
                     }
+                    onChange={handelCustomTagsChanges}
+                    value={customTags}
                   />
                   <SearchIcon
                     id={
@@ -459,42 +460,6 @@ const SearchSectionDesktop = () => {
                 </div>
               </Grid>
             </Grid>
-            {/* <Grid
-              item
-              xs={12}
-              style={{
-                zIndex: showMenuBar ? "0" : "5",
-                display: advanceSearch ? "flex" : "none",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
-              <Tabs
-                onChange={handleChange}
-                textColor="primary"
-                TabIndicatorProps={{
-                  style: {
-                    display: "none",
-                  },
-                }}
-                // variant="scrollable"
-                aria-label="scrollable auto tabs example"
-                id="desktopTab"
-                value={value}
-              >
-                {["All", "Music", "Movies", "Sports", "Gaming"].map(
-                  (item, index) => {
-                    return (
-                      <Tab
-                        label={item}
-                        key={index}
-                        id={value === index ? "tabStyleActive" : "tabStyle"}
-                      />
-                    );
-                  }
-                )}
-              </Tabs>
-            </Grid> */}
           </Grid>
         </Grid>
 
@@ -505,9 +470,6 @@ const SearchSectionDesktop = () => {
           transition-delay: ${advanceSearch ? "0.5s" : "0s"};
 
         }
-
-
-        
         .customCard {
           box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
             0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
@@ -534,7 +496,7 @@ const SearchSectionDesktop = () => {
           min-width: 200px;
           min-height: 10px;
        
-         background:${colorSelector ? "#3f51b5" : "#3f51b5"}; 
+         background:${colorSelector ? "#424242" : "#3f51b5"}; 
           font-size: 16px;
         
           color: white;
@@ -586,16 +548,10 @@ const SearchSectionDesktop = () => {
           visibility:  hidden ;
           opacity:  0;
           display: flex;
-      
           width: 100%;
           justify-content: center;
-        
           transition: all 0.5s linear;
-
-
         }
-
-
         .searchingContainerBeforeHidden{
           display:  flex;
           visibility:  hidden ;
@@ -621,8 +577,6 @@ const SearchSectionDesktop = () => {
           opacity:  1;
           transition: all 0.5s linear;
         }
-
-
 `}</style>
       </Grid>
     </Hidden>

@@ -1,9 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { setHistory } from "../action/GlobalAction";
 
 const Charity = () => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
+  const dispatch = useDispatch();
+  let history = useHistory();
 
+  useEffect(() => {
+    dispatch(setHistory(history.location.pathname));
+  }, []);
   return (
     <div id={colorSelector ? "charitydark" : "charity"}>
       <p>
@@ -28,19 +35,6 @@ const Charity = () => {
           <li>https://www.nami.org/Home</li>
         </ol>
       </ol>
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </div>
   );
 };

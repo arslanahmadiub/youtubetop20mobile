@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Hidden } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
-import Skeleton from "@material-ui/lab/Skeleton";
+
 import { Typography } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
 import youtubeicon from "../images/youtubeicon.svg";
@@ -23,20 +23,9 @@ const VideoViewInfoDesktop = (props) => {
     setToolTipOpen(true);
   };
 
-  const [toolTipOpen2, setToolTipOpen2] = useState(false);
-
-  const handleCloseTooltip2 = () => {
-    setToolTipOpen2(false);
-  };
-
-  const handleOpenTooltip2 = () => {
-    setToolTipOpen2(true);
-  };
-
   let {
     video_channelTitle,
     video_publishedAt,
-    // video_description,
     video_id,
     video_title,
     video_viewCount,
@@ -44,15 +33,6 @@ const VideoViewInfoDesktop = (props) => {
     video_thumbnails,
   } = props.data;
   const [dynamicVideo, setDynamicVideo] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  let offLoading = () => {
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    setLoading(true);
-  }, [video_id]);
 
   let handelClick = (e) => {
     setOpen(true);
@@ -143,18 +123,6 @@ const VideoViewInfoDesktop = (props) => {
               </Tooltip>
               <p className="videoTags">{video_channelTitle}</p>
 
-              {/* <p className="videoTagsSimple">Description</p>
-
-              <Tooltip
-                arrow
-                open={toolTipOpen2}
-                onClose={handleCloseTooltip2}
-                onOpen={handleOpenTooltip2}
-                title={video_description}
-              >
-                <Typography noWrap>{video_description}</Typography>
-              </Tooltip> */}
-
               <p className="videoTagsSimple">Days Old</p>
               <p className="videoTags">{video_publishedAt}</p>
 
@@ -168,18 +136,6 @@ const VideoViewInfoDesktop = (props) => {
                 className="frameContainer"
                 onClick={() => handelClick(video_id)}
               >
-                {/* <iframe
-                  width="100%"
-                  height="250"
-                  src={`https://www.youtube.com/embed/${video_id}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  onLoad={offLoading}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="videoView"
-                  style={{ zIndex: loading ? "-50" : "1" }}
-                ></iframe> */}
                 <img
                   src={imageUrl}
                   width="100%"
@@ -195,29 +151,6 @@ const VideoViewInfoDesktop = (props) => {
                     cursor: "pointer",
                   }}
                 />
-                {/* <div
-                  style={{
-                    background: "transperent",
-                    zIndex: "5",
-                    position: "absolute",
-                    top: "0",
-                    width: "100%",
-                    height: "100%",
-                    cursor: "pointer",
-                  }}
-                ></div>
-
-                <Skeleton
-                  variant="rect"
-                  width="100%"
-                  height="300px"
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    zIndex: "6",
-                  }}
-                /> */}
               </div>
             </Grid>
           </Grid>

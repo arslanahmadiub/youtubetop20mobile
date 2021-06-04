@@ -5,6 +5,7 @@ const initalState = {
   top20Loading: true,
   componentHeight: null,
   colorState: false,
+  historyState: "",
 };
 
 export const globalReducer = (state = initalState, action) => {
@@ -39,6 +40,11 @@ export const globalReducer = (state = initalState, action) => {
       return {
         ...state,
         colorState: action.payload,
+      };
+    case "SET_HISTORY":
+      return {
+        ...state,
+        historyState: action.payload,
       };
 
     case "RESET":

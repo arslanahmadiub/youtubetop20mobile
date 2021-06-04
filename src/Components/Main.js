@@ -1,58 +1,33 @@
 import React, { useEffect } from "react";
 import Banner from "./Banner";
-
-import FilterSection from "./CustomComponents/FilterSection";
 import VideoViewInfo from "./CustomComponents/VideoViewInfo";
 import VideoViewSimple from "../Components/CustomComponents/VideoViewSimple";
-
 import SearchingSection from "./SearchingSection";
-
 import { Hidden } from "@material-ui/core";
 import SearchSectionDesktop from "./SearchSectionDesktop";
 import VideoComponentDesktop from "./VideoComponentDesktop";
+import { useHistory } from "react-router-dom";
+import { setHistory } from "../action/GlobalAction";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getGlobalTop20List } from "../Services/GlobalServices";
-import { getGlobalHot20List } from "../Services/GlobalServices";
-import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
+import { useSelector, useDispatch } from "react-redux";
 
 const Main = () => {
-  const dispatch = useDispatch();
   const colorSelector = useSelector((state) => state.globalData.colorState);
 
   const hot20Data = useSelector((state) => state.globalData.hot20Videos);
   const top20Data = useSelector((state) => state.globalData.top20Videos);
-
-  let globalTop20Data = async () => {
-    try {
-      let { data } = await getGlobalTop20List();
-
-      dispatch(top20DataAction(data.Data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  let globalHot20Data = async () => {
-    try {
-      let { data } = await getGlobalHot20List();
-      dispatch(hot20DataAction(data.Data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  let history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    globalTop20Data();
-    globalHot20Data();
+    dispatch(setHistory(history.location.pathname));
   }, []);
-
   return (
     <div style={{ overflowX: "hidden" }}>
       <Banner />
       <SearchSectionDesktop />
       <SearchingSection />
-      {/* <FilterSection /> */}
+
       <Hidden only={["xs", "sm"]}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <h2
@@ -84,7 +59,7 @@ const Main = () => {
         <h2
           style={{
             paddingLeft: "7%",
-            paddingTop: "3%",
+            paddingTop: "1%",
             paddingBottom: "3%",
 
             color: colorSelector ? "white" : "#3f51b5",

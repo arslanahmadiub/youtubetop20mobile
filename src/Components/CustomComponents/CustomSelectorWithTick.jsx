@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -15,6 +15,15 @@ const CustomSelectorWithTick = ({
   const [oldMenuText, setOldMenuText] = useState("");
   const [checkedData, setCheckedData] = useState([]);
 
+  useEffect(() => {
+    if (checkedData.length < 1) {
+      setMenuText("Global");
+    } else {
+      var newArray = checkedData.join("-");
+      setMenuText(newArray);
+    }
+  }, [checkedData]);
+
   let handleClickAwayFromSearchRegion = () => {
     if (showMenuBar) {
       setshowMenuBar(false);
@@ -22,8 +31,12 @@ const CustomSelectorWithTick = ({
     if (menuText === "") {
       setMenuText(oldMenuText);
     }
-    props.getListRegions(checkedData);
+    // props.getListRegions(checkedData);
   };
+
+  useEffect(() => {
+    props.updateCountries(menuText);
+  }, [menuText]);
 
   let handelRegionChange = (e) => {
     const p = Array.from(e.target.value.toLowerCase()).reduce(
@@ -42,7 +55,7 @@ const CustomSelectorWithTick = ({
     if (filterRegionData.length < 1) {
       setFilterRegionData(regionData);
     }
-    setMenuText("");
+    // setMenuText("");
     setshowMenuBar(true);
   };
   let handelSelector = () => {
@@ -93,19 +106,19 @@ const CustomSelectorWithTick = ({
           <div className="selectorMenu" style={{ zIndex: "8000" }}>
             {filterRegionData.length > 0 &&
               filterRegionData.map((item, index) => {
-                return (
+                return index > 0 ? (
                   <div
                     style={{ display: "flex", border: "1px solid #c4c4c4" }}
                     key={index}
                   >
                     <Checkbox
-                      style={{ color: "#3F51B5" }}
+                      style={{ color: colorSelector ? "black" : "#3F51B5" }}
                       onChange={() => getCheckedData(item)}
                       checked={getFilterData(item)}
                     />
                     <p onClick={handelMenuClick}>{item}</p>
                   </div>
-                );
+                ) : null;
               })}
           </div>
         )}
@@ -114,6 +127,7 @@ const CustomSelectorWithTick = ({
           id={colorSelector ? "searchinputiconDark" : "searchinputicon"}
           onClick={handelSelector}
         />
+        <div id={colorSelector ? "helloDark" : "hello"}></div>
       </div>
     </ClickAwayListener>
   );

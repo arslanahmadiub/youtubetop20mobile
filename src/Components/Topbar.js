@@ -9,13 +9,11 @@ import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import Countdown from "react-countdown";
-import Switch from "@material-ui/core/Switch";
 import { componentMode } from "../action/GlobalAction";
-
 import { useSelector, useDispatch } from "react-redux";
-import AlarmIcon from "@material-ui/icons/Alarm";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 const Topbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -27,10 +25,6 @@ const Topbar = () => {
   const handleChange = () => {
     dispatch(componentMode(!colorSelector));
   };
-
-  // let currentTime = moment.utc().format("");
-  let currentTime = moment().format("h:mm:ss");
-  // console.log(moment("1955-8-21").countdown().toString());
 
   let finalTime = 86400000;
 
@@ -47,18 +41,25 @@ const Topbar = () => {
   };
 
   let handeHomePage = () => {
+    setShowMenu(false);
     history.push("/");
   };
   let handelAboutUs = () => {
+    setShowMenu(false);
+
     history.push("/about");
   };
 
   let handelCharity = () => {
+    setShowMenu(false);
+
     history.push("/charity");
   };
 
+  let handleClickAwayFromSearchRegion = () => {
+    setShowMenu(false);
+  };
   const renderer = ({ hours, minutes, seconds, completed }) => {
-    // Render a countdown
     return (
       <span>
         {hours < 10 ? "0" + hours : hours}:
@@ -80,19 +81,18 @@ const Topbar = () => {
   background: ${colorSelector ? "#424242" : "#F0EFEF"};
 }
 
-
-
-
 `}</style>
           <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={handelMenuShow}
-            >
-              {showMenu ? <ArrowUpwardIcon /> : <MenuIcon />}
-            </IconButton>
+            <ClickAwayListener onClickAway={handleClickAwayFromSearchRegion}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={handelMenuShow}
+              >
+                {showMenu ? <ArrowUpwardIcon /> : <MenuIcon />}
+              </IconButton>
+            </ClickAwayListener>
             <Typography
               variant="h6"
               style={{
@@ -101,6 +101,7 @@ const Topbar = () => {
                 display: "flex",
                 cursor: "pointer",
               }}
+              onClick={handeHomePage}
             >
               GlobalTop20
             </Typography>
@@ -113,17 +114,12 @@ const Topbar = () => {
                 marginLeft: "10px",
               }}
             >
-              Beta 1.0
+              Beta 2.0
             </Typography>
             <div>
               <Countdown date={Date.now() + remaningTime} renderer={renderer} />
             </div>
             <div>
-              {/* <Switch
-                checked={colorSelector}
-                onChange={handleChange}
-                style={{ color: colorSelector ? "#3F51B5" : "black" }}
-              /> */}
               <IconButton aria-label="add an alarm" onClick={handleChange}>
                 {colorSelector ? (
                   <WbSunnyIcon style={{ color: "white" }} />
@@ -190,7 +186,7 @@ const Topbar = () => {
             <p style={{ fontSize: "10px", display: "flex", marginLeft: "5px" }}>
               Beta
             </p>
-            <p style={{ fontSize: "10px", marginLeft: "2px" }}>1.0</p>
+            <p style={{ fontSize: "10px", marginLeft: "2px" }}>2.0</p>
             <div style={{ marginLeft: "20px" }}>
               <Countdown date={Date.now() + remaningTime} renderer={renderer} />
             </div>
@@ -210,11 +206,7 @@ const Topbar = () => {
                 Charities
               </p>
             </div>
-            {/* <Switch
-              checked={colorSelector}
-              onChange={handleChange}
-              style={{ color: colorSelector ? "#3F51B5" : "black" }}
-            /> */}
+
             <IconButton aria-label="add an alarm" onClick={handleChange}>
               {colorSelector ? (
                 <WbSunnyIcon style={{ color: "white" }} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import VideoViewInfoDesktop from "./CustomComponents/VideoViewInfoDesktop";
 
@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGlobalTop20List } from "../Services/GlobalServices";
 import { getGlobalHot20List } from "../Services/GlobalServices";
 import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
-import _ from "lodash";
 
 const VideoComponentDesktop = () => {
   const dispatch = useDispatch();
@@ -47,34 +46,6 @@ const VideoComponentDesktop = () => {
 
   return (
     <Hidden only={["xs", "sm"]}>
-      {/* <Grid
-        container
-        style={{ paddingLeft: "6%", paddingTop: "2%" }}
-        spacing={2}
-      >
-        <Grid item xs={7}>
-          {top20Data.length > 0 &&
-            top20Data.map((e, i) => (
-              <VideoViewInfoDesktop key={i} top={i + 1} data={e} />
-            ))}
-        </Grid>
-
-        <Grid
-          item
-          xs={5}
-          style={{
-            paddingLeft: "1%",
-            paddingRight: "1%",
-            borderLeft: "2px solid #3F51B5",
-            direction: "rtl",
-          }}
-          id="hotvideosection"
-        >
-          {hot20Data.map((e, i) => (
-            <VideoVIewSimpleDesktop key={i} top={i + 1} videoId={e.video_id} />
-          ))}
-        </Grid>
-      </Grid> */}
       {top20Data !== undefined &&
         top20Data.length > 0 &&
         top20Data.map((e, i) => {

@@ -11,7 +11,7 @@ const CustomSelector = ({
   const [showMenuBar, setshowMenuBar] = useState(false);
   const [menuText, setMenuText] = useState("Global");
   const [filterRegionData, setFilterRegionData] = useState([]);
-  const [oldMenuText, setOldMenuText] = useState("");
+  const [oldMenuText, setOldMenuText] = useState("Global");
 
   let handleClickAwayFromSearchRegion = () => {
     if (showMenuBar) {
@@ -61,6 +61,44 @@ const CustomSelector = ({
   return (
     <ClickAwayListener onClickAway={handleClickAwayFromSearchRegion}>
       <div id="searchinputmain">
+        <style>{`
+
+.selectorMenu {
+  font-size: 17px;
+ 
+  background:${colorSelector ? "#424242" : "white"}; 
+  position: absolute;
+  width: 90%;
+  top: 40px;
+  left: 10px;
+  max-height: 300px;
+  overflow: auto;
+  z-index: 500;
+}
+.selectorMenu p {
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-top: 7px;
+  cursor: pointer;
+  color:${colorSelector ? "white" : "black"}; 
+}
+
+.selectorMenu p:hover {
+ 
+  background: ${colorSelector ? "black" : "#e7e7e7"}; 
+}
+.selectorMenu div:hover {
+ 
+  background: ${colorSelector ? "#616161" : "#e7e7e7"}; 
+}
+.selectorMenu div p:hover {
+ 
+  background: ${colorSelector ? "#616161" : "#e7e7e7"}; 
+}
+
+
+
+`}</style>
         <input
           className={colorSelector ? "searchInputDark" : "searchInput"}
           value={menuText}

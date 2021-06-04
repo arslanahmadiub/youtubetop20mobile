@@ -1,8 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { setHistory } from "../action/GlobalAction";
+
 const AboutUs = () => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
-
+  let history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setHistory(history.location.pathname));
+  }, []);
   return (
     <div id={colorSelector ? "aboutusdark" : "aboutus"}>
       <h1>How does it work?</h1>
