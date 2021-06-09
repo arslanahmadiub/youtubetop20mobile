@@ -43,16 +43,6 @@ const VideoViewSimple = ({ top, videoId, thumbnail }) => {
           open={open}
           onClose={handleClose}
         >
-          {/* <iframe
-            width="100%"
-            height="300"
-            loading="lazy"
-            src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe> */}
           <iframe
             width="100%"
             height="400"
@@ -75,42 +65,6 @@ const VideoViewSimple = ({ top, videoId, thumbnail }) => {
             onClick={() => handelClick(videoId)}
             style={{ position: "relative" }}
           >
-            {/* <div
-              className="iframeStyle"
-              style={{
-                width: "100%",
-                height: "200px",
-                background: "#F0EFEF",
-                zIndex: loading ? "1" : "-50",
-                position: "absolute",
-                top: 0,
-                left: 0,
-              }}
-            ></div> */}
-            {/* <iframe
-              width="100%"
-              height="200"
-              loading="lazy"
-              src={`https://www.youtube.com/embed/${videoId}`}
-              title="YouTube video player"
-              frameBorder="0"
-              onLoad={offLoading}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="iframeStyle"
-              style={{ zIndex: loading ? "-50" : "50" }}
-            ></iframe>
-            <Skeleton
-              variant="rect"
-              width="100%"
-              height="200px"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                zIndex: "4",
-              }}
-            /> */}
             <img
               src={imageUrl}
               width="100%"
@@ -121,17 +75,6 @@ const VideoViewSimple = ({ top, videoId, thumbnail }) => {
               src={youtubeicon}
               style={{ position: "absolute", left: "40%", top: "40%" }}
             />
-            {/* <div
-              style={{
-                background: "transperent",
-                zIndex: "5",
-                position: "absolute",
-                top: "0",
-                width: "100%",
-                height: "100%",
-                cursor: "pointer",
-              }}
-            ></div> */}
           </div>
         </Grid>
         <Tooltip

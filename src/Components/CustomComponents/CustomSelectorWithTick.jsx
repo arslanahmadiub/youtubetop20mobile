@@ -31,7 +31,6 @@ const CustomSelectorWithTick = ({
     if (menuText === "") {
       setMenuText(oldMenuText);
     }
-    // props.getListRegions(checkedData);
   };
 
   useEffect(() => {
@@ -55,7 +54,7 @@ const CustomSelectorWithTick = ({
     if (filterRegionData.length < 1) {
       setFilterRegionData(regionData);
     }
-    // setMenuText("");
+
     setshowMenuBar(true);
   };
   let handelSelector = () => {
@@ -71,7 +70,6 @@ const CustomSelectorWithTick = ({
     setMenuText(e.target.textContent);
     setshowMenuBar(false);
     setOldMenuText(e.target.textContent);
-    // props.updateData(e.target.textContent);
   };
 
   let getCheckedData = (e) => {

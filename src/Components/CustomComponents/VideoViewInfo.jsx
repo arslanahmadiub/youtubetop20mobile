@@ -5,7 +5,6 @@ import Dialog from "@material-ui/core/Dialog";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import { Hidden } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
 import { Typography } from "@material-ui/core";
 import youtubeicon from "../images/youtubeicon.svg";
 import { useSelector } from "react-redux";
@@ -73,40 +72,14 @@ const VideoViewInfo = (props) => {
           open={open}
           onClose={handleClose}
         >
-          {/* <iframe
+          <iframe
             width="100%"
-            height="300"
-            loading="lazy"
-            src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
+            height="400"
+            src={`https://www.youtube.com/embed/${dynamicVideo}`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          ></iframe> */}
-          {/* <iframe
-            width="100%"
-            height="300"
-            src={`https://www.youtube.com/embed/${dynamicVideo}`}
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe> */}
-          {/* <iframe
-            width="700"
-            height="330"
-            src={`https://www.youtube.com/embed/${dynamicVideo}?rel=0`}
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe> */}
-          <iframe
-            src={`https://www.youtube.com/embed/${dynamicVideo}?rel=0`}
-            width="560"
-            height="315"
-            frameborder="0"
-            allowfullscreen
           ></iframe>
         </Dialog>
       </React.Fragment>
@@ -121,40 +94,6 @@ const VideoViewInfo = (props) => {
               className="frameContainer"
               onClick={() => handelClick(video_id)}
             >
-              {/* <iframe
-                width="100%"
-                height="200"
-                loading="lazy"
-                src={`https://www.youtube.com/embed/${video_id}`}
-                title="YouTube video player"
-                frameBorder="0"
-                onLoad={offLoading}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ zIndex: loading ? "-50" : "1" }}
-              ></iframe>
-              <div
-                style={{
-                  background: "transperent",
-                  zIndex: "5",
-                  position: "absolute",
-                  top: "0",
-                  width: "100%",
-                  height: "100%",
-                  cursor: "pointer",
-                }}
-              ></div>
-              <Skeleton
-                variant="rect"
-                width="100%"
-                height="300px"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  zIndex: "6",
-                }}
-              /> */}
               <img
                 src={imageUrl}
                 width="100%"
@@ -187,28 +126,6 @@ const VideoViewInfo = (props) => {
                   <Typography noWrap>{video_title}</Typography>
                 </Tooltip>
               </Grid>
-              {/* <Grid
-                item
-                xs={12}
-                style={{ paddingLeft: "5px", paddingRight: "5px" }}
-              >
-                <Typography variant="subtitle1">Description</Typography>
-              </Grid> */}
-              {/* <Grid
-                item
-                xs={12}
-                style={{ paddingLeft: "5px", paddingRight: "5px" }}
-              >
-                <Tooltip
-                  arrow
-                  open={toolTipOpen2}
-                  onClose={handleCloseTooltip2}
-                  onOpen={handleOpenTooltip2}
-                  title={video_description}
-                >
-                  <Typography noWrap>{video_description}</Typography>
-                </Tooltip>
-              </Grid> */}
             </Grid>
             <Grid
               container

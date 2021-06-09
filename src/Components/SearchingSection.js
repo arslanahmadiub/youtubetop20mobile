@@ -8,14 +8,7 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import { Hidden } from "@material-ui/core";
 
-import {
-  getUniqueRegions,
-  getRegionalGlobalHot20List,
-  getRegionalGlobalTop20List,
-  getGlobalTop20List,
-  getGlobalHot20List,
-  getAdvanceSearchResult,
-} from "../Services/GlobalServices";
+import { getUniqueRegions } from "../Services/GlobalServices";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -31,6 +24,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import CustomSelectorWithTick from "./CustomComponents/CustomSelectorWithTick";
 import CustomSelector from "./CustomComponents/CustomSelector";
+import { globalSearch } from "../Functions/GlobalFunctions";
+
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -65,11 +60,20 @@ const SearchingSection = () => {
     setShowCalander(!showCalander);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
+  let getTodaysVideo = async (customDate, customRegion, customTag) => {
+    try {
+      setLoadBackdrop(true);
+
+      let result = await globalSearch(customDate, customRegion, customTag);
+      dispatch(top20DataAction(result.Data.top20.Data));
+      dispatch(hot20DataAction(result.Data.hot20.Data));
+      setTimeout(() => {
+        setLoadBackdrop(false);
+      }, 2000);
+    } catch (error) {
       setLoadBackdrop(false);
-    }, 3000);
-  }, []);
+    }
+  };
 
   useEffect(() => {
     let dateValue = moment().format("yyyy-MM-DD");
@@ -91,97 +95,30 @@ const SearchingSection = () => {
     }
   };
 
-  let regionalHot20 = async (text) => {
-    try {
-      if (text !== "Global") {
-        setLoadBackdrop(true);
-        let { data } = await getRegionalGlobalHot20List(text);
-        dispatch(hot20DataAction(data.Data));
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 1000);
-      } else {
-        setLoadBackdrop(true);
-        let { data } = await getGlobalHot20List();
-        dispatch(hot20DataAction(data.Data));
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 1000);
-      }
-    } catch (error) {
-      console.log(error);
-      setLoadBackdrop(false);
-    }
-  };
-
-  let regionalTop20 = async (text) => {
-    try {
-      if (text !== "Global") {
-        setLoadBackdrop(true);
-        let { data } = await getRegionalGlobalTop20List(text);
-        dispatch(top20DataAction(data.Data));
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 1000);
-      } else {
-        setLoadBackdrop(true);
-        let { data } = await getGlobalTop20List();
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 1000);
-        dispatch(top20DataAction(data.Data));
-      }
-    } catch (error) {
-      console.log(error);
-      setLoadBackdrop(false);
-    }
-  };
   let handleClickAway = () => {
     if (showCalander) {
       setShowCalander(false);
     }
   };
 
-  let getCustomSearch = async (
-    customDate,
-    listOfSelectedRegions,
-    tagsInput
-  ) => {
-    try {
-      setLoadBackdrop(true);
-
-      let { data } = await getAdvanceSearchResult(
-        customDate,
-        listOfSelectedRegions,
-        tagsInput
-      );
-
-      dispatch(hot20DataAction(data.Data.hot20.Data));
-      dispatch(top20DataAction(data.Data.top20.Data));
-
-      setTimeout(() => {
-        setLoadBackdrop(false);
-      }, 1000);
-    } catch (error) {
-      console.log(error);
-      setLoadBackdrop(false);
-    }
-  };
-
   let handelSearch = () => {
-    getCustomSearch(
+    getTodaysVideo(
       calander,
       listOfRegions,
       customTags === "" ? "All" : customTags
     );
   };
+  const [selectorRegion, setSelectorRegion] = useState("Global");
 
   let updateAllData = (e) => {
-    regionalTop20(e);
-    regionalHot20(e);
+    setSelectorRegion(e);
+    getTodaysVideo(moment().format("yyyy-MM-DD"), e, "All");
+
+    setValue(0);
   };
   useEffect(() => {
     getRegions();
+    getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All");
   }, []);
   let handelCalanderChange = () => {};
   const [filterRegionData, setFilterRegionData] = useState([]);
@@ -197,7 +134,7 @@ const SearchingSection = () => {
   };
 
   useEffect(() => {
-    getCustomSearch(moment().format("yyyy-MM-DD"), "Global", tabText);
+    getTodaysVideo(moment().format("yyyy-MM-DD"), selectorRegion, tabText);
   }, [tabText]);
   return (
     <>
@@ -278,7 +215,7 @@ const SearchingSection = () => {
               }}
               onClick={() => setAdvanceSearch(!advanceSearch)}
             >
-              {!advanceSearch ? "Advance Search" : "Basic Search"}
+              {!advanceSearch ? "Advanced Search" : "Basic Search"}
             </Button>
           </Grid>
           <Grid
@@ -410,6 +347,96 @@ const SearchingSection = () => {
             0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
           font-size: 10px;
         }
+
+        @media only screen and (max-width: 355px) {
+        
+          #tabStyleActive {
+            border-radius: 40px;
+            margin-left: 2px;
+            margin-right: 2px;
+            min-width: 30px;
+            min-height: 7px;
+            background:${colorSelector ? "#616161" : "#3f51b5"}; 
+            font-size: 8px;
+            color: white;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+          }
+          #tabStyle {
+            border-radius: 40px;
+            background: white;
+            margin-left: 2px;
+            margin-right: 2px;
+            min-width: 30px;
+            min-height: 7px;
+          
+            color: black;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+            font-size: 8px;
+          }
+        }
+        @media only screen and (max-width: 280px) {
+        
+          #tabStyleActive {
+            border-radius: 20px;
+            margin-left: 1px;
+            margin-right: 1px;
+            min-width: 30px;
+            min-height: 7px;
+            background:${colorSelector ? "#616161" : "#3f51b5"}; 
+            font-size: 7px;
+            color: white;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+          }
+          #tabStyle {
+            border-radius: 20px;
+            background: white;
+            margin-left: 1px;
+            margin-right: 1px;
+            min-width: 30px;
+            min-height: 6px;
+          
+            color: black;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+            font-size: 7px;
+          }
+        }
+        @media screen and (max-width: 1024px) and (min-width: 768px) {
+       
+        
+          #tabStyleActive {
+            border-radius: 50px;
+            margin-left: 7px;
+            margin-right: 7px;
+            min-width: 100px;
+            min-height: 10px;
+         
+           background:${colorSelector ? "#424242" : "#3f51b5"}; 
+            font-size: 16px;
+          
+            color: white;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+          }
+          #tabStyle {
+            border-radius: 50px;
+          
+            background: white;
+            margin-left: 7px;
+            margin-right: 7px;
+            min-height: 10px;
+            min-width: 100px;
+          
+            color: black;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+            font-size: 16px;
+          }
+        }
+        
 
 `}</style>
         </Grid>

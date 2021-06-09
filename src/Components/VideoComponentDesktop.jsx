@@ -5,8 +5,7 @@ import VideoViewInfoDesktop from "./CustomComponents/VideoViewInfoDesktop";
 import VideoVIewSimpleDesktop from "./CustomComponents/VideoVIewSimpleDesktop";
 import { Hidden } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { getGlobalTop20List } from "../Services/GlobalServices";
-import { getGlobalHot20List } from "../Services/GlobalServices";
+
 import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
 
 const VideoComponentDesktop = () => {
@@ -21,41 +20,22 @@ const VideoComponentDesktop = () => {
       element.hotData = hot20Data[index];
     });
 
-  let globalTop20Data = async () => {
-    try {
-      let { data } = await getGlobalTop20List();
-      dispatch(top20DataAction(data.Data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  let globalHot20Data = async () => {
-    try {
-      let { data } = await getGlobalHot20List();
-      dispatch(hot20DataAction(data.Data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    globalTop20Data();
-    globalHot20Data();
-  }, []);
-
   return (
     <Hidden only={["xs", "sm"]}>
-      {top20Data !== undefined &&
-        top20Data.length > 0 &&
+      {top20Data !== undefined && top20Data.length > 0 ? (
         top20Data.map((e, i) => {
           return (
-            <Grid container style={{ paddingLeft: "6%" }} spacing={5} key={i}>
+            <Grid
+              container
+              style={{ paddingLeft: "6%", paddingRight: "6%" }}
+              spacing={5}
+              key={i}
+            >
               <Grid item xs={7}>
                 <VideoViewInfoDesktop key={i} top={e.id} data={e} />
               </Grid>
 
-              {e.hotData !== undefined ? (
+              {e.hotData !== undefined && (
                 <Grid
                   item
                   xs={5}
@@ -78,10 +58,20 @@ const VideoComponentDesktop = () => {
                     }
                   />
                 </Grid>
-              ) : null}
+              )}
             </Grid>
           );
-        })}
+        })
+      ) : (
+        <Grid
+          container
+          style={{ width: "100%", justifyContent: "center", display: "flex" }}
+        >
+          <h1 style={{ color: colorSelector ? "white" : "#3F51B5" }}>
+            ☹️ Sorry! No videos Found.
+          </h1>
+        </Grid>
+      )}
     </Hidden>
   );
 };

@@ -9,16 +9,8 @@ import Button from "@material-ui/core/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
-import {
-  getUniqueRegions,
-  getRegionalGlobalHot20List,
-  getRegionalGlobalTop20List,
-  getGlobalTop20List,
-  getGlobalHot20List,
-  getAdvanceSearchResult,
-} from "../Services/GlobalServices";
+import { getUniqueRegions } from "../Services/GlobalServices";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   top20DataAction,
@@ -31,6 +23,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import CustomSelector from "./CustomComponents/CustomSelector";
 import CustomSelectorWithTick from "./CustomComponents/CustomSelectorWithTick";
+import CustomSearchWithTags from "./CustomComponents/CustomSearchWithTags";
+import { globalSearch } from "../Functions/GlobalFunctions";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -99,93 +93,24 @@ const SearchSectionDesktop = () => {
     }
   };
 
-  let getCustomSearch = async (
-    customDate,
-    listOfSelectedRegions,
-    tagsInput
-  ) => {
+  let getTodaysVideo = async (customDate, customRegion, customTag) => {
     try {
       setLoadBackdrop(true);
 
-      let { data } = await getAdvanceSearchResult(
-        customDate,
-        listOfSelectedRegions,
-        tagsInput
-      );
-
-      dispatch(hot20DataAction(data.Data.hot20.Data));
-      dispatch(top20DataAction(data.Data.top20.Data));
-
+      let result = await globalSearch(customDate, customRegion, customTag);
+      dispatch(top20DataAction(result.Data.top20.Data));
+      dispatch(hot20DataAction(result.Data.hot20.Data));
       setTimeout(() => {
         setLoadBackdrop(false);
-      }, 1000);
-    } catch (error) {
-      console.log(error);
-      setLoadBackdrop(false);
-    }
-  };
-
-  useEffect(() => {
-    regionalHot20("Global");
-    regionalTop20("Global");
-  }, []);
-
-  let regionalHot20 = async (text) => {
-    try {
-      if (text !== "Global") {
-        setLoadBackdrop(true);
-
-        let { data } = await getRegionalGlobalHot20List(text);
-
-        dispatch(hot20DataAction(data.Data));
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 2000);
-      } else {
-        setLoadBackdrop(true);
-
-        let { data } = await getGlobalHot20List();
-
-        dispatch(hot20DataAction(data.Data));
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 2000);
-      }
+      }, 2000);
     } catch (error) {
       setLoadBackdrop(false);
-
-      console.log(error);
-    }
-  };
-  let regionalTop20 = async (text) => {
-    try {
-      if (text !== "Global") {
-        setLoadBackdrop(true);
-
-        let { data } = await getRegionalGlobalTop20List(text);
-        dispatch(top20DataAction(data.Data));
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 2000);
-      } else {
-        setLoadBackdrop(true);
-
-        let { data } = await getGlobalTop20List();
-
-        dispatch(top20DataAction(data.Data));
-        setTimeout(() => {
-          setLoadBackdrop(false);
-        }, 2000);
-      }
-    } catch (error) {
-      setLoadBackdrop(false);
-
-      console.log(error);
     }
   };
 
   useEffect(() => {
     getRegions();
+    getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All");
   }, []);
 
   const [advanceSearch, setAdvanceSearch] = useState(true);
@@ -194,9 +119,13 @@ const SearchSectionDesktop = () => {
   const topFilterSection = useRef();
   const searchingSectionRef = useRef();
 
+  const [selectorRegion, setSelectorRegion] = useState("Global");
+
   let updateAllData = (e) => {
-    regionalTop20(e);
-    regionalHot20(e);
+    setSelectorRegion(e);
+    getTodaysVideo(moment().format("yyyy-MM-DD"), e, "All");
+
+    setValue(0);
   };
 
   useEffect(() => {
@@ -270,7 +199,7 @@ const SearchSectionDesktop = () => {
   }, [advanceSearch]);
 
   let handelSearch = () => {
-    getCustomSearch(
+    getTodaysVideo(
       calander,
       listOfRegions,
       customTags === "" ? "All" : customTags
@@ -278,8 +207,12 @@ const SearchSectionDesktop = () => {
   };
 
   useEffect(() => {
-    getCustomSearch(moment().format("yyyy-MM-DD"), "Global", tabText);
+    getTodaysVideo(moment().format("yyyy-MM-DD"), selectorRegion, tabText);
   }, [tabText]);
+
+  let updateSearchTags = (value) => {
+    setCustomTags(value);
+  };
 
   return (
     <Hidden only={["sm", "xs"]}>
@@ -321,7 +254,7 @@ const SearchSectionDesktop = () => {
                 }}
                 onClick={() => setAdvanceSearch(!advanceSearch)}
               >
-                {advanceSearch ? "Advance Search" : "Basic Search"}
+                {advanceSearch ? "Advanced Search" : "Basic Search"}
               </Button>
             </Grid>
 
@@ -442,8 +375,8 @@ const SearchSectionDesktop = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={4} style={{ zIndex: showMenuBar ? "0" : "5" }}>
-                <div id="searchinputmain">
+              <Grid item xs={4} style={{ zIndex: "500" }}>
+                {/* <div id="searchinputmain">
                   <input
                     placeholder="Search Custom Tag"
                     className={
@@ -457,7 +390,11 @@ const SearchSectionDesktop = () => {
                       colorSelector ? "searchinputiconDark" : "searchinputicon"
                     }
                   />
-                </div>
+                </div> */}
+                <CustomSearchWithTags
+                  colorSelector={colorSelector}
+                  updateMenuText={(value) => updateSearchTags(value)}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -517,6 +454,53 @@ const SearchSectionDesktop = () => {
             0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
           font-size: 16px;
         }
+
+        @media screen and (max-width: 1366px) and (min-width: 1024px) {
+       
+        
+          #tabStyleActive {
+            border-radius: 50px;
+            margin-left: 7px;
+            margin-right: 7px;
+            min-width: 100px;
+            min-height: 10px;
+         
+           background:${colorSelector ? "#424242" : "#3f51b5"}; 
+            font-size: 16px;
+          
+            color: white;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+          }
+          #tabStyle {
+            border-radius: 50px;
+          
+            background: white;
+            margin-left: 7px;
+            margin-right: 7px;
+            min-height: 10px;
+            min-width: 100px;
+          
+            color: black;
+            box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
+              0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+            font-size: 16px;
+          }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         .topFilterTab{
 
           visibility:  visible ;

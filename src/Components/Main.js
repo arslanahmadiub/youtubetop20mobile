@@ -38,18 +38,18 @@ const Main = () => {
               color: colorSelector ? "white" : "#3f51b5",
             }}
           >
-            Top 20
+            {top20Data.length > 0 ? "Top 20" : ""}
           </h2>
           <h2
             style={{
-              paddingRight: "32%",
+              paddingRight: "36%",
               paddingTop: "2%",
               paddingBottom: "1%",
 
               color: colorSelector ? "white" : "#3f51b5",
             }}
           >
-            Hot 20
+            {hot20Data.length > 0 ? "Hot 20" : ""}
           </h2>
         </div>
       </Hidden>
@@ -65,12 +65,30 @@ const Main = () => {
             color: colorSelector ? "white" : "#3f51b5",
           }}
         >
-          Top 20
+          {top20Data.length > 0 ? "Top 20" : ""}
         </h2>
       </Hidden>
-      {top20Data !== undefined &&
-        top20Data.length > 0 &&
-        top20Data.map((e, i) => <VideoViewInfo key={i} top={i + 1} data={e} />)}
+
+      <Hidden only={["md", "lg", "xl"]}>
+        {top20Data !== undefined && top20Data.length > 0 ? (
+          top20Data.map((e, i) => (
+            <VideoViewInfo key={i} top={i + 1} data={e} />
+          ))
+        ) : (
+          <h1
+            style={{
+              color: colorSelector ? "white" : "#3F51B5",
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            😢 Sorry! No videos Found.
+          </h1>
+        )}
+      </Hidden>
+
       <Hidden only={["md", "lg", "xl"]}>
         <h2
           style={{
@@ -80,7 +98,7 @@ const Main = () => {
             color: colorSelector ? "white" : "#3f51b5",
           }}
         >
-          Hot 20
+          {hot20Data.length > 0 ? "Hot 20" : ""}
         </h2>
       </Hidden>
       {hot20Data !== undefined &&

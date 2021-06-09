@@ -61,7 +61,7 @@ const Topbar = () => {
   };
   const renderer = ({ hours, minutes, seconds, completed }) => {
     return (
-      <span>
+      <span className="spanTime">
         {hours < 10 ? "0" + hours : hours}:
         {minutes < 10 ? "0" + minutes : minutes}:
         {seconds < 10 ? "0" + seconds : seconds}
@@ -81,6 +81,55 @@ const Topbar = () => {
   background: ${colorSelector ? "#424242" : "#F0EFEF"};
 }
 
+.topBarMobile{
+  width:100%;
+  display:flex;
+  cursor:pointer;
+  justify-content:center;
+}
+
+.topBeta{
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+
+@media only screen and (max-width: 355px) {
+  .topBarMobile{
+    font-size:14px
+  }
+  .topBeta{
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+    font-size: 10px;
+    margin-left: 8px;
+  }
+  .spanTime{
+    font-size:14px;
+    
+  }
+}
+@media only screen and (max-width: 280px) {
+  .topBarMobile{
+    font-size:12px
+  }
+  .topBeta{
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+    font-size: 8px;
+    margin-left: 8px;
+  }
+  .spanTime{
+    font-size:12px;
+    
+  }
+}
+
 `}</style>
           <Toolbar>
             <ClickAwayListener onClickAway={handleClickAwayFromSearchRegion}>
@@ -95,28 +144,20 @@ const Topbar = () => {
             </ClickAwayListener>
             <Typography
               variant="h6"
-              style={{
-                width: "100%",
-                justifyContent: "center",
-                display: "flex",
-                cursor: "pointer",
-              }}
+              className="topBarMobile"
               onClick={handeHomePage}
             >
               GlobalTop20
             </Typography>
-            <Typography
+            <Typography className="topBeta">Beta 2.0</Typography>
+            <div
               style={{
-                width: "100%",
                 display: "flex",
-                cursor: "pointer",
-                fontSize: "12px",
-                marginLeft: "10px",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              Beta 2.0
-            </Typography>
-            <div>
               <Countdown date={Date.now() + remaningTime} renderer={renderer} />
             </div>
             <div>

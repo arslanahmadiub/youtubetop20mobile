@@ -73,18 +73,6 @@ const VideoViewInfoDesktop = (props) => {
           open={open}
           onClose={handleClose}
         >
-          {/* <iframe
-            width="100%"
-            height="500px"
-            loading="lazy"
-            // src={`https://www.youtube.com/embed/${dynamicVideo}?autoplay=1`}
-            src={`https://www.youtube.com/embed/${dynamicVideo}?modestbranding=0&autohide=1&showinfo=1&controls=1&autoplay=1`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe> */}
-
           <iframe
             width="100%"
             height="500"

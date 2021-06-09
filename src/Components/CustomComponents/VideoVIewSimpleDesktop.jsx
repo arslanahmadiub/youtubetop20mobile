@@ -82,7 +82,7 @@ const VideoVIewSimpleDesktop = ({ top, videoId, thumbnail }) => {
             width="100%"
             height={cHeight + "px"}
             className="videoView"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", borderRadius: "8px" }}
           />
         )}
 
