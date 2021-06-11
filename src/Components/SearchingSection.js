@@ -25,6 +25,7 @@ import Tab from "@material-ui/core/Tab";
 import CustomSelectorWithTick from "./CustomComponents/CustomSelectorWithTick";
 import CustomSelector from "./CustomComponents/CustomSelector";
 import { globalSearch } from "../Functions/GlobalFunctions";
+import CustomSearchWithTags from "./CustomComponents/CustomSearchWithTags";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -136,6 +137,9 @@ const SearchingSection = () => {
   useEffect(() => {
     getTodaysVideo(moment().format("yyyy-MM-DD"), selectorRegion, tabText);
   }, [tabText]);
+  let updateSearchTags = (value) => {
+    setCustomTags(value);
+  };
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
@@ -279,7 +283,7 @@ const SearchingSection = () => {
               zIndex: "0",
             }}
           >
-            <div id="searchinputmain">
+            {/* <div id="searchinputmain">
               <input
                 placeholder="Search Custom Tag"
                 className={colorSelector ? "searchInputDark" : "searchInput"}
@@ -289,7 +293,11 @@ const SearchingSection = () => {
               <SearchIcon
                 id={colorSelector ? "searchinputiconDark" : "searchinputicon"}
               />
-            </div>
+            </div> */}
+            <CustomSearchWithTags
+              colorSelector={colorSelector}
+              updateMenuText={(value) => updateSearchTags(value)}
+            />
           </Grid>
 
           <Grid
@@ -298,7 +306,7 @@ const SearchingSection = () => {
             style={{
               justifyContent: "center",
               paddingRight: "5px",
-              zIndex: showMenuBar ? "0" : "5",
+              zIndex: "-1",
               display: advanceSearch ? "block" : "none",
               marginBottom: "10px",
             }}

@@ -128,76 +128,6 @@ const SearchSectionDesktop = () => {
     setValue(0);
   };
 
-  useEffect(() => {
-    if (
-      topFilterSection.current &&
-      topFilterSection.current.classList.contains("topFilterTab")
-    ) {
-      searchingSectionRef.current.classList.add(
-        "searchingContainerAfterHidden"
-      );
-      topFilterSection.current.classList.remove("topFilterTab");
-      topFilterSection.current.classList.add("topFilterTabHidden");
-
-      setTimeout(() => {
-        topFilterSection.current.classList.remove("topFilterTabHidden");
-        topFilterSection.current.classList.add("topFilterTabDisplayNone");
-        searchingSectionRef.current.classList.remove(
-          "searchingContainerAfterHidden"
-        );
-      }, 500);
-    } else if (
-      topFilterSection.current &&
-      topFilterSection.current.classList.contains("topFilterTabDisplayNone")
-    ) {
-      searchingSectionRef.current.classList.add(
-        "searchingContainerAfterHidden"
-      );
-
-      topFilterSection.current.classList.remove("topFilterTabDisplayNone");
-      topFilterSection.current.classList.add("topFilterTabDisplayFlex");
-
-      setTimeout(() => {
-        topFilterSection.current.classList.remove("topFilterTabDisplayFlex");
-        topFilterSection.current.classList.add("topFilterTab");
-      }, 500);
-    }
-  }, [advanceSearch]);
-
-  useEffect(() => {
-    if (
-      searchingSectionRef.current &&
-      searchingSectionRef.current.classList.contains(
-        "searchingContainerBeforeHidden"
-      )
-    ) {
-      setTimeout(() => {
-        searchingSectionRef.current.classList.add(
-          "searchingContainerBeforeVisible"
-        );
-        searchingSectionRef.current.classList.remove(
-          "searchingContainerBeforeHidden"
-        );
-      }, 500);
-    } else if (
-      searchingSectionRef.current &&
-      searchingSectionRef.current.classList.contains(
-        "searchingContainerBeforeVisible"
-      )
-    ) {
-      searchingSectionRef.current.classList.add(
-        "searchingContainerAfterHidden"
-      );
-      searchingSectionRef.current.classList.remove(
-        "searchingContainerBeforeVisible"
-      );
-
-      searchingSectionRef.current.classList.add(
-        "searchingContainerBeforeHidden"
-      );
-    }
-  }, [advanceSearch]);
-
   let handelSearch = () => {
     getTodaysVideo(
       calander,
@@ -227,97 +157,82 @@ const SearchSectionDesktop = () => {
               padding: "8px",
               background: colorSelector ? "#616161" : "white",
             }}
-            className={advanceSearch ? "customCardWidth" : "customCard"}
             spacing={3}
           >
             <Grid
-              item
-              xs={6}
-              style={{ display: !advanceSearch ? "none" : "block" }}
+              container
+              style={{
+                padding: "8px",
+                background: colorSelector ? "#616161" : "white",
+                display: advanceSearch ? "flex" : "none",
+              }}
+              className="customCardWidth"
+              spacing={3}
             >
-              <CustomSelector
-                filterData={filterRegionData}
-                colorSelector={colorSelector}
-                regionData={regionData}
-                updateData={(value) => {
-                  updateAllData(value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Button
+              <Grid item xs={6}>
+                <CustomSelector
+                  filterData={filterRegionData}
+                  colorSelector={colorSelector}
+                  regionData={regionData}
+                  updateData={(value) => {
+                    updateAllData(value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  style={{
+                    height: "41px",
+                    width: "100%",
+                    fontWeight: "bold",
+                    color: !colorSelector ? "#3F51B5" : "white",
+                  }}
+                  onClick={() => setAdvanceSearch(!advanceSearch)}
+                >
+                  Advanced Search
+                </Button>
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
                 style={{
-                  height: "41px",
-                  width: "100%",
-                  fontWeight: "bold",
-                  color: !colorSelector ? "#3F51B5" : "white",
+                  zIndex: showMenuBar ? "0" : "5",
                 }}
-                onClick={() => setAdvanceSearch(!advanceSearch)}
+                ref={topFilterSection}
+                className="topFilterTab"
               >
-                {advanceSearch ? "Advanced Search" : "Basic Search"}
-              </Button>
+                <Tabs
+                  onChange={handleChange}
+                  textColor="primary"
+                  TabIndicatorProps={{
+                    style: {
+                      display: "none",
+                    },
+                  }}
+                  // variant="scrollable"
+                  aria-label="scrollable auto tabs example"
+                  id="desktopTab"
+                  value={value}
+                >
+                  {["All", "Music", "Movies", "Sports", "Gaming"].map(
+                    (item, index) => {
+                      return (
+                        <Tab
+                          label={item}
+                          key={index}
+                          id={value === index ? "tabStyleActive" : "tabStyle"}
+                        />
+                      );
+                    }
+                  )}
+                </Tabs>
+              </Grid>
             </Grid>
 
-            <Grid
-              item
-              xs={6}
-              style={{
-                justifyContent: "center",
-                paddingRight: "5px",
-                zIndex: showMenuBar ? "0" : "5",
-                display: !advanceSearch ? "block" : "none",
-              }}
-              // className="showVisiblity"
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                style={{
-                  height: "41px",
-                  width: "100%",
-                  background: !colorSelector ? "#3F51B5" : "#424242",
-                }}
-                onClick={handelSearch}
-              >
-                Search
-              </Button>
-            </Grid>
+            {/* end top section */}
 
-            <Grid
-              item
-              xs={12}
-              style={{
-                zIndex: showMenuBar ? "0" : "5",
-              }}
-              ref={topFilterSection}
-              className="topFilterTab"
-            >
-              <Tabs
-                onChange={handleChange}
-                textColor="primary"
-                TabIndicatorProps={{
-                  style: {
-                    display: "none",
-                  },
-                }}
-                // variant="scrollable"
-                aria-label="scrollable auto tabs example"
-                id="desktopTab"
-                value={value}
-              >
-                {["All", "Music", "Movies", "Sports", "Gaming"].map(
-                  (item, index) => {
-                    return (
-                      <Tab
-                        label={item}
-                        key={index}
-                        id={value === index ? "tabStyleActive" : "tabStyle"}
-                      />
-                    );
-                  }
-                )}
-              </Tabs>
-            </Grid>
+            {/* bottom section */}
 
             <Grid
               container
@@ -325,9 +240,10 @@ const SearchSectionDesktop = () => {
               style={{
                 paddingRight: "13px",
                 paddingLeft: "13px",
+                display: !advanceSearch ? "flex" : "none",
+                background: colorSelector ? "#616161" : "white",
               }}
-              ref={searchingSectionRef}
-              className="searchingContainerBeforeHidden"
+              className="customCardWidth"
             >
               <Grid item xs={4} style={{ zIndex: showMenuBar ? "0" : "5" }}>
                 <ClickAwayListener onClickAway={handleClickAway}>
@@ -376,27 +292,50 @@ const SearchSectionDesktop = () => {
                 />
               </Grid>
               <Grid item xs={4} style={{ zIndex: "500" }}>
-                {/* <div id="searchinputmain">
-                  <input
-                    placeholder="Search Custom Tag"
-                    className={
-                      colorSelector ? "searchInputDark" : "searchInput"
-                    }
-                    onChange={handelCustomTagsChanges}
-                    value={customTags}
-                  />
-                  <SearchIcon
-                    id={
-                      colorSelector ? "searchinputiconDark" : "searchinputicon"
-                    }
-                  />
-                </div> */}
                 <CustomSearchWithTags
                   colorSelector={colorSelector}
                   updateMenuText={(value) => updateSearchTags(value)}
                 />
               </Grid>
+
+              <Grid item xs={6}>
+                <Button
+                  style={{
+                    height: "41px",
+                    width: "100%",
+                    fontWeight: "bold",
+                    color: !colorSelector ? "#3F51B5" : "white",
+                  }}
+                  onClick={() => setAdvanceSearch(!advanceSearch)}
+                >
+                  Basic Search
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                style={{
+                  justifyContent: "center",
+                  paddingRight: "5px",
+                  zIndex: showMenuBar ? "0" : "5",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    height: "41px",
+                    width: "100%",
+                    background: !colorSelector ? "#3F51B5" : "#424242",
+                  }}
+                  onClick={handelSearch}
+                >
+                  Search
+                </Button>
+              </Grid>
             </Grid>
+
+            {/* End bottom section */}
           </Grid>
         </Grid>
 

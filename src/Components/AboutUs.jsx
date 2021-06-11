@@ -10,14 +10,15 @@ const AboutUs = () => {
   useEffect(() => {
     dispatch(setHistory(history.location.pathname));
   }, []);
+
   return (
     <div id={colorSelector ? "aboutusdark" : "aboutus"}>
       <h1>How does it work?</h1>
       <p>
-        We have developed a unique algorithm which by default takes a snapshot
-        of data once a day and calculates the Top 20 (YouTube) videos viewed
-        globally over the last 24 hours, and the Hottest Top 20 (YouTube) videos
-        that have just been released, globally.
+        At GlobalTop20 we have developed a unique algorithm which by default
+        takes a snapshot of data once a day and calculates the Top 20 (YouTube)
+        videos viewed globally over the last 24 hours, and the Hottest Top 20
+        (YouTube) videos that have just been released, globally.
       </p>
       <br />
       <p>

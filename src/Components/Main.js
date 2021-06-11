@@ -23,7 +23,7 @@ const Main = () => {
     dispatch(setHistory(history.location.pathname));
   }, []);
   return (
-    <div style={{ overflowX: "hidden" }}>
+    <div style={{ overflowX: "hidden", marginBottom: "50px" }}>
       <Banner />
       <SearchSectionDesktop />
       <SearchingSection />

@@ -8,6 +8,7 @@ import { Hidden } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import youtubeicon from "../images/youtubeicon.svg";
 import { useSelector } from "react-redux";
+import zIndex from "@material-ui/core/styles/zIndex";
 const VideoViewInfo = (props) => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
 
@@ -15,7 +16,6 @@ const VideoViewInfo = (props) => {
   let {
     video_channelTitle,
     video_publishedAt,
-    video_description,
     video_id,
     video_title,
     video_viewCount,
@@ -74,7 +74,7 @@ const VideoViewInfo = (props) => {
         >
           <iframe
             width="100%"
-            height="400"
+            height="300"
             src={`https://www.youtube.com/embed/${dynamicVideo}`}
             title="YouTube video player"
             frameBorder="0"
@@ -83,7 +83,11 @@ const VideoViewInfo = (props) => {
           ></iframe>
         </Dialog>
       </React.Fragment>
-      <Grid container style={{ paddingBottom: "20px", position: "relative" }}>
+      <Grid
+        container
+        // style={{ paddingBottom: "20px", position: "relative", zIndex: "0" }}
+        className="mobileInfoVideo"
+      >
         <Grid
           item
           xs={12}

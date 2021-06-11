@@ -145,15 +145,36 @@ const Footer = () => {
           bottom:0;
           overflow:auto;
         }
+        .aboutPage{
+          background: ${colorSelector ? "#000000" : "#3f51b5"};
+          clear: both;
+          position: relative;
+          bottom:0;
+         
+        }
+        .aboutPageCustom{
+          background: ${colorSelector ? "#000000" : "#3f51b5"};
+         
+         
+        }
 
 `}</style>
         <Grid
           container
-          className={
-            historyObject === "/about" || historyObject === "/charity"
-              ? "selectivePage"
-              : "allPages"
-          }
+          // className={
+          //   historyObject === "/about"
+          //     ? "aboutPage"
+          //     : historyObject === "/charity"
+          //     ? "selectivePage"
+          //     : historyObject === "/signin"
+          //     ? "selectivePage"
+          //     : historyObject === "/signup"
+          //     ? "selectivePage"
+          //     : historyObject === "/privacy"
+          //     ? "aboutPage"
+          //     : "allPages"
+          // }
+          className="aboutPageCustom"
         >
           <Grid
             item

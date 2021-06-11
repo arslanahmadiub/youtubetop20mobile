@@ -14,11 +14,90 @@ import { useSelector, useDispatch } from "react-redux";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { withStyles } from "@material-ui/core/styles";
+
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+
+import ListItemText from "@material-ui/core/ListItemText";
+
+import PersonIcon from "@material-ui/icons/Person";
+const StyledMenu = withStyles({
+  paper: {
+    background: "#3F51B5",
+    color: "white",
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
+const StyledMenu2 = withStyles({
+  paper: {
+    background: "black",
+    color: "white",
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    "&:focus": {
+      backgroundColor: theme.palette.primary.main,
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
+const StyledMenuItem2 = withStyles((theme) => ({
+  root: {
+    "&:focus": {
+      backgroundColor: "black",
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
 
 const Topbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   let history = useHistory();
   const dispatch = useDispatch();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const colorSelector = useSelector((state) => state.globalData.colorState);
 
@@ -56,9 +135,22 @@ const Topbar = () => {
     history.push("/charity");
   };
 
+  let handelPush = (e) => {
+    history.push(e);
+    setAnchorEl(null);
+  };
+
   let handleClickAwayFromSearchRegion = () => {
     setShowMenu(false);
   };
+
+  let handelSignup = () => {
+    history.push("/signup");
+  };
+  let handelLogin = () => {
+    history.push("/signin");
+  };
+
   const renderer = ({ hours, minutes, seconds, completed }) => {
     return (
       <span className="spanTime">
@@ -179,6 +271,12 @@ const Topbar = () => {
               <div className="mobilemenuoption">
                 <p onClick={handelCharity}>Charities</p>
               </div>
+              <div className="mobilemenuoption">
+                <p onClick={handelLogin}>Login</p>
+              </div>
+              <div className="mobilemenuoption">
+                <p onClick={handelSignup}>Sign Up</p>
+              </div>
             </div>
           ) : (
             <div id={showMenu ? "mobileMenu" : "mobileMenuOff"}>
@@ -188,6 +286,12 @@ const Topbar = () => {
 
               <div className="mobilemenuoption">
                 <p onClick={handelCharity}>Charities</p>
+              </div>
+              <div className="mobilemenuoption">
+                <p onClick={handelLogin}>Login</p>
+              </div>
+              <div className="mobilemenuoption">
+                <p onClick={handelSignup}>Sign Up</p>
               </div>
             </div>
           )}
@@ -247,7 +351,47 @@ const Topbar = () => {
                 Charities
               </p>
             </div>
-
+            <div>
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+                onClick={handleClick}
+              >
+                <PersonIcon style={{ color: "white" }} />
+              </IconButton>
+              {colorSelector ? (
+                <StyledMenu2
+                  id="customized-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <StyledMenuItem2 onClick={() => handelPush("/signin")}>
+                    <ListItemText primary="Login" />
+                  </StyledMenuItem2>
+                  <StyledMenuItem2 onClick={() => handelPush("/signup")}>
+                    <ListItemText primary="Sign Up" />
+                  </StyledMenuItem2>
+                </StyledMenu2>
+              ) : (
+                <StyledMenu
+                  id="customized-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <StyledMenuItem onClick={() => handelPush("/signin")}>
+                    <ListItemText primary="Login" />
+                  </StyledMenuItem>
+                  <StyledMenuItem onClick={() => handelPush("/signup")}>
+                    <ListItemText primary="Sign Up" />
+                  </StyledMenuItem>
+                </StyledMenu>
+              )}
+            </div>
             <IconButton aria-label="add an alarm" onClick={handleChange}>
               {colorSelector ? (
                 <WbSunnyIcon style={{ color: "white" }} />

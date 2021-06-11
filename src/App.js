@@ -7,6 +7,9 @@ import AboutUs from "./Components/AboutUs";
 import Footer from "./Components/Footer";
 import Charity from "./Components/Charity";
 import Privacy from "./Components/Privacy";
+import SignIn from "./Components/SignIn";
+import Signup from "./Components/Signup";
+import ForgotPassword from "./Components/ForgotPassword";
 
 const App = () => {
   return (
@@ -24,6 +27,15 @@ const App = () => {
         </Route>
         <Route exact path="/privacy">
           <Privacy />
+        </Route>
+        <Route exact path="/signin">
+          <SignIn />
+        </Route>
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
+        <Route exact path="/forgot">
+          <ForgotPassword />
         </Route>
       </Switch>
 

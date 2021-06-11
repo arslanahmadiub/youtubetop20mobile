@@ -43,13 +43,9 @@ const CustomSearchWithTags = ({ colorSelector, ...props }) => {
       setshowMenuBar(false);
       setMenuText(e.target.value);
     } else {
-      const p = Array.from(e.target.value.toLowerCase()).reduce(
-        (a, v, i) => `${a}[^${e.target.value.toLowerCase().substr(i)}]*?${v}`,
-        ""
+      let filterData = tagsData.filter((v) =>
+        v.toLowerCase().startsWith(e.target.value.toLowerCase())
       );
-      const re = RegExp(p);
-
-      let filterData = tagsData.filter((v) => v.toLowerCase().match(re));
 
       setFilterTagsData(filterData);
       setshowMenuBar(true);
@@ -113,7 +109,11 @@ const CustomSearchWithTags = ({ colorSelector, ...props }) => {
          
           background: ${colorSelector ? "#616161" : "#e7e7e7"}; 
         }
-        
+        .mobileInfoVideo{
+          padding-bottom: 20px;
+           position: relative;
+           z-index: ${showMenuBar ? "-1" : "0"}; 
+        }
         
         
         `}</style>

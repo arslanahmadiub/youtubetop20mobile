@@ -1,9 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
-
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { setHistory } from "../action/GlobalAction";
 const Privacy = () => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
+  const dispatch = useDispatch();
+  let history = useHistory();
 
+  useEffect(() => {
+    dispatch(setHistory(history.location.pathname));
+  }, []);
   return (
     <div id={colorSelector ? "privacydark" : "privacy"}>
       <h1>Privacy Policy</h1>

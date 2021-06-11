@@ -11,6 +11,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#aboutus {
+  min-height: calc(100vh - 149px - 64px);
+}
+#aboutusdark {
+  min-height: calc(100vh - 149px - 64px);
+}
+#charity {
+  min-height: calc(100vh - 149px - 64px);
+}
+#charitydark {
+  min-height: calc(100vh - 149px - 64px);
+}
+.signinclass {
+  min-height: calc(100vh - 149px - 64px);
+}
+.signupclass {
+  min-height: calc(100vh - 149px - 64px);
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
