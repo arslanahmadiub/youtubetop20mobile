@@ -23,17 +23,19 @@ const CustomSelector = ({
   };
 
   let handelRegionChange = (e) => {
-    const p = Array.from(e.target.value.toLowerCase()).reduce(
-      (a, v, i) => `${a}[^${e.target.value.toLowerCase().substr(i)}]*?${v}`,
-      ""
-    );
-    const re = RegExp(p);
+    if (e.target.value === "") {
+      setFilterRegionData([]);
+      setshowMenuBar(false);
+      setMenuText(e.target.value);
+    } else {
+      let filterData = regionData.filter((v) =>
+        v.toLowerCase().startsWith(e.target.value.toLowerCase())
+      );
 
-    let filterData = regionData.filter((v) => v.toLowerCase().match(re));
-
-    setFilterRegionData(filterData);
-    setshowMenuBar(true);
-    setMenuText(e.target.value);
+      setFilterRegionData(filterData);
+      setshowMenuBar(true);
+      setMenuText(e.target.value);
+    }
   };
   let handelMenuFocus = () => {
     if (filterRegionData.length < 1) {

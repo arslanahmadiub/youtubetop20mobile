@@ -306,11 +306,11 @@ const SearchingSection = () => {
             style={{
               justifyContent: "center",
               paddingRight: "5px",
-              zIndex: "-1",
+
               display: advanceSearch ? "block" : "none",
               marginBottom: "10px",
             }}
-            className="showVisiblity"
+            className="showVisiblity mobileSearchButton"
           >
             <Button
               variant="contained"

@@ -114,7 +114,10 @@ const CustomSearchWithTags = ({ colorSelector, ...props }) => {
            position: relative;
            z-index: ${showMenuBar ? "-1" : "0"}; 
         }
-        
+        .mobileSearchButton{
+         
+           z-index: ${showMenuBar ? "-1" : "0"}; 
+        }
         
         `}</style>
         <input
