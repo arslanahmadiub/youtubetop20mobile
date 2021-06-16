@@ -6,6 +6,7 @@ const initalState = {
   componentHeight: null,
   colorState: false,
   historyState: "",
+  tabValue: 0,
 };
 
 export const globalReducer = (state = initalState, action) => {
@@ -45,6 +46,11 @@ export const globalReducer = (state = initalState, action) => {
       return {
         ...state,
         historyState: action.payload,
+      };
+    case "SET_TAB_VALUE":
+      return {
+        ...state,
+        tabValue: action.payload,
       };
 
     case "RESET":

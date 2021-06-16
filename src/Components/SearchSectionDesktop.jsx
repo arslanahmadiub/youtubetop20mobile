@@ -16,6 +16,7 @@ import {
   top20DataAction,
   hot20DataAction,
   regionsDataAction,
+  setTabValue,
 } from "../action/GlobalAction";
 
 import Backdrop from "@material-ui/core/Backdrop";
@@ -40,19 +41,24 @@ const SearchSectionDesktop = () => {
   const [tabText, setTabText] = useState("All");
 
   const colorSelector = useSelector((state) => state.globalData.colorState);
+  const tabValue = useSelector((state) => state.globalData.tabValue);
   const [customTags, setCustomTags] = useState("");
   const [value, setValue] = useState(0);
+
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
+
+  const top20Data = useSelector((state) => state.globalData.top20Videos);
+
   let handelDayClick = (e) => {
     let dateValue = moment(e).format("yyyy-MM-DD");
     setCalander(dateValue);
     setShowCalander(false);
   };
 
-  let handelCustomTagsChanges = (e) => {
-    setCustomTags(e.target.value);
-  };
+  useEffect(() => {
+    setValue(tabValue);
+  }, [tabValue]);
 
   useEffect(() => {
     let dateValue = moment().format("yyyy-MM-DD");
@@ -65,7 +71,13 @@ const SearchSectionDesktop = () => {
 
   const handleChange = (event, newValue) => {
     let tabsArray = ["All", "Music", "Movies", "Sports", "Gaming"];
-    setValue(newValue);
+
+    dispatch(setTabValue(newValue));
+    getTodaysVideo(
+      moment().format("yyyy-MM-DD"),
+      selectorRegion,
+      tabsArray[newValue]
+    );
     setTabText(tabsArray[newValue]);
   };
 
@@ -93,16 +105,25 @@ const SearchSectionDesktop = () => {
     }
   };
 
-  let getTodaysVideo = async (customDate, customRegion, customTag) => {
+  let getTodaysVideo = async (
+    customDate,
+    customRegion,
+    customTag,
+    reload = true
+  ) => {
     try {
       setLoadBackdrop(true);
 
       let result = await globalSearch(customDate, customRegion, customTag);
+
       dispatch(top20DataAction(result.Data.top20.Data));
       dispatch(hot20DataAction(result.Data.hot20.Data));
+      if (reload) {
+        window.location.reload();
+      }
       setTimeout(() => {
         setLoadBackdrop(false);
-      }, 2000);
+      }, 100);
     } catch (error) {
       setLoadBackdrop(false);
     }
@@ -110,22 +131,21 @@ const SearchSectionDesktop = () => {
 
   useEffect(() => {
     getRegions();
-    getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All");
+    if (top20Data.length < 1) {
+      getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All", false);
+    }
   }, []);
 
   const [advanceSearch, setAdvanceSearch] = useState(true);
   const [listOfRegions, setListOfRegions] = useState([]);
 
   const topFilterSection = useRef();
-  const searchingSectionRef = useRef();
 
   const [selectorRegion, setSelectorRegion] = useState("Global");
 
   let updateAllData = (e) => {
     setSelectorRegion(e);
     getTodaysVideo(moment().format("yyyy-MM-DD"), e, "All");
-
-    setValue(0);
   };
 
   let handelSearch = () => {
@@ -135,10 +155,6 @@ const SearchSectionDesktop = () => {
       customTags === "" ? "All" : customTags
     );
   };
-
-  useEffect(() => {
-    getTodaysVideo(moment().format("yyyy-MM-DD"), selectorRegion, tabText);
-  }, [tabText]);
 
   let updateSearchTags = (value) => {
     setCustomTags(value);

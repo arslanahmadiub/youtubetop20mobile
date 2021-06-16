@@ -15,6 +15,7 @@ import {
   top20DataAction,
   hot20DataAction,
   regionsDataAction,
+  setTabValue,
 } from "../action/GlobalAction";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -38,16 +39,12 @@ const SearchingSection = () => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const [loadBackdrop, setLoadBackdrop] = useState(true);
+  const [loadBackdrop, setLoadBackdrop] = useState(false);
   const colorSelector = useSelector((state) => state.globalData.colorState);
   const [listOfRegions, setListOfRegions] = useState([]);
   const [tabText, setTabText] = useState("All");
 
   const [customTags, setCustomTags] = useState("");
-
-  let handelCustomTagsChanges = (e) => {
-    setCustomTags(e.target.value);
-  };
 
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
@@ -60,17 +57,27 @@ const SearchingSection = () => {
   let handelCalanderShow = () => {
     setShowCalander(!showCalander);
   };
+  const top20Data = useSelector((state) => state.globalData.top20Videos);
 
-  let getTodaysVideo = async (customDate, customRegion, customTag) => {
+  let getTodaysVideo = async (
+    customDate,
+    customRegion,
+    customTag,
+    reload = true
+  ) => {
     try {
       setLoadBackdrop(true);
 
       let result = await globalSearch(customDate, customRegion, customTag);
+
       dispatch(top20DataAction(result.Data.top20.Data));
       dispatch(hot20DataAction(result.Data.hot20.Data));
+      if (reload) {
+        window.location.reload();
+      }
       setTimeout(() => {
         setLoadBackdrop(false);
-      }, 2000);
+      }, 100);
     } catch (error) {
       setLoadBackdrop(false);
     }
@@ -119,24 +126,32 @@ const SearchingSection = () => {
   };
   useEffect(() => {
     getRegions();
-    getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All");
+    if (top20Data.length < 1) {
+      getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All", false);
+    }
   }, []);
   let handelCalanderChange = () => {};
   const [filterRegionData, setFilterRegionData] = useState([]);
+  const tabValue = useSelector((state) => state.globalData.tabValue);
 
   const [advanceSearch, setAdvanceSearch] = useState(false);
   const [value, setValue] = useState(0);
 
+  useEffect(() => {
+    setValue(tabValue);
+  }, [tabValue]);
   const handleChange = (event, newValue) => {
     let tabsArray = ["All", "Music", "Movies", "Sports", "Gaming"];
 
-    setValue(newValue);
+    dispatch(setTabValue(newValue));
+    getTodaysVideo(
+      moment().format("yyyy-MM-DD"),
+      selectorRegion,
+      tabsArray[newValue]
+    );
     setTabText(tabsArray[newValue]);
   };
 
-  useEffect(() => {
-    getTodaysVideo(moment().format("yyyy-MM-DD"), selectorRegion, tabText);
-  }, [tabText]);
   let updateSearchTags = (value) => {
     setCustomTags(value);
   };

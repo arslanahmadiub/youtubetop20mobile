@@ -44,6 +44,12 @@ export const setHistory = (data) => {
     payload: data,
   };
 };
+export const setTabValue = (data) => {
+  return {
+    type: "SET_TAB_VALUE",
+    payload: data,
+  };
+};
 
 export const resetData = () => {
   return {

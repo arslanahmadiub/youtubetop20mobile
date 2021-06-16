@@ -44,6 +44,7 @@ const CustomSelector = ({
     setMenuText("");
     setshowMenuBar(true);
   };
+
   let handelSelector = () => {
     if (filterRegionData.length > 0) {
       setshowMenuBar(!showMenuBar);
