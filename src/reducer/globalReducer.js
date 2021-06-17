@@ -4,7 +4,7 @@ const initalState = {
   regions: [],
   top20Loading: true,
   componentHeight: null,
-  colorState: false,
+  colorState: true,
   historyState: "",
   tabValue: 0,
 };
