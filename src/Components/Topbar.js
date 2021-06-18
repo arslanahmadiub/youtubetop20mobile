@@ -265,7 +265,7 @@ const Topbar = () => {
           {colorSelector ? (
             <div id={showMenu ? "mobileMenuBlack" : "mobileMenuOffBlack"}>
               <div className="mobilemenuoption" onClick={handelAboutUs}>
-                <p>About Us</p>
+                <p>Guide</p>
               </div>
 
               <div className="mobilemenuoption">
@@ -281,7 +281,7 @@ const Topbar = () => {
           ) : (
             <div id={showMenu ? "mobileMenu" : "mobileMenuOff"}>
               <div className="mobilemenuoption" onClick={handelAboutUs}>
-                <p>About Us</p>
+                <p>Guide </p>
               </div>
 
               <div className="mobilemenuoption">

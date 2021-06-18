@@ -142,6 +142,10 @@ const VideoViewInfo = (props) => {
               }}
             >
               <Grid item xs={3}>
+                <h6>Views in 24 Hours</h6>
+                <h6>{view_count_per_24hour}</h6>
+              </Grid>
+              <Grid item xs={3}>
                 <h6>Channel </h6>
                 <h6>{video_channelTitle}</h6>
               </Grid>
@@ -149,10 +153,7 @@ const VideoViewInfo = (props) => {
                 <h6>Days Old</h6>
                 <h6>{video_publishedAt}</h6>
               </Grid>
-              <Grid item xs={3}>
-                <h6>Views in 24 Hours</h6>
-                <h6>{view_count_per_24hour}</h6>
-              </Grid>
+
               <Grid item xs={3}>
                 <h6>Views </h6>
                 <h6>{video_viewCount}</h6>
