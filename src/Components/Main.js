@@ -15,6 +15,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import Zoom from "@material-ui/core/Zoom";
 import NavigationIcon from "@material-ui/icons/Navigation";
 import { withStyles } from "@material-ui/core/styles";
+import { animateScroll } from "react-scroll";
 
 const BlueOnGreenTooltip = withStyles({
   tooltip: {
@@ -43,7 +44,6 @@ const BlackOnGreenTooltip = withStyles({
 
 const Main = () => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
-
   const hot20Data = useSelector((state) => state.globalData.hot20Videos);
   const top20Data = useSelector((state) => state.globalData.top20Videos);
   let history = useHistory();
@@ -67,13 +67,42 @@ const Main = () => {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth",
+    // });
+    // scroller.scrollToTop({
+    //   duration: 1500,
+    //   delay: 100,
+    //   smooth: true,
+    //   offset: 50, // Scrolls to element + 50 pixels down the page
+    // });
+    animateScroll.scrollToTop();
   };
 
   window.addEventListener("scroll", toggleVisible);
+
+  const [top20TipOpen, setTop20TipOpen] = useState(false);
+  const [hot20TipOpen, setHot20TipOpen] = useState(false);
+
+  let handelTop20TipOpen = () => {
+    setTop20TipOpen(true);
+  };
+
+  useEffect(() => {
+    if (top20TipOpen) {
+      setTimeout(() => {
+        setTop20TipOpen(false);
+      }, 3000);
+    }
+  }, [top20TipOpen]);
+  useEffect(() => {
+    if (hot20TipOpen) {
+      setTimeout(() => {
+        setHot20TipOpen(false);
+      }, 3000);
+    }
+  }, [hot20TipOpen]);
 
   return (
     <div style={{ overflowX: "hidden", marginBottom: "50px" }}>
@@ -246,6 +275,7 @@ const Main = () => {
                   title="The top 20 represents the most watched YouTube videos sorted by views over 24 hours"
                   arrow
                   TransitionComponent={Zoom}
+                  open={top20TipOpen}
                 >
                   <InfoIcon
                     style={{
@@ -255,6 +285,7 @@ const Main = () => {
                       height: "25px",
                       color: colorSelector ? "white" : "#3F51B5",
                     }}
+                    onClick={handelTop20TipOpen}
                   />
                 </BlackOnGreenTooltip>
               ) : (
@@ -262,6 +293,7 @@ const Main = () => {
                   title="The top 20 represents the most watched YouTube videos sorted by views over 24 hours"
                   arrow
                   TransitionComponent={Zoom}
+                  open={top20TipOpen}
                 >
                   <InfoIcon
                     style={{
@@ -271,6 +303,7 @@ const Main = () => {
                       height: "25px",
                       color: colorSelector ? "white" : "#3F51B5",
                     }}
+                    onClick={handelTop20TipOpen}
                   />
                 </BlueOnGreenTooltip>
               )}
@@ -324,6 +357,7 @@ const Main = () => {
                   title="The Hot 20 represents YouTube videos sorted for the highest (total views / time since published)"
                   arrow
                   TransitionComponent={Zoom}
+                  open={hot20TipOpen}
                 >
                   <InfoIcon
                     style={{
@@ -333,6 +367,7 @@ const Main = () => {
                       height: "25px",
                       color: colorSelector ? "white" : "#3F51B5",
                     }}
+                    onClick={() => setHot20TipOpen(true)}
                   />
                 </BlackOnGreenTooltip>
               ) : (
@@ -340,6 +375,7 @@ const Main = () => {
                   title="The Hot 20 represents YouTube videos sorted for the highest (total views / time since published)"
                   arrow
                   TransitionComponent={Zoom}
+                  open={hot20TipOpen}
                 >
                   <InfoIcon
                     style={{
@@ -348,6 +384,7 @@ const Main = () => {
                       height: "25px",
                       color: colorSelector ? "white" : "#3F51B5",
                     }}
+                    onClick={() => setHot20TipOpen(true)}
                   />
                 </BlueOnGreenTooltip>
               )}

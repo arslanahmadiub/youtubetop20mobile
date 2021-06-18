@@ -8,7 +8,7 @@ import { Hidden } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import youtubeicon from "../images/youtubeicon.svg";
 import { useSelector } from "react-redux";
-import zIndex from "@material-ui/core/styles/zIndex";
+
 const VideoViewInfo = (props) => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
 

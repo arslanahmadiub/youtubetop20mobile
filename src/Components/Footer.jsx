@@ -73,7 +73,7 @@ const Footer = () => {
                   style={{ color: "white", cursor: "pointer" }}
                   onClick={handelAboutUs}
                 >
-                  About Us
+                  Guide
                 </h4>
               </Grid>
               <Grid
@@ -226,7 +226,7 @@ const Footer = () => {
                     style={{ color: "white", cursor: "pointer" }}
                     onClick={handelAboutUs}
                   >
-                    About Us
+                    Guide
                   </h4>
 
                   <h4

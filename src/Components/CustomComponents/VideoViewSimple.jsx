@@ -4,12 +4,13 @@ import Dialog from "@material-ui/core/Dialog";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import { Hidden } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
 import youtubeicon from "../images/youtubeicon.svg";
+import { useSelector } from "react-redux";
 
 const VideoViewSimple = ({ top, videoId, thumbnail }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const colorSelector = useSelector((state) => state.globalData.colorState);
 
   const [dynamicVideo, setDynamicVideo] = useState("");
 
@@ -86,6 +87,7 @@ const VideoViewSimple = ({ top, videoId, thumbnail }) => {
             right: "15px",
             width: "40px",
             height: "40px",
+            background: colorSelector ? "#424242" : "#3F51B5",
           }}
         >
           <Fab color="primary">

@@ -344,7 +344,7 @@ const Topbar = () => {
               }}
             >
               <p className="desktop-menu" onClick={handelAboutUs}>
-                About Us
+                Guide
               </p>
 
               <p className="desktop-menu" onClick={handelCharity}>
