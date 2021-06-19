@@ -7,6 +7,8 @@ const initalState = {
   colorState: true,
   historyState: "",
   tabValue: 0,
+  selectorText: "Global",
+  oldSelectorText: "Global",
 };
 
 export const globalReducer = (state = initalState, action) => {
@@ -51,6 +53,16 @@ export const globalReducer = (state = initalState, action) => {
       return {
         ...state,
         tabValue: action.payload,
+      };
+    case "SET_SELECTOR_TEXT":
+      return {
+        ...state,
+        selectorText: action.payload,
+      };
+    case "SET_OLD_SELECTOR_TEXT":
+      return {
+        ...state,
+        oldSelectorText: action.payload,
       };
 
     case "RESET":

@@ -21,6 +21,7 @@ const BlueOnGreenTooltip = withStyles({
   tooltip: {
     color: "white",
     backgroundColor: "#3F51B5",
+    fontSize: 16,
   },
   arrow: {
     fontSize: 20,
@@ -33,6 +34,7 @@ const BlackOnGreenTooltip = withStyles({
   tooltip: {
     color: "white",
     backgroundColor: "black",
+    fontSize: 16,
   },
   arrow: {
     fontSize: 20,
@@ -67,16 +69,6 @@ const Main = () => {
   };
 
   const scrollToTop = () => {
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth",
-    // });
-    // scroller.scrollToTop({
-    //   duration: 1500,
-    //   delay: 100,
-    //   smooth: true,
-    //   offset: 50, // Scrolls to element + 50 pixels down the page
-    // });
     animateScroll.scrollToTop();
   };
 

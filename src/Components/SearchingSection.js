@@ -8,7 +8,7 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import { Hidden } from "@material-ui/core";
 
-import { getUniqueRegions } from "../Services/GlobalServices";
+import { getUniqueRegions, getUserLocation } from "../Services/GlobalServices";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -45,6 +45,21 @@ const SearchingSection = () => {
   const [tabText, setTabText] = useState("All");
 
   const [customTags, setCustomTags] = useState("");
+
+  const [userCountry, setUserCountry] = useState("");
+
+  let getUserLocationData = async () => {
+    try {
+      setLoadBackdrop(true);
+
+      let { data } = await getUserLocation();
+      setUserCountry(data.ip.country);
+
+      setLoadBackdrop(false);
+    } catch (error) {
+      setLoadBackdrop(false);
+    }
+  };
 
   const [calander, setCalander] = useState(null);
   const [showCalander, setShowCalander] = useState(false);
@@ -98,6 +113,9 @@ const SearchingSection = () => {
       data.Data.unshift("Global");
 
       dispatch(regionsDataAction(data.Data));
+      if (top20Data.length < 1) {
+        getUserLocationData();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -179,6 +197,7 @@ const SearchingSection = () => {
               filterData={filterRegionData}
               colorSelector={colorSelector}
               regionData={regionData}
+              locationMenuText={userCountry}
               updateData={(value) => {
                 updateAllData(value);
               }}
@@ -231,6 +250,7 @@ const SearchingSection = () => {
                 color: !colorSelector ? "#3F51B5" : "white",
                 marginTop: !advanceSearch ? "-40px" : "0px",
                 marginBottom: advanceSearch ? "-5px" : "-15px",
+                border: "2px solid white",
               }}
               onClick={() => setAdvanceSearch(!advanceSearch)}
             >

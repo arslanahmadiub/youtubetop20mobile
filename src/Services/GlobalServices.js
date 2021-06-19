@@ -27,3 +27,10 @@ export async function getAdvanceSearchResult(customDate, countries, tags) {
     url: advanceSearchUrl + customDate + "||" + countries + "||" + tags + "/",
   });
 }
+
+export async function getUserLocation() {
+  return await axios({
+    method: "get",
+    url: "https://ip.nf/me.json",
+  });
+}

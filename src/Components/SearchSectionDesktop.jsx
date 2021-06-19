@@ -3,13 +3,12 @@ import { Hidden } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Grid } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
-import { getUniqueRegions } from "../Services/GlobalServices";
+import { getUniqueRegions, getUserLocation } from "../Services/GlobalServices";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -35,6 +34,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchSectionDesktop = () => {
+  const regionData = useSelector((state) => state.globalData.regions);
+
+  const [userCountry, setUserCountry] = useState("");
+
+  let getUserLocationData = async () => {
+    try {
+      setLoadBackdrop(true);
+
+      let { data } = await getUserLocation();
+      setUserCountry(data.ip.country);
+
+      setLoadBackdrop(false);
+    } catch (error) {
+      setLoadBackdrop(false);
+    }
+  };
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const [loadBackdrop, setLoadBackdrop] = useState(false);
@@ -85,15 +101,16 @@ const SearchSectionDesktop = () => {
 
   let handelCalanderChange = () => {};
 
-  const regionData = useSelector((state) => state.globalData.regions);
-
   const [filterRegionData, setFilterRegionData] = useState([]);
 
   let getRegions = async () => {
     try {
       let { data } = await getUniqueRegions();
 
-      dispatch(regionsDataAction(data.Data));
+      await dispatch(regionsDataAction(data.Data));
+      if (top20Data.length < 1) {
+        getUserLocationData();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -131,6 +148,7 @@ const SearchSectionDesktop = () => {
 
   useEffect(() => {
     getRegions();
+
     if (top20Data.length < 1) {
       getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All", false);
     }
@@ -190,6 +208,7 @@ const SearchSectionDesktop = () => {
                   filterData={filterRegionData}
                   colorSelector={colorSelector}
                   regionData={regionData}
+                  locationMenuText={userCountry}
                   updateData={(value) => {
                     updateAllData(value);
                   }}
@@ -202,6 +221,7 @@ const SearchSectionDesktop = () => {
                     width: "100%",
                     fontWeight: "bold",
                     color: !colorSelector ? "#3F51B5" : "white",
+                    border: "2px solid white",
                   }}
                   onClick={() => setAdvanceSearch(!advanceSearch)}
                 >
@@ -321,6 +341,7 @@ const SearchSectionDesktop = () => {
                     width: "100%",
                     fontWeight: "bold",
                     color: !colorSelector ? "#3F51B5" : "white",
+                    border: "2px solid white",
                   }}
                   onClick={() => setAdvanceSearch(!advanceSearch)}
                 >

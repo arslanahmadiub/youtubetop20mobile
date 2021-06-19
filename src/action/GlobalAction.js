@@ -50,6 +50,18 @@ export const setTabValue = (data) => {
     payload: data,
   };
 };
+export const setSelectorText = (data) => {
+  return {
+    type: "SET_SELECTOR_TEXT",
+    payload: data,
+  };
+};
+export const setOldSelectorText = (data) => {
+  return {
+    type: "SET_OLD_SELECTOR_TEXT",
+    payload: data,
+  };
+};
 
 export const resetData = () => {
   return {

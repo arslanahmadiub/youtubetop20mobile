@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
@@ -6,12 +6,50 @@ const CustomSelector = ({
   filterData,
   colorSelector,
   regionData,
+  locationMenuText,
   ...props
 }) => {
   const [showMenuBar, setshowMenuBar] = useState(false);
   const [menuText, setMenuText] = useState("Global");
   const [filterRegionData, setFilterRegionData] = useState([]);
   const [oldMenuText, setOldMenuText] = useState("Global");
+
+  useEffect(() => {
+    if (window.sessionStorage.getItem("menuText") !== null) {
+      setMenuText(window.sessionStorage.getItem("menuText"));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.sessionStorage.getItem("oldMenuText") !== null) {
+      setOldMenuText(window.sessionStorage.getItem("oldMenuText"));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("menuText", "Global");
+    window.sessionStorage.setItem("oldMenuText", "Global");
+  }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("menuText", menuText);
+  }, [menuText]);
+  useEffect(() => {
+    window.sessionStorage.setItem("oldMenuText", oldMenuText);
+  }, [oldMenuText]);
+
+  useEffect(() => {
+    if (locationMenuText !== "") {
+      let result = regionData.filter((item) => {
+        return item === locationMenuText;
+      });
+      if (result.length > 0) {
+        setOldMenuText(menuText);
+        setMenuText(locationMenuText);
+        props.updateData(locationMenuText);
+      }
+    }
+  }, [locationMenuText]);
 
   let handleClickAwayFromSearchRegion = () => {
     if (showMenuBar) {
