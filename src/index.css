@@ -18,7 +18,10 @@ body {
   min-height: calc(100vh - 149px - 64px);
 }
 #charity {
-  min-height: calc(100vh - 149px - 64px);
+  min-height: calc(100vh - 64px);
+}
+#mainPage {
+  min-height: calc(100vh - 150px - 64px - 43px);
 }
 #charitydark {
   min-height: calc(100vh - 149px - 64px);

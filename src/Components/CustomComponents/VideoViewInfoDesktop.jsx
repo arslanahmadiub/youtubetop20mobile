@@ -100,6 +100,10 @@ const VideoViewInfoDesktop = (props) => {
 
               <p className="videoTagsSimple"></p>
 
+              <p className="videoTagsSimple">Views in 24 Hours</p>
+              <p className="videoTags">{view_count_per_24hour}</p>
+              <p className="videoTagsSimple"></p>
+
               <Tooltip
                 arrow
                 open={toolTipOpen}
@@ -109,6 +113,7 @@ const VideoViewInfoDesktop = (props) => {
               >
                 <Typography noWrap>{video_title}</Typography>
               </Tooltip>
+
               <p className="videoTags">{video_channelTitle}</p>
 
               <p className="videoTagsSimple">Days Old</p>
@@ -116,8 +121,6 @@ const VideoViewInfoDesktop = (props) => {
 
               <p className="videoTagsSimple">Total Views</p>
               <p className="videoTags">{video_viewCount}</p>
-              <p className="videoTagsSimple">Views in 24 Hours</p>
-              <p className="videoTags">{view_count_per_24hour}</p>
             </Grid>
             <Grid item xs={7}>
               <div

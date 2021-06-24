@@ -7,39 +7,43 @@ import { Hidden } from "@material-ui/core";
 import SearchSectionDesktop from "./SearchSectionDesktop";
 import VideoComponentDesktop from "./VideoComponentDesktop";
 import { useHistory } from "react-router-dom";
-import { setHistory } from "../action/GlobalAction";
-import Tooltip from "@material-ui/core/Tooltip";
+import { setHistory, getGlobalTrending } from "../action/GlobalAction";
 import Fab from "@material-ui/core/Fab";
 import { useSelector, useDispatch } from "react-redux";
-import InfoIcon from "@material-ui/icons/Info";
-import Zoom from "@material-ui/core/Zoom";
 import NavigationIcon from "@material-ui/icons/Navigation";
 import { withStyles } from "@material-ui/core/styles";
 import { animateScroll } from "react-scroll";
+import Zoom from "@material-ui/core/Zoom";
+import Tooltip from "@material-ui/core/Tooltip";
+
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import colorIcon from "./images/color.svg";
+import darkIcon from "./images/dark.svg";
+import Button from "@material-ui/core/Button";
 
 const BlueOnGreenTooltip = withStyles({
   tooltip: {
     color: "white",
-    backgroundColor: "#3F51B5",
+    backgroundColor: "gray",
     fontSize: 16,
   },
   arrow: {
     fontSize: 20,
     "&::before": {
-      backgroundColor: "#3F51B5",
+      backgroundColor: "gray",
     },
   },
 })(Tooltip);
 const BlackOnGreenTooltip = withStyles({
   tooltip: {
     color: "white",
-    backgroundColor: "black",
+    backgroundColor: "#0f478c",
     fontSize: 16,
   },
   arrow: {
     fontSize: 20,
     "&::before": {
-      backgroundColor: "black",
+      backgroundColor: "#0f478c",
     },
   },
 })(Tooltip);
@@ -81,23 +85,23 @@ const Main = () => {
     setTop20TipOpen(true);
   };
 
-  useEffect(() => {
-    if (top20TipOpen) {
-      setTimeout(() => {
-        setTop20TipOpen(false);
-      }, 3000);
-    }
-  }, [top20TipOpen]);
-  useEffect(() => {
-    if (hot20TipOpen) {
-      setTimeout(() => {
-        setHot20TipOpen(false);
-      }, 3000);
-    }
-  }, [hot20TipOpen]);
+  let handleClickAwayTop20 = () => {
+    setTop20TipOpen(false);
+  };
+  let handleClickAwayHot20 = () => {
+    setHot20TipOpen(false);
+  };
+
+  let handelGlobalTrending = () => {
+    dispatch(getGlobalTrending(true));
+
+    setTimeout(() => {
+      dispatch(getGlobalTrending(false));
+    }, 5000);
+  };
 
   return (
-    <div style={{ overflowX: "hidden", marginBottom: "50px" }}>
+    <div style={{ overflowX: "hidden", marginBottom: "50px" }} id="mainPage">
       <Fab
         size="medium"
         aria-label="add"
@@ -114,8 +118,9 @@ const Main = () => {
         <NavigationIcon style={{ color: colorSelector ? "black" : "white" }} />
       </Fab>
 
-      <Banner />
+      {/* <Banner /> */}
       <SearchSectionDesktop />
+      <br />
       <SearchingSection />
 
       <Hidden only={["xs", "sm"]}>
@@ -146,13 +151,13 @@ const Main = () => {
                     arrow
                     TransitionComponent={Zoom}
                   >
-                    <InfoIcon
+                    <img
+                      src={colorIcon}
                       style={{
-                        marginLeft: "5px",
-                        marginTop: "2%",
-                        width: "30px",
-                        height: "30px",
-                        color: colorSelector ? "white" : "#3F51B5",
+                        marginLeft: "10px",
+                        marginTop: "3%",
+                        width: "25px",
+                        height: "25px",
                       }}
                     />
                   </BlackOnGreenTooltip>
@@ -163,13 +168,13 @@ const Main = () => {
                     arrow
                     TransitionComponent={Zoom}
                   >
-                    <InfoIcon
+                    <img
+                      src={darkIcon}
                       style={{
-                        marginLeft: "5px",
-                        marginTop: "2%",
-                        width: "30px",
-                        height: "30px",
-                        color: colorSelector ? "white" : "#3F51B5",
+                        marginLeft: "10px",
+                        marginTop: "3%",
+                        width: "25px",
+                        height: "25px",
                       }}
                     />
                   </BlueOnGreenTooltip>
@@ -205,13 +210,13 @@ const Main = () => {
                     arrow
                     TransitionComponent={Zoom}
                   >
-                    <InfoIcon
+                    <img
+                      src={colorIcon}
                       style={{
-                        marginLeft: "5px",
-                        marginTop: "2%",
-                        width: "30px",
-                        height: "30px",
-                        color: colorSelector ? "white" : "#3F51B5",
+                        marginLeft: "10px",
+                        marginTop: "3%",
+                        width: "25px",
+                        height: "25px",
                       }}
                     />
                   </BlackOnGreenTooltip>
@@ -221,13 +226,13 @@ const Main = () => {
                     arrow
                     TransitionComponent={Zoom}
                   >
-                    <InfoIcon
+                    <img
+                      src={darkIcon}
                       style={{
-                        marginLeft: "5px",
-                        marginTop: "2%",
-                        width: "30px",
-                        height: "30px",
-                        color: colorSelector ? "white" : "#3F51B5",
+                        marginLeft: "10px",
+                        marginTop: "3%",
+                        width: "25px",
+                        height: "25px",
                       }}
                     />
                   </BlueOnGreenTooltip>
@@ -245,59 +250,57 @@ const Main = () => {
         <h2
           style={{
             paddingLeft: "7%",
-            paddingTop: "1%",
+            paddingTop: "3%",
             paddingBottom: "3%",
-
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
             color: colorSelector ? "white" : "#3f51b5",
           }}
         >
           {top20Data.length > 0 ? (
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                height: "100%",
-
-                alignItems: "center",
-              }}
-            >
+            <div>
               Top 20
               {colorSelector ? (
-                <BlackOnGreenTooltip
-                  title="The top 20 represents the most watched YouTube videos sorted by views over 24 hours"
-                  arrow
-                  TransitionComponent={Zoom}
-                  open={top20TipOpen}
-                >
-                  <InfoIcon
-                    style={{
-                      marginLeft: "5px",
-
-                      width: "25px",
-                      height: "25px",
-                      color: colorSelector ? "white" : "#3F51B5",
-                    }}
-                    onClick={handelTop20TipOpen}
-                  />
-                </BlackOnGreenTooltip>
+                <ClickAwayListener onClickAway={handleClickAwayTop20}>
+                  <BlackOnGreenTooltip
+                    title="The top 20 represents the most watched YouTube videos sorted by views over 24 hours"
+                    arrow
+                    TransitionComponent={Zoom}
+                    open={top20TipOpen}
+                  >
+                    <img
+                      src={colorIcon}
+                      style={{
+                        marginLeft: "10px",
+                        marginTop: "1%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                      onClick={handelTop20TipOpen}
+                    />
+                  </BlackOnGreenTooltip>
+                </ClickAwayListener>
               ) : (
-                <BlueOnGreenTooltip
-                  title="The top 20 represents the most watched YouTube videos sorted by views over 24 hours"
-                  arrow
-                  TransitionComponent={Zoom}
-                  open={top20TipOpen}
-                >
-                  <InfoIcon
-                    style={{
-                      marginLeft: "5px",
-
-                      width: "25px",
-                      height: "25px",
-                      color: colorSelector ? "white" : "#3F51B5",
-                    }}
-                    onClick={handelTop20TipOpen}
-                  />
-                </BlueOnGreenTooltip>
+                <ClickAwayListener onClickAway={handleClickAwayTop20}>
+                  <BlueOnGreenTooltip
+                    title="The top 20 represents the most watched YouTube videos sorted by views over 24 hours"
+                    arrow
+                    TransitionComponent={Zoom}
+                    open={top20TipOpen}
+                  >
+                    <img
+                      src={darkIcon}
+                      style={{
+                        marginLeft: "10px",
+                        marginTop: "1%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                      onClick={handelTop20TipOpen}
+                    />
+                  </BlueOnGreenTooltip>
+                </ClickAwayListener>
               )}
             </div>
           ) : (
@@ -312,17 +315,40 @@ const Main = () => {
             <VideoViewInfo key={i} top={i + 1} data={e} />
           ))
         ) : (
-          <h1
+          <div
             style={{
-              color: colorSelector ? "white" : "#3F51B5",
-              display: "flex",
               width: "100%",
               justifyContent: "center",
-              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
             }}
           >
-            😢 Sorry! No videos Found.
-          </h1>
+            <h1
+              style={{
+                color: colorSelector ? "white" : "#3F51B5",
+                display: "flex",
+                width: "100%",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+            >
+              😢 Sorry! No Viral Videos Found.
+            </h1>
+            <br />
+            <Button
+              style={{
+                height: "41px",
+
+                fontWeight: "600",
+                color: !colorSelector ? "#3F51B5" : "white",
+                border: colorSelector ? "2px solid white" : "2px solid #3F51B5",
+              }}
+              onClick={handelGlobalTrending}
+            >
+              See Global Trending
+            </Button>
+          </div>
         )}
       </Hidden>
 
@@ -345,40 +371,45 @@ const Main = () => {
             >
               Hot 20
               {colorSelector ? (
-                <BlackOnGreenTooltip
-                  title="The Hot 20 represents YouTube videos sorted for the highest (total views / time since published)"
-                  arrow
-                  TransitionComponent={Zoom}
-                  open={hot20TipOpen}
-                >
-                  <InfoIcon
-                    style={{
-                      marginLeft: "5px",
-
-                      width: "25px",
-                      height: "25px",
-                      color: colorSelector ? "white" : "#3F51B5",
-                    }}
-                    onClick={() => setHot20TipOpen(true)}
-                  />
-                </BlackOnGreenTooltip>
+                <ClickAwayListener onClickAway={handleClickAwayHot20}>
+                  <BlackOnGreenTooltip
+                    title="The Hot 20 represents YouTube videos sorted for the highest (total views / time since published)"
+                    arrow
+                    TransitionComponent={Zoom}
+                    open={hot20TipOpen}
+                  >
+                    <img
+                      src={colorIcon}
+                      style={{
+                        marginLeft: "10px",
+                        marginTop: "1%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                      onClick={() => setHot20TipOpen(true)}
+                    />
+                  </BlackOnGreenTooltip>
+                </ClickAwayListener>
               ) : (
-                <BlueOnGreenTooltip
-                  title="The Hot 20 represents YouTube videos sorted for the highest (total views / time since published)"
-                  arrow
-                  TransitionComponent={Zoom}
-                  open={hot20TipOpen}
-                >
-                  <InfoIcon
-                    style={{
-                      marginLeft: "5px",
-                      width: "25px",
-                      height: "25px",
-                      color: colorSelector ? "white" : "#3F51B5",
-                    }}
-                    onClick={() => setHot20TipOpen(true)}
-                  />
-                </BlueOnGreenTooltip>
+                <ClickAwayListener onClickAway={handleClickAwayHot20}>
+                  <BlueOnGreenTooltip
+                    title="The Hot 20 represents YouTube videos sorted for the highest (total views / time since published)"
+                    arrow
+                    TransitionComponent={Zoom}
+                    open={hot20TipOpen}
+                  >
+                    <img
+                      src={darkIcon}
+                      style={{
+                        marginLeft: "10px",
+                        marginTop: "1%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                      onClick={() => setHot20TipOpen(true)}
+                    />
+                  </BlueOnGreenTooltip>
+                </ClickAwayListener>
               )}
             </div>
           ) : (
@@ -397,7 +428,8 @@ const Main = () => {
           />
         ))}
       <br />
-      <Banner />
+      <div style={{ marginTop: "1%" }}></div>
+      {/* <Banner /> */}
     </div>
   );
 };

@@ -11,11 +11,20 @@ import moment from "moment";
 import { getUniqueRegions, getUserLocation } from "../Services/GlobalServices";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { useDispatch, useSelector } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
+import Zoom from "@material-ui/core/Zoom";
+import Tooltip from "@material-ui/core/Tooltip";
+import InfoIcon from "@material-ui/icons/Info";
+
+import colorIcon from "./images/color.svg";
+import darkIcon from "./images/dark.svg";
+
 import {
   top20DataAction,
   hot20DataAction,
   regionsDataAction,
   setTabValue,
+  setCallUserLocation,
 } from "../action/GlobalAction";
 
 import Backdrop from "@material-ui/core/Backdrop";
@@ -33,23 +42,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const BlueOnGreenTooltip = withStyles({
+  tooltip: {
+    color: "white",
+    backgroundColor: "gray",
+    fontSize: 16,
+  },
+  arrow: {
+    fontSize: 20,
+    "&::before": {
+      backgroundColor: "gray",
+    },
+  },
+})(Tooltip);
+
+const BlackOnGreenTooltip = withStyles({
+  tooltip: {
+    color: "white",
+    backgroundColor: "#0f478c",
+    fontSize: 16,
+  },
+  arrow: {
+    fontSize: 20,
+    "&::before": {
+      backgroundColor: "#0f478c",
+    },
+  },
+})(Tooltip);
+
 const SearchSectionDesktop = () => {
   const regionData = useSelector((state) => state.globalData.regions);
 
   const [userCountry, setUserCountry] = useState("");
-
-  let getUserLocationData = async () => {
-    try {
-      setLoadBackdrop(true);
-
-      let { data } = await getUserLocation();
-      setUserCountry(data.ip.country);
-
-      setLoadBackdrop(false);
-    } catch (error) {
-      setLoadBackdrop(false);
-    }
-  };
+  const locationNeed = useSelector(
+    (state) => state.globalData.callUserLocation
+  );
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -57,6 +84,7 @@ const SearchSectionDesktop = () => {
   const [tabText, setTabText] = useState("All");
 
   const colorSelector = useSelector((state) => state.globalData.colorState);
+  const selectorText = useSelector((state) => state.globalData.selectorText);
   const tabValue = useSelector((state) => state.globalData.tabValue);
   const [customTags, setCustomTags] = useState("");
   const [value, setValue] = useState(0);
@@ -65,6 +93,18 @@ const SearchSectionDesktop = () => {
   const [showCalander, setShowCalander] = useState(false);
 
   const top20Data = useSelector((state) => state.globalData.top20Videos);
+
+  let getUserLocationData = async () => {
+    try {
+      setLoadBackdrop(true);
+
+      let { data } = await getUserLocation();
+      setUserCountry(data.ip.country);
+      dispatch(setCallUserLocation(false));
+    } catch (error) {
+      setLoadBackdrop(false);
+    }
+  };
 
   let handelDayClick = (e) => {
     let dateValue = moment(e).format("yyyy-MM-DD");
@@ -89,11 +129,14 @@ const SearchSectionDesktop = () => {
     let tabsArray = ["All", "Music", "Movies", "Sports", "Gaming"];
 
     dispatch(setTabValue(newValue));
-    getTodaysVideo(
-      moment().format("yyyy-MM-DD"),
-      selectorRegion,
-      tabsArray[newValue]
-    );
+    if (!locationNeed) {
+      getTodaysVideo(
+        moment().format("yyyy-MM-DD"),
+        selectorText,
+        tabsArray[newValue]
+      );
+    }
+
     setTabText(tabsArray[newValue]);
   };
 
@@ -101,14 +144,13 @@ const SearchSectionDesktop = () => {
 
   let handelCalanderChange = () => {};
 
-  const [filterRegionData, setFilterRegionData] = useState([]);
-
   let getRegions = async () => {
     try {
+      setLoadBackdrop(true);
       let { data } = await getUniqueRegions();
-
+      data.Data.unshift("Global");
       await dispatch(regionsDataAction(data.Data));
-      if (top20Data.length < 1) {
+      if (locationNeed) {
         getUserLocationData();
       }
     } catch (error) {
@@ -132,12 +174,11 @@ const SearchSectionDesktop = () => {
       setLoadBackdrop(true);
 
       let result = await globalSearch(customDate, customRegion, customTag);
-
       dispatch(top20DataAction(result.Data.top20.Data));
       dispatch(hot20DataAction(result.Data.hot20.Data));
-      if (reload) {
-        window.location.reload();
-      }
+      // if (reload) {
+      //   window.location.reload();
+      // }
       setTimeout(() => {
         setLoadBackdrop(false);
       }, 100);
@@ -147,10 +188,8 @@ const SearchSectionDesktop = () => {
   };
 
   useEffect(() => {
-    getRegions();
-
-    if (top20Data.length < 1) {
-      getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All", false);
+    if (locationNeed) {
+      getRegions();
     }
   }, []);
 
@@ -159,19 +198,18 @@ const SearchSectionDesktop = () => {
 
   const topFilterSection = useRef();
 
-  const [selectorRegion, setSelectorRegion] = useState("Global");
-
-  let updateAllData = (e) => {
-    setSelectorRegion(e);
-    getTodaysVideo(moment().format("yyyy-MM-DD"), e, "All");
+  let updateAllData = (e, reloadText) => {
+    getTodaysVideo(moment().format("yyyy-MM-DD"), e, "All", reloadText);
   };
 
   let handelSearch = () => {
-    getTodaysVideo(
-      calander,
-      listOfRegions,
-      customTags === "" ? "All" : customTags
-    );
+    if (!locationNeed) {
+      getTodaysVideo(
+        calander,
+        listOfRegions,
+        customTags === "" ? "All" : customTags
+      );
+    }
   };
 
   let updateSearchTags = (value) => {
@@ -205,12 +243,11 @@ const SearchSectionDesktop = () => {
             >
               <Grid item xs={6}>
                 <CustomSelector
-                  filterData={filterRegionData}
                   colorSelector={colorSelector}
                   regionData={regionData}
                   locationMenuText={userCountry}
-                  updateData={(value) => {
-                    updateAllData(value);
+                  updateData={(value1, value2) => {
+                    updateAllData(value1, value2);
                   }}
                 />
               </Grid>
@@ -221,7 +258,9 @@ const SearchSectionDesktop = () => {
                     width: "100%",
                     fontWeight: "bold",
                     color: !colorSelector ? "#3F51B5" : "white",
-                    border: "2px solid white",
+                    border: colorSelector
+                      ? "2px solid white"
+                      : "2px solid #3F51B5",
                   }}
                   onClick={() => setAdvanceSearch(!advanceSearch)}
                 >
@@ -234,10 +273,47 @@ const SearchSectionDesktop = () => {
                 xs={12}
                 style={{
                   zIndex: showMenuBar ? "0" : "5",
+                  display: "flex",
+
+                  alignItems: "center",
                 }}
                 ref={topFilterSection}
                 className="topFilterTab"
               >
+                {colorSelector ? (
+                  <BlackOnGreenTooltip
+                    title="These buttons search (viral videos) by #hashtag within the region selected.  For more results select Global (top of the list) from the drop down menu."
+                    arrow
+                    TransitionComponent={Zoom}
+                  >
+                    <img
+                      src={colorIcon}
+                      style={{
+                        marginLeft: "10px",
+
+                        width: "25px",
+                        height: "25px",
+                      }}
+                    />
+                  </BlackOnGreenTooltip>
+                ) : (
+                  <BlueOnGreenTooltip
+                    title="These buttons search (viral videos) by #hashtag within the region selected.  For more results select Global (top of the list) from the drop down menu."
+                    arrow
+                    TransitionComponent={Zoom}
+                  >
+                    <img
+                      src={darkIcon}
+                      style={{
+                        marginLeft: "10px",
+
+                        width: "25px",
+                        height: "25px",
+                      }}
+                    />
+                  </BlueOnGreenTooltip>
+                )}
+
                 <Tabs
                   onChange={handleChange}
                   textColor="primary"
@@ -319,9 +395,9 @@ const SearchSectionDesktop = () => {
               </Grid>
               <Grid item xs={4}>
                 <CustomSelectorWithTick
-                  filterData={filterRegionData}
                   colorSelector={colorSelector}
                   regionData={regionData}
+                  locationMenuText={userCountry}
                   updateCountries={(value) => {
                     setListOfRegions(value);
                   }}
@@ -341,7 +417,9 @@ const SearchSectionDesktop = () => {
                     width: "100%",
                     fontWeight: "bold",
                     color: !colorSelector ? "#3F51B5" : "white",
-                    border: "2px solid white",
+                    border: colorSelector
+                      ? "2px solid white"
+                      : "2px solid #3F51B5",
                   }}
                   onClick={() => setAdvanceSearch(!advanceSearch)}
                 >

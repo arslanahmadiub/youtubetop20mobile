@@ -15,13 +15,14 @@ import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { withStyles } from "@material-ui/core/styles";
-
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tooltip from "@material-ui/core/Tooltip";
+import InfoIcon from "@material-ui/icons/Info";
+import Zoom from "@material-ui/core/Zoom";
+import colorIcon from "./images/color.svg";
+import darkIcon from "./images/dark.svg";
 
-import ListItemText from "@material-ui/core/ListItemText";
-
-import PersonIcon from "@material-ui/icons/Person";
 const StyledMenu = withStyles({
   paper: {
     background: "#3F51B5",
@@ -83,6 +84,33 @@ const StyledMenuItem2 = withStyles((theme) => ({
     },
   },
 }))(MenuItem);
+
+const BlackOnGreenTooltip = withStyles({
+  tooltip: {
+    color: "white",
+    backgroundColor: "#0f478c",
+    fontSize: 16,
+  },
+  arrow: {
+    fontSize: 20,
+    "&::before": {
+      backgroundColor: "#0f478c",
+    },
+  },
+})(Tooltip);
+const BlueOnGreenTooltip = withStyles({
+  tooltip: {
+    color: "white",
+    backgroundColor: "gray",
+    fontSize: 16,
+  },
+  arrow: {
+    fontSize: 20,
+    "&::before": {
+      backgroundColor: "gray",
+    },
+  },
+})(Tooltip);
 
 const Topbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -159,6 +187,11 @@ const Topbar = () => {
         {seconds < 10 ? "0" + seconds : seconds}
       </span>
     );
+  };
+  const [showTooltipMobile, setShowTooltipMobile] = useState(false);
+
+  let handleClickAwayTop20ToolTip = () => {
+    setShowTooltipMobile(false);
   };
 
   return (
@@ -241,7 +274,7 @@ const Topbar = () => {
             >
               GlobalTop20
             </Typography>
-            <Typography className="topBeta">Beta 2.0</Typography>
+            {/* <Typography className="topBeta">Beta 3.0</Typography> */}
             <div
               style={{
                 display: "flex",
@@ -251,6 +284,49 @@ const Topbar = () => {
               }}
             >
               <Countdown date={Date.now() + remaningTime} renderer={renderer} />
+
+              {colorSelector ? (
+                <ClickAwayListener onClickAway={handleClickAwayTop20ToolTip}>
+                  <BlackOnGreenTooltip
+                    title="count down to the next day’s results"
+                    arrow
+                    TransitionComponent={Zoom}
+                    open={showTooltipMobile}
+                  >
+                    <img
+                      src={colorIcon}
+                      style={{
+                        marginLeft: "10px",
+                        marginTop: "1%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                      onClick={() => setShowTooltipMobile(true)}
+                    />
+                  </BlackOnGreenTooltip>
+                </ClickAwayListener>
+              ) : (
+                <ClickAwayListener onClickAway={handleClickAwayTop20ToolTip}>
+                  <BlueOnGreenTooltip
+                    title="count down to the next day’s results"
+                    style={{ color: "red" }}
+                    arrow
+                    TransitionComponent={Zoom}
+                    open={showTooltipMobile}
+                  >
+                    <img
+                      src={darkIcon}
+                      style={{
+                        marginLeft: "10px",
+                        marginTop: "1%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                      onClick={() => setShowTooltipMobile(true)}
+                    />
+                  </BlueOnGreenTooltip>
+                </ClickAwayListener>
+              )}
             </div>
             <div>
               <IconButton aria-label="add an alarm" onClick={handleChange}>
@@ -271,12 +347,12 @@ const Topbar = () => {
               <div className="mobilemenuoption">
                 <p onClick={handelCharity}>Charities</p>
               </div>
-              <div className="mobilemenuoption">
+              {/* <div className="mobilemenuoption">
                 <p onClick={handelLogin}>Login</p>
               </div>
               <div className="mobilemenuoption">
                 <p onClick={handelSignup}>Sign Up</p>
-              </div>
+              </div> */}
             </div>
           ) : (
             <div id={showMenu ? "mobileMenu" : "mobileMenuOff"}>
@@ -287,12 +363,12 @@ const Topbar = () => {
               <div className="mobilemenuoption">
                 <p onClick={handelCharity}>Charities</p>
               </div>
-              <div className="mobilemenuoption">
+              {/* <div className="mobilemenuoption">
                 <p onClick={handelLogin}>Login</p>
               </div>
               <div className="mobilemenuoption">
                 <p onClick={handelSignup}>Sign Up</p>
-              </div>
+              </div> */}
             </div>
           )}
         </AppBar>
@@ -310,12 +386,15 @@ const Topbar = () => {
 ::-webkit-scrollbar {
   width: 12px;
 
-  background: ${colorSelector ? "#424242" : "#F0EFEF"};
+  background: ${colorSelector ? "black" : "#3F51B5"};
+  display:none;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
 
-  background: ${colorSelector ? "#F0EFEF" : "#3f51b5"};
+  background: ${colorSelector ? "#F0EFEF" : "white"};
+  display:none;
+
 }
 
 
@@ -328,12 +407,56 @@ const Topbar = () => {
             >
               GlobalTop20
             </Typography>
-            <p style={{ fontSize: "10px", display: "flex", marginLeft: "5px" }}>
+            {/* <p style={{ fontSize: "10px", display: "flex", marginLeft: "5px" }}>
               Beta
             </p>
-            <p style={{ fontSize: "10px", marginLeft: "2px" }}>2.0</p>
-            <div style={{ marginLeft: "20px" }}>
+            <p style={{ fontSize: "10px", marginLeft: "2px" }}>3.0</p> */}
+            <div
+              style={{
+                marginLeft: "20px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Countdown date={Date.now() + remaningTime} renderer={renderer} />
+
+              {colorSelector ? (
+                <BlackOnGreenTooltip
+                  title="count down to the next day’s results"
+                  style={{ color: "red" }}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <img
+                    src={colorIcon}
+                    style={{
+                      marginLeft: "10px",
+                      marginTop: "2%",
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                </BlackOnGreenTooltip>
+              ) : (
+                <BlueOnGreenTooltip
+                  title="
+  count down to the next day’s results"
+                  style={{ color: "red" }}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <img
+                    src={darkIcon}
+                    style={{
+                      marginLeft: "10px",
+                      marginTop: "2%",
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                </BlueOnGreenTooltip>
+              )}
             </div>
 
             <div
@@ -351,7 +474,7 @@ const Topbar = () => {
                 Charities
               </p>
             </div>
-            <div>
+            {/* <div>
               <IconButton
                 color="primary"
                 aria-label="upload picture"
@@ -391,7 +514,7 @@ const Topbar = () => {
                   </StyledMenuItem>
                 </StyledMenu>
               )}
-            </div>
+            </div> */}
             <IconButton aria-label="add an alarm" onClick={handleChange}>
               {colorSelector ? (
                 <WbSunnyIcon style={{ color: "white" }} />

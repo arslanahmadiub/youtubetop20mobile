@@ -62,6 +62,18 @@ export const setOldSelectorText = (data) => {
     payload: data,
   };
 };
+export const setCallUserLocation = (data) => {
+  return {
+    type: "SET_CALL_USER_LOCATION",
+    payload: data,
+  };
+};
+export const getGlobalTrending = (data) => {
+  return {
+    type: "GET_GLOBAL_TRENDING",
+    payload: data,
+  };
+};
 
 export const resetData = () => {
   return {

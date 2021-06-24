@@ -7,13 +7,32 @@ const CustomSelectorWithTick = ({
   filterData,
   colorSelector,
   regionData,
+  locationMenuText,
   ...props
 }) => {
   const [showMenuBar, setshowMenuBar] = useState(false);
   const [menuText, setMenuText] = useState("Global");
   const [filterRegionData, setFilterRegionData] = useState([]);
   const [oldMenuText, setOldMenuText] = useState("");
-  const [checkedData, setCheckedData] = useState([]);
+  const [checkedData, setCheckedData] = useState(["Global"]);
+
+  // useEffect(() => {
+  //   if (locationMenuText !== "" && regionData.length > 0) {
+  //     let result = regionData.filter((item) => {
+  //       return item === locationMenuText;
+  //     });
+  //     if (result.length > 0) {
+  //       setCheckedData([...checkedData, locationMenuText]);
+  //       setOldMenuText(menuText);
+  //       setMenuText(locationMenuText);
+  //     } else {
+  //       setMenuText("Global");
+  //       setCheckedData([...checkedData, "Global"]);
+
+  //       setOldMenuText(menuText);
+  //     }
+  //   }
+  // }, [locationMenuText]);
 
   useEffect(() => {
     if (checkedData.length < 1) {
@@ -73,12 +92,23 @@ const CustomSelectorWithTick = ({
   };
 
   let getCheckedData = (e) => {
-    let sup = checkedData.filter((item) => item === e);
+    let global = ["Global"];
 
-    if (sup.length > 0) {
-      setCheckedData(checkedData.filter((item) => item !== sup[0]));
+    if (e === "Global") {
+      let sup1 = checkedData.filter((item) => item === e);
+      if (sup1.length > 0) {
+        setCheckedData([]);
+      } else {
+        setCheckedData(global);
+      }
     } else {
-      setCheckedData([...checkedData, e]);
+      let sup = checkedData.filter((item) => item === e);
+
+      if (sup.length > 0) {
+        setCheckedData(checkedData.filter((item) => item !== sup[0]));
+      } else {
+        setCheckedData([...checkedData, e]);
+      }
     }
   };
 
@@ -104,7 +134,7 @@ const CustomSelectorWithTick = ({
           <div className="selectorMenu" style={{ zIndex: "8000" }}>
             {filterRegionData.length > 0 &&
               filterRegionData.map((item, index) => {
-                return index > 0 ? (
+                return (
                   <div
                     style={{ display: "flex", border: "1px solid #c4c4c4" }}
                     key={index}
@@ -113,10 +143,21 @@ const CustomSelectorWithTick = ({
                       style={{ color: colorSelector ? "black" : "#3F51B5" }}
                       onChange={() => getCheckedData(item)}
                       checked={getFilterData(item)}
+                      disabled={
+                        item === "Global"
+                          ? false
+                          : checkedData.includes("Global")
+                          ? true
+                          : false
+                      }
                     />
-                    <p onClick={handelMenuClick}>{item}</p>
+                    <p
+                    // onClick={handelMenuClick}
+                    >
+                      {item}
+                    </p>
                   </div>
-                ) : null;
+                );
               })}
           </div>
         )}

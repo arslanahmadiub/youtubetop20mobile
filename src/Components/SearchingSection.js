@@ -16,6 +16,7 @@ import {
   hot20DataAction,
   regionsDataAction,
   setTabValue,
+  setCallUserLocation,
 } from "../action/GlobalAction";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -27,6 +28,13 @@ import CustomSelectorWithTick from "./CustomComponents/CustomSelectorWithTick";
 import CustomSelector from "./CustomComponents/CustomSelector";
 import { globalSearch } from "../Functions/GlobalFunctions";
 import CustomSearchWithTags from "./CustomComponents/CustomSearchWithTags";
+import Zoom from "@material-ui/core/Zoom";
+import Tooltip from "@material-ui/core/Tooltip";
+import InfoIcon from "@material-ui/icons/Info";
+import { withStyles } from "@material-ui/core/styles";
+
+import colorIcon from "./images/color.svg";
+import darkIcon from "./images/dark.svg";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -35,9 +43,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const BlueOnGreenTooltip = withStyles({
+  tooltip: {
+    color: "white",
+    backgroundColor: "gray",
+    fontSize: 16,
+  },
+  arrow: {
+    fontSize: 20,
+    "&::before": {
+      backgroundColor: "gray",
+    },
+  },
+})(Tooltip);
+
+const BlackOnGreenTooltip = withStyles({
+  tooltip: {
+    color: "white",
+    backgroundColor: "#0f478c",
+    fontSize: 16,
+  },
+  arrow: {
+    fontSize: 20,
+    "&::before": {
+      backgroundColor: "#0f478c",
+    },
+  },
+})(Tooltip);
+
 const SearchingSection = () => {
   const dispatch = useDispatch();
-
+  const locationNeed = useSelector(
+    (state) => state.globalData.callUserLocation
+  );
   const classes = useStyles();
   const [loadBackdrop, setLoadBackdrop] = useState(false);
   const colorSelector = useSelector((state) => state.globalData.colorState);
@@ -55,7 +93,7 @@ const SearchingSection = () => {
       let { data } = await getUserLocation();
       setUserCountry(data.ip.country);
 
-      setLoadBackdrop(false);
+      dispatch(setCallUserLocation(false));
     } catch (error) {
       setLoadBackdrop(false);
     }
@@ -87,9 +125,9 @@ const SearchingSection = () => {
 
       dispatch(top20DataAction(result.Data.top20.Data));
       dispatch(hot20DataAction(result.Data.hot20.Data));
-      if (reload) {
-        window.location.reload();
-      }
+      // if (reload) {
+      //   window.location.reload();
+      // }
       setTimeout(() => {
         setLoadBackdrop(false);
       }, 100);
@@ -108,12 +146,11 @@ const SearchingSection = () => {
 
   let getRegions = async () => {
     try {
+      setLoadBackdrop(true);
       let { data } = await getUniqueRegions();
-
       data.Data.unshift("Global");
-
-      dispatch(regionsDataAction(data.Data));
-      if (top20Data.length < 1) {
+      await dispatch(regionsDataAction(data.Data));
+      if (locationNeed) {
         getUserLocationData();
       }
     } catch (error) {
@@ -136,16 +173,16 @@ const SearchingSection = () => {
   };
   const [selectorRegion, setSelectorRegion] = useState("Global");
 
-  let updateAllData = (e) => {
+  let updateAllData = (e, reloadText) => {
     setSelectorRegion(e);
-    getTodaysVideo(moment().format("yyyy-MM-DD"), e, "All");
+    getTodaysVideo(moment().format("yyyy-MM-DD"), e, "All", reloadText);
 
     setValue(0);
   };
+
   useEffect(() => {
-    getRegions();
-    if (top20Data.length < 1) {
-      getTodaysVideo(moment().format("yyyy-MM-DD"), "Global", "All", false);
+    if (locationNeed) {
+      getRegions();
     }
   }, []);
   let handelCalanderChange = () => {};
@@ -158,6 +195,7 @@ const SearchingSection = () => {
   useEffect(() => {
     setValue(tabValue);
   }, [tabValue]);
+
   const handleChange = (event, newValue) => {
     let tabsArray = ["All", "Music", "Movies", "Sports", "Gaming"];
 
@@ -173,6 +211,13 @@ const SearchingSection = () => {
   let updateSearchTags = (value) => {
     setCustomTags(value);
   };
+
+  const [tabToolTip, setTabToolTip] = useState(false);
+
+  let handleClickAwayTabToolTip = () => {
+    setTabToolTip(false);
+  };
+
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
@@ -194,12 +239,11 @@ const SearchingSection = () => {
             }}
           >
             <CustomSelector
-              filterData={filterRegionData}
               colorSelector={colorSelector}
               regionData={regionData}
               locationMenuText={userCountry}
-              updateData={(value) => {
-                updateAllData(value);
+              updateData={(value1, value2) => {
+                updateAllData(value1, value2);
               }}
             />
           </Grid>
@@ -215,6 +259,44 @@ const SearchingSection = () => {
               justifyContent: "center",
             }}
           >
+            {colorSelector ? (
+              <ClickAwayListener onClickAway={handleClickAwayTabToolTip}>
+                <BlackOnGreenTooltip
+                  title="These buttons search (viral videos) by #hashtag within the region selected.  For more results select Global (top of the list) from the drop down menu."
+                  arrow
+                  TransitionComponent={Zoom}
+                  open={tabToolTip}
+                >
+                  <img
+                    src={colorIcon}
+                    style={{
+                      marginRight: "10px",
+                    }}
+                    className="infoIconClass"
+                    onClick={() => setTabToolTip(true)}
+                  />
+                </BlackOnGreenTooltip>
+              </ClickAwayListener>
+            ) : (
+              <ClickAwayListener onClickAway={handleClickAwayTabToolTip}>
+                <BlueOnGreenTooltip
+                  title="These buttons search (viral videos) by #hashtag within the region selected.  For more results select Global (top of the list) from the drop down menu."
+                  arrow
+                  TransitionComponent={Zoom}
+                  open={tabToolTip}
+                >
+                  <img
+                    src={darkIcon}
+                    style={{
+                      marginRight: "10px",
+                    }}
+                    className="infoIconClass"
+                    onClick={() => setTabToolTip(true)}
+                  />
+                </BlueOnGreenTooltip>
+              </ClickAwayListener>
+            )}
+
             <Tabs
               onChange={handleChange}
               textColor="primary"
@@ -250,7 +332,7 @@ const SearchingSection = () => {
                 color: !colorSelector ? "#3F51B5" : "white",
                 marginTop: !advanceSearch ? "-40px" : "0px",
                 marginBottom: advanceSearch ? "-5px" : "-15px",
-                border: "2px solid white",
+                border: colorSelector? "2px solid white":"2px solid #3F51B5",
               }}
               onClick={() => setAdvanceSearch(!advanceSearch)}
             >
@@ -300,9 +382,9 @@ const SearchingSection = () => {
             }}
           >
             <CustomSelectorWithTick
-              filterData={filterRegionData}
               colorSelector={colorSelector}
               regionData={regionData}
+              locationMenuText={userCountry}
               updateCountries={(value) => {
                 setListOfRegions(value);
               }}
@@ -364,13 +446,13 @@ const SearchingSection = () => {
           <style>{`
         #tabStyleActive {
           border-radius: 50px;
-          margin-left: 4px;
-          margin-right: 4px;
-          min-width: 50px;
+          margin-left: 2px;
+          margin-right: 2px;
+          min-width: 40px;
           min-height: 10px;
        
          background:${colorSelector ? "#616161" : "#3f51b5"}; 
-          font-size: 10px;
+          font-size: 8px;
         
           color: white;
           box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
@@ -380,27 +462,32 @@ const SearchingSection = () => {
           border-radius: 50px;
         
           background: white;
-          margin-left: 4px;
-          margin-right: 4px;
+          margin-left: 2px;
+          margin-right: 2px;
           min-height: 10px;
-          min-width: 50px;
+          min-width: 40px;
         
           color: black;
           box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
             0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
-          font-size: 10px;
+          font-size: 8px;
         }
+       .infoIconClass{
+         width:25px;
+         height:25px;
+       }
+
 
         @media only screen and (max-width: 355px) {
         
           #tabStyleActive {
             border-radius: 40px;
-            margin-left: 2px;
-            margin-right: 2px;
+            margin-left: 1px;
+            margin-right: 1px;
             min-width: 30px;
             min-height: 7px;
             background:${colorSelector ? "#616161" : "#3f51b5"}; 
-            font-size: 8px;
+            font-size: 6px;
             color: white;
             box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
               0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
@@ -420,15 +507,18 @@ const SearchingSection = () => {
           }
         }
         @media only screen and (max-width: 280px) {
-        
+          .infoIconClass{
+            width:23px;
+            height:23px;
+          }
           #tabStyleActive {
             border-radius: 20px;
             margin-left: 1px;
             margin-right: 1px;
-            min-width: 30px;
+            min-width: 20px;
             min-height: 7px;
             background:${colorSelector ? "#616161" : "#3f51b5"}; 
-            font-size: 7px;
+            font-size: 5px;
             color: white;
             box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
               0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
@@ -438,13 +528,13 @@ const SearchingSection = () => {
             background: white;
             margin-left: 1px;
             margin-right: 1px;
-            min-width: 30px;
+            min-width: 15px;
             min-height: 6px;
           
             color: black;
             box-shadow: 1px 2px 1px -1px rgb(0 0 0 / 20%),
               0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
-            font-size: 7px;
+            font-size: 5px;
           }
         }
         @media screen and (max-width: 1024px) and (min-width: 768px) {

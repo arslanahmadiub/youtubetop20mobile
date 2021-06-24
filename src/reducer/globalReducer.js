@@ -9,6 +9,9 @@ const initalState = {
   tabValue: 0,
   selectorText: "Global",
   oldSelectorText: "Global",
+
+  callUserLocation: true,
+  globalTrending: false,
 };
 
 export const globalReducer = (state = initalState, action) => {
@@ -63,6 +66,16 @@ export const globalReducer = (state = initalState, action) => {
       return {
         ...state,
         oldSelectorText: action.payload,
+      };
+    case "SET_CALL_USER_LOCATION":
+      return {
+        ...state,
+        callUserLocation: action.payload,
+      };
+    case "GET_GLOBAL_TRENDING":
+      return {
+        ...state,
+        globalTrending: action.payload,
       };
 
     case "RESET":

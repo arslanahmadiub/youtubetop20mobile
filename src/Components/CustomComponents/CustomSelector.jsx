@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectorText } from "../../action/GlobalAction";
 const CustomSelector = ({
   filterData,
   colorSelector,
@@ -14,6 +15,20 @@ const CustomSelector = ({
   const [filterRegionData, setFilterRegionData] = useState([]);
   const [oldMenuText, setOldMenuText] = useState("Global");
 
+  const globalTrendingValue = useSelector(
+    (state) => state.globalData.globalTrending
+  );
+
+  useEffect(() => {
+    if (globalTrendingValue === true) {
+      props.updateData("Global", false);
+      setMenuText("Global");
+      dispatch(setSelectorText("Global"));
+      setOldMenuText(menuText);
+    }
+  }, [globalTrendingValue]);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     if (window.sessionStorage.getItem("menuText") !== null) {
       setMenuText(window.sessionStorage.getItem("menuText"));
@@ -39,14 +54,20 @@ const CustomSelector = ({
   }, [oldMenuText]);
 
   useEffect(() => {
-    if (locationMenuText !== "") {
+    if (locationMenuText !== "" && regionData.length > 0) {
       let result = regionData.filter((item) => {
         return item === locationMenuText;
       });
       if (result.length > 0) {
-        setOldMenuText(menuText);
+        setOldMenuText(locationMenuText);
         setMenuText(locationMenuText);
-        props.updateData(locationMenuText);
+        dispatch(setSelectorText(locationMenuText));
+        props.updateData(locationMenuText, false);
+      } else {
+        props.updateData("Global", false);
+        setMenuText("Global");
+        dispatch(setSelectorText("Global"));
+        setOldMenuText(menuText);
       }
     }
   }, [locationMenuText]);
@@ -65,6 +86,7 @@ const CustomSelector = ({
       setFilterRegionData([]);
       setshowMenuBar(false);
       setMenuText(e.target.value);
+      dispatch(setSelectorText(e.target.value));
     } else {
       let filterData = regionData.filter((v) =>
         v.toLowerCase().startsWith(e.target.value.toLowerCase())
@@ -73,6 +95,7 @@ const CustomSelector = ({
       setFilterRegionData(filterData);
       setshowMenuBar(true);
       setMenuText(e.target.value);
+      dispatch(setSelectorText(e.target.value));
     }
   };
   let handelMenuFocus = () => {
@@ -80,6 +103,8 @@ const CustomSelector = ({
       setFilterRegionData(regionData);
     }
     setMenuText("");
+    dispatch(setSelectorText(""));
+
     setshowMenuBar(true);
   };
 
@@ -94,9 +119,11 @@ const CustomSelector = ({
 
   let handelMenuClick = (e) => {
     setMenuText(e.target.textContent);
+    dispatch(setSelectorText(e.target.textContent));
+
     setshowMenuBar(false);
     setOldMenuText(e.target.textContent);
-    props.updateData(e.target.textContent);
+    props.updateData(e.target.textContent, true);
   };
 
   return (

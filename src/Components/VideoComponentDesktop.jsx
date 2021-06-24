@@ -6,7 +6,8 @@ import VideoVIewSimpleDesktop from "./CustomComponents/VideoVIewSimpleDesktop";
 import { Hidden } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 
-import { top20DataAction, hot20DataAction } from "../action/GlobalAction";
+import { getGlobalTrending } from "../action/GlobalAction";
+import Button from "@material-ui/core/Button";
 
 const VideoComponentDesktop = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,14 @@ const VideoComponentDesktop = () => {
     top20Data.forEach(function (element, index) {
       element.hotData = hot20Data[index];
     });
+
+  let handelGlobalTrending = () => {
+    dispatch(getGlobalTrending(true));
+
+    setTimeout(() => {
+      dispatch(getGlobalTrending(false));
+    }, 5000);
+  };
 
   return (
     <Hidden only={["xs", "sm"]}>
@@ -65,11 +74,30 @@ const VideoComponentDesktop = () => {
       ) : (
         <Grid
           container
-          style={{ width: "100%", justifyContent: "center", display: "flex" }}
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
         >
           <h1 style={{ color: colorSelector ? "white" : "#3F51B5" }}>
-            ☹️ Sorry! No videos Found.
+            ☹️ Sorry! No Viral Videos Found.
           </h1>
+          <br />
+          <Button
+            style={{
+              height: "41px",
+
+              fontWeight: "600",
+              color: !colorSelector ? "#3F51B5" : "white",
+              border: colorSelector ? "2px solid white" : "2px solid #3F51B5",
+            }}
+            onClick={handelGlobalTrending}
+          >
+            See Global Trending
+          </Button>
         </Grid>
       )}
     </Hidden>
