@@ -96,7 +96,7 @@ const VideoComponentDesktop = () => {
             }}
             onClick={handelGlobalTrending}
           >
-            See Global Trending
+            See Global Viral Videos
           </Button>
         </Grid>
       )}

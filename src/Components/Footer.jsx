@@ -59,24 +59,21 @@ const Footer = () => {
             }}
           >
             <Grid container>
-              <Grid
-                item
-                xs={6}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
+              <Grid item xs={6}>
                 <h4
-                  style={{ color: "white", cursor: "pointer" }}
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                    width: "100%",
+                    justifyContent: "center",
+                    display: "flex",
+                  }}
                   onClick={handelAboutUs}
                 >
                   Guide
                 </h4>
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 xs={6}
                 style={{
@@ -92,22 +89,20 @@ const Footer = () => {
                 >
                   Charities
                 </h4>
-              </Grid>
+              </Grid> */}
               <Grid
                 item
-                xs={12}
+                xs={6}
                 style={{
-                  display: "flex",
+                  width: "100%",
                   justifyContent: "center",
+                  display: "flex",
                 }}
               >
                 <h4
                   style={{
                     color: "white",
                     cursor: "pointer",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingTop: "10px",
                   }}
                   onClick={handelPrivacyPolicy}
                 >
@@ -235,12 +230,12 @@ const Footer = () => {
                   >
                     Privacy policy
                   </h4>
-                  <h4
+                  {/* <h4
                     style={{ color: "white", cursor: "pointer" }}
                     onClick={handelCharity}
                   >
                     Charities
-                  </h4>
+                  </h4> */}
                 </div>
               </Grid>
 

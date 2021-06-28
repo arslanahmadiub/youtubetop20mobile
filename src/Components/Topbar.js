@@ -344,9 +344,9 @@ const Topbar = () => {
                 <p>Guide</p>
               </div>
 
-              <div className="mobilemenuoption">
+              {/* <div className="mobilemenuoption">
                 <p onClick={handelCharity}>Charities</p>
-              </div>
+              </div> */}
               {/* <div className="mobilemenuoption">
                 <p onClick={handelLogin}>Login</p>
               </div>
@@ -360,9 +360,9 @@ const Topbar = () => {
                 <p>Guide </p>
               </div>
 
-              <div className="mobilemenuoption">
+              {/* <div className="mobilemenuoption">
                 <p onClick={handelCharity}>Charities</p>
-              </div>
+              </div> */}
               {/* <div className="mobilemenuoption">
                 <p onClick={handelLogin}>Login</p>
               </div>
@@ -470,9 +470,9 @@ const Topbar = () => {
                 Guide
               </p>
 
-              <p className="desktop-menu" onClick={handelCharity}>
+              {/* <p className="desktop-menu" onClick={handelCharity}>
                 Charities
-              </p>
+              </p> */}
             </div>
             {/* <div>
               <IconButton

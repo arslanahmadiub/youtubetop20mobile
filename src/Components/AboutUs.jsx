@@ -58,14 +58,14 @@ const AboutUs = () => {
 
       <br />
 
-      <h2>Charity:</h2>
+      {/* <h2>Charity:</h2>
       <br />
       <p>
         At GlobalTop20 we hope to make a difference in the quality of life
         around the world by donating 50% of our revenue to Mental Health
         Charities. Mental Health is an ever increasing issue, especially during
         the Covid-19 Pandemic, and is something that can affect anyone anywhere.
-      </p>
+      </p> */}
     </div>
   );
 };

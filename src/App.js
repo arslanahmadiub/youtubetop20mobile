@@ -22,9 +22,9 @@ const App = () => {
         <Route exact path="/about">
           <AboutUs />
         </Route>
-        <Route exact path="/charity">
+        {/* <Route exact path="/charity">
           <Charity />
-        </Route>
+        </Route> */}
         <Route exact path="/privacy">
           <Privacy />
         </Route>

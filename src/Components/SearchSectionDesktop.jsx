@@ -25,6 +25,7 @@ import {
   regionsDataAction,
   setTabValue,
   setCallUserLocation,
+  getGlobalTrending,
 } from "../action/GlobalAction";
 
 import Backdrop from "@material-ui/core/Backdrop";
@@ -34,6 +35,9 @@ import CustomSelector from "./CustomComponents/CustomSelector";
 import CustomSelectorWithTick from "./CustomComponents/CustomSelectorWithTick";
 import CustomSearchWithTags from "./CustomComponents/CustomSearchWithTags";
 import { globalSearch } from "../Functions/GlobalFunctions";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -164,6 +168,17 @@ const SearchSectionDesktop = () => {
     }
   };
 
+  const notify = () =>
+    toast.info("😢 Sorry! No Viral Videos Found For This Region.", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
   let getTodaysVideo = async (
     customDate,
     customRegion,
@@ -174,14 +189,24 @@ const SearchSectionDesktop = () => {
       setLoadBackdrop(true);
 
       let result = await globalSearch(customDate, customRegion, customTag);
-      dispatch(top20DataAction(result.Data.top20.Data));
-      dispatch(hot20DataAction(result.Data.hot20.Data));
+
+      if (result.Data.top20.Data.length > 0) {
+        dispatch(top20DataAction(result.Data.top20.Data));
+        dispatch(hot20DataAction(result.Data.hot20.Data));
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 100);
+      } else {
+        notify();
+        dispatch(getGlobalTrending(true));
+
+        setTimeout(() => {
+          dispatch(getGlobalTrending(false));
+        }, 5000);
+      }
       // if (reload) {
       //   window.location.reload();
       // }
-      setTimeout(() => {
-        setLoadBackdrop(false);
-      }, 100);
     } catch (error) {
       setLoadBackdrop(false);
     }
@@ -218,6 +243,20 @@ const SearchSectionDesktop = () => {
 
   return (
     <Hidden only={["sm", "xs"]}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {/* Same as */}
+      <ToastContainer />
+
       <Backdrop className={classes.backdrop} open={loadBackdrop}>
         <CircularProgress color="inherit" />
       </Backdrop>

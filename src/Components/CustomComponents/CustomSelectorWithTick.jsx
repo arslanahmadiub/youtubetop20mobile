@@ -107,7 +107,13 @@ const CustomSelectorWithTick = ({
       if (sup.length > 0) {
         setCheckedData(checkedData.filter((item) => item !== sup[0]));
       } else {
-        setCheckedData([...checkedData, e]);
+        let data = [...checkedData];
+        const index = data.indexOf("Global");
+        if (index > -1) {
+          data.splice(index, 1);
+        }
+
+        setCheckedData([...data, e]);
       }
     }
   };
@@ -143,13 +149,6 @@ const CustomSelectorWithTick = ({
                       style={{ color: colorSelector ? "black" : "#3F51B5" }}
                       onChange={() => getCheckedData(item)}
                       checked={getFilterData(item)}
-                      disabled={
-                        item === "Global"
-                          ? false
-                          : checkedData.includes("Global")
-                          ? true
-                          : false
-                      }
                     />
                     <p
                     // onClick={handelMenuClick}

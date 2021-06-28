@@ -17,6 +17,7 @@ import {
   regionsDataAction,
   setTabValue,
   setCallUserLocation,
+  getGlobalTrending,
 } from "../action/GlobalAction";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -30,11 +31,11 @@ import { globalSearch } from "../Functions/GlobalFunctions";
 import CustomSearchWithTags from "./CustomComponents/CustomSearchWithTags";
 import Zoom from "@material-ui/core/Zoom";
 import Tooltip from "@material-ui/core/Tooltip";
-import InfoIcon from "@material-ui/icons/Info";
 import { withStyles } from "@material-ui/core/styles";
-
 import colorIcon from "./images/color.svg";
 import darkIcon from "./images/dark.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -112,6 +113,17 @@ const SearchingSection = () => {
   };
   const top20Data = useSelector((state) => state.globalData.top20Videos);
 
+  const notify = () =>
+    toast.info("😢 Sorry! No Viral Videos Found For This Region.", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
   let getTodaysVideo = async (
     customDate,
     customRegion,
@@ -123,14 +135,24 @@ const SearchingSection = () => {
 
       let result = await globalSearch(customDate, customRegion, customTag);
 
-      dispatch(top20DataAction(result.Data.top20.Data));
-      dispatch(hot20DataAction(result.Data.hot20.Data));
+      if (result.Data.top20.Data.length > 0) {
+        dispatch(top20DataAction(result.Data.top20.Data));
+        dispatch(hot20DataAction(result.Data.hot20.Data));
+        setTimeout(() => {
+          setLoadBackdrop(false);
+        }, 100);
+      } else {
+        notify();
+
+        dispatch(getGlobalTrending(true));
+
+        setTimeout(() => {
+          dispatch(getGlobalTrending(false));
+        }, 5000);
+      }
       // if (reload) {
       //   window.location.reload();
       // }
-      setTimeout(() => {
-        setLoadBackdrop(false);
-      }, 100);
     } catch (error) {
       setLoadBackdrop(false);
     }
@@ -221,6 +243,19 @@ const SearchingSection = () => {
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        {/* Same as */}
+        <ToastContainer />
         <Backdrop className={classes.backdrop} open={loadBackdrop}>
           <CircularProgress color="inherit" />
         </Backdrop>
@@ -332,7 +367,7 @@ const SearchingSection = () => {
                 color: !colorSelector ? "#3F51B5" : "white",
                 marginTop: !advanceSearch ? "-40px" : "0px",
                 marginBottom: advanceSearch ? "-5px" : "-15px",
-                border: colorSelector? "2px solid white":"2px solid #3F51B5",
+                border: colorSelector ? "2px solid white" : "2px solid #3F51B5",
               }}
               onClick={() => setAdvanceSearch(!advanceSearch)}
             >

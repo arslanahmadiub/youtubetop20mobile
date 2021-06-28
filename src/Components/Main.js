@@ -346,7 +346,7 @@ const Main = () => {
               }}
               onClick={handelGlobalTrending}
             >
-              See Global Trending
+              See Global Viral Videos
             </Button>
           </div>
         )}
