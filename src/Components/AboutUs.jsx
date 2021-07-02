@@ -11,8 +11,75 @@ const AboutUs = () => {
     dispatch(setHistory(history.location.pathname));
   }, []);
 
+  let handelHome = () => {
+    history.push("/");
+  };
+
+  let getAds1 = (containerId) => {
+    var div = document.getElementById(containerId);
+    if (div !== null) {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src =
+        "//exposuremixed.com/c4/5d/90/c45d90e4561f8e1adef4567e598cae7d.js";
+
+      div.appendChild(s2);
+    }
+  };
+
+  let getAddsTop = (containerId) => {
+    var div = document.getElementById(containerId);
+
+    if (div !== null) {
+      div.innerHTML = "";
+      var s1 = document.createElement("script");
+      s1.type = "text/javascript";
+      s1.innerHTML = `atOptions = {key: "1375dc95c54fe317d1fcfe82f819823b",format: "iframe",height: 250,width: 300,params: {}};`;
+
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src =
+        "https://www.variouscreativeformats.com/1375dc95c54fe317d1fcfe82f819823b/invoke.js";
+      div.appendChild(s1);
+      div.appendChild(s2);
+    }
+  };
+  let getAddsBottom = (containerId) => {
+    var div = document.getElementById(containerId);
+
+    if (div !== null) {
+      div.innerHTML = "";
+      var s1 = document.createElement("script");
+      s1.type = "text/javascript";
+      s1.innerHTML = `atOptions = {key: "aa2a394b0e13c3764912f7be6807cefe",format: "iframe",height: 250,width: 300,params: {}};`;
+
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src =
+        "https://www.variouscreativeformats.com/aa2a394b0e13c3764912f7be6807cefe/invoke.js";
+      div.appendChild(s1);
+      div.appendChild(s2);
+    }
+  };
+
+  useEffect(() => {
+    // getAds1("socialbanner");
+
+    setTimeout(() => {
+      getAddsBottom("bottombanner");
+    }, 2500);
+    setTimeout(() => {
+      getAddsTop("topbanner");
+    }, 3400);
+  }, []);
+
   return (
     <div id={colorSelector ? "aboutusdark" : "aboutus"}>
+      <div id="socialbanner"></div>
+      <div
+        id="topbanner"
+        style={{ display: "flex", width: "100%", justifyContent: "center" }}
+      ></div>
       <h1>How does it work?</h1>
       <p>
         At GlobalTop20 we have developed software that takes a snapshot of data
@@ -57,6 +124,29 @@ const AboutUs = () => {
       </ol>
 
       <br />
+      <div style={{ display: "flex" }}>
+        <h3>Go Back to </h3>
+        <h3
+          style={{
+            cursor: "pointer",
+            color: colorSelector ? "#87ceeb" : "blue",
+            textDecoration: "underline",
+            marginLeft: "4px",
+          }}
+          onClick={handelHome}
+        >
+          Home
+        </h3>
+      </div>
+      <div
+        id="bottombanner"
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          marginTop: "30px",
+        }}
+      ></div>
 
       {/* <h2>Charity:</h2>
       <br />

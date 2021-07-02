@@ -231,7 +231,10 @@
 .bannerMainContainerDesktop {
   padding-left: 5%;
   padding-right: 5%;
-  padding-top: 1.5%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  display: flex;
+  justify-content: center;
 }
 
 .bannerInnerContainerDesktop {
@@ -399,6 +402,9 @@
   color: white;
 }
 #aboutusdark h2 {
+  color: white;
+}
+#aboutusdark h3 {
   color: white;
 }
 #aboutusdark h1 {

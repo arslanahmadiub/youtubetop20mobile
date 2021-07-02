@@ -20,6 +20,11 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import colorIcon from "./images/color.svg";
 import darkIcon from "./images/dark.svg";
 import Button from "@material-ui/core/Button";
+import AdsSection from "./AdsSection";
+import AdsSectionBottom from "./AdsSectionBottom";
+import AdsSectionTopMobile from "./AdsSectionTopMobile";
+import AdsSectionBottomMobile from "./AdsSectionBottomMobile";
+import { getAds } from "../Functions/GlobalFunctions";
 
 const BlueOnGreenTooltip = withStyles({
   tooltip: {
@@ -52,6 +57,111 @@ const Main = () => {
   const colorSelector = useSelector((state) => state.globalData.colorState);
   const hot20Data = useSelector((state) => state.globalData.hot20Videos);
   const top20Data = useSelector((state) => state.globalData.top20Videos);
+
+  let addsObject1 = {
+    id: 400,
+    key: 1,
+    containerId: "mobileTop1",
+  };
+  let addsObject2 = {
+    id: 400,
+    key: 2,
+    containerId: "mobileTop2",
+  };
+  let addsObject3 = {
+    id: 400,
+    key: 3,
+    containerId: "mobileTop3",
+  };
+  let addsObject4 = {
+    id: 400,
+    key: 4,
+    containerId: "mobileTop4",
+  };
+  let addsObject5 = {
+    id: 400,
+    key: 5,
+    containerId: "mobileTop5",
+  };
+
+  let addsObject6 = {
+    id: 400,
+    key: 1,
+    containerId: "mobileHot6",
+  };
+  let addsObject7 = {
+    id: 400,
+    key: 2,
+    containerId: "mobileHot7",
+  };
+  let addsObject8 = {
+    id: 400,
+    key: 3,
+    containerId: "mobileHot8",
+  };
+  let addsObject9 = {
+    id: 400,
+    key: 4,
+    containerId: "mobileHot9",
+  };
+  let addsObject10 = {
+    id: 400,
+    key: 5,
+    containerId: "mobileHot10",
+  };
+
+  useEffect(() => {
+    top20Data.splice(4, 0, addsObject1);
+    top20Data.splice(9, 0, addsObject2);
+    top20Data.splice(14, 0, addsObject3);
+    top20Data.splice(19, 0, addsObject4);
+    top20Data.splice(24, 0, addsObject5);
+  }, [top20Data]);
+
+  useEffect(() => {
+    hot20Data.splice(4, 0, addsObject6);
+    hot20Data.splice(9, 0, addsObject7);
+    hot20Data.splice(14, 0, addsObject8);
+    hot20Data.splice(19, 0, addsObject9);
+    hot20Data.splice(24, 0, addsObject10);
+  }, [hot20Data]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getAds("mobileTop1", "f115cfab7bd15124908c0b38696c5c2e");
+    }, 6000);
+    setTimeout(() => {
+      getAds("mobileTop2", "c3d246d1dc5a3c5cbaa9498115c4c2e6");
+    }, 7000);
+    setTimeout(() => {
+      getAds("mobileTop3", "2da0c2bb2d961b93729a3547bad82631");
+    }, 8000);
+    setTimeout(() => {
+      getAds("mobileTop4", "db2db4031782f0e417dfb5faa1759fe2");
+    }, 9000);
+    setTimeout(() => {
+      getAds("mobileTop5", "1e089e11d3a4359ae4c17693f0e4b9eb");
+    }, 10000);
+  }, [top20Data]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getAds("mobileHot6", "862ebb093ee9fea71b41b6498a30003e");
+    }, 11000);
+    setTimeout(() => {
+      getAds("mobileHot7", "8fcebd81baaa80b06394b1b75fd786cf");
+    }, 12000);
+    setTimeout(() => {
+      getAds("mobileHot8", "02404e7588aa1f2476fab819e92f2afa");
+    }, 13000);
+    setTimeout(() => {
+      getAds("mobileHot9", "c713cd1e92f8fc87dfb3dfd0ced286a0");
+    }, 14000);
+    setTimeout(() => {
+      getAds("mobileHot10", "18a4902d88549d3b213c9cc80ad57791");
+    }, 15000);
+  }, [hot20Data]);
+
   let history = useHistory();
   const dispatch = useDispatch();
 
@@ -119,6 +229,12 @@ const Main = () => {
       </Fab>
 
       {/* <Banner /> */}
+      <Hidden only={["xs", "sm"]}>
+        <AdsSection />
+      </Hidden>
+      <Hidden only={["md", "lg", "xl"]}>
+        <AdsSectionTopMobile />
+      </Hidden>
       <SearchSectionDesktop />
       <br />
       <SearchingSection />
@@ -311,9 +427,23 @@ const Main = () => {
 
       <Hidden only={["md", "lg", "xl"]}>
         {top20Data !== undefined && top20Data.length > 0 ? (
-          top20Data.map((e, i) => (
-            <VideoViewInfo key={i} top={i + 1} data={e} />
-          ))
+          top20Data.map((e, i) => {
+            return e.id === 400 ? (
+              <div
+                id={e.containerId}
+                style={{
+                  display: "flex",
+
+                  width: "100%",
+                  justifyContent: "center",
+                  marginBottom: "15px",
+                  marginTop: "10px",
+                }}
+              ></div>
+            ) : (
+              <VideoViewInfo key={i} top={i + 1} data={e} />
+            );
+          })
         ) : (
           <div
             style={{
@@ -417,19 +547,48 @@ const Main = () => {
           )}
         </h2>
       </Hidden>
-      {hot20Data !== undefined &&
-        hot20Data.length > 0 &&
-        hot20Data.map((e, i) => (
-          <VideoViewSimple
-            key={i}
-            top={i + 1}
-            videoId={e.video_id}
-            thumbnail={e.video_thumbnails}
-          />
-        ))}
+      <Hidden only={["md", "lg", "xl"]}>
+        {hot20Data !== undefined &&
+          hot20Data.length > 0 &&
+          hot20Data.map((e, i) => {
+            return e.id === 400 ? (
+              <div
+                id={e.containerId}
+                style={{
+                  display: "flex",
+
+                  width: "100%",
+                  justifyContent: "center",
+                  marginBottom: "15px",
+                }}
+              ></div>
+            ) : (
+              <VideoViewSimple
+                key={i}
+                top={e.id}
+                videoId={e.video_id}
+                thumbnail={e.video_thumbnails}
+              />
+            );
+          })}
+      </Hidden>
       <br />
-      <div style={{ marginTop: "1%" }}></div>
+
+      {/* <div>
+        <iframe
+          width="300"
+          height="250"
+          src="http' + (location.protocol === 'https:' ? 's' : '') + '://exposuremixed.com/db2db4031782f0e417dfb5faa1759fe2"
+        ></iframe>
+      </div> */}
+
       {/* <Banner /> */}
+      <Hidden only={["xs", "sm"]}>
+        <AdsSectionBottom />
+      </Hidden>
+      <Hidden only={["md", "lg", "xl"]}>
+        <AdsSectionBottomMobile />
+      </Hidden>
     </div>
   );
 };

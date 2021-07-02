@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Topbar from "./Components/Topbar";
 import Main from "./Components/Main";
@@ -10,8 +10,17 @@ import Privacy from "./Components/Privacy";
 import SignIn from "./Components/SignIn";
 import Signup from "./Components/Signup";
 import ForgotPassword from "./Components/ForgotPassword";
+import { useClearCache } from "react-clear-cache";
 
 const App = () => {
+  const { isLatestVersion, emptyCacheStorage } = useClearCache();
+
+  useEffect(() => {
+    if (!isLatestVersion) {
+      emptyCacheStorage();
+    }
+  }, []);
+
   return (
     <>
       <Topbar />

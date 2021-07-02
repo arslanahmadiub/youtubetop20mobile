@@ -12,6 +12,7 @@ const initalState = {
 
   callUserLocation: true,
   globalTrending: false,
+  top20NewVideos: [],
 };
 
 export const globalReducer = (state = initalState, action) => {
@@ -20,6 +21,11 @@ export const globalReducer = (state = initalState, action) => {
       return {
         ...state,
         top20Videos: action.payload,
+      };
+    case "SET_TOP_20_NEW":
+      return {
+        ...state,
+        top20NewVideos: action.payload,
       };
 
     case "SET_HOT_20_VIDEOS":

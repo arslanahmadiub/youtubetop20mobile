@@ -26,6 +26,7 @@ import {
   setTabValue,
   setCallUserLocation,
   getGlobalTrending,
+  top20NewDataAction,
 } from "../action/GlobalAction";
 
 import Backdrop from "@material-ui/core/Backdrop";
@@ -191,7 +192,14 @@ const SearchSectionDesktop = () => {
       let result = await globalSearch(customDate, customRegion, customTag);
 
       if (result.Data.top20.Data.length > 0) {
+        let top = result.Data.top20.Data;
+        let hot = result.Data.hot20.Data;
+        top.forEach(function (element, index) {
+          element.hotData = hot[index];
+        });
+        dispatch(top20NewDataAction(top));
         dispatch(top20DataAction(result.Data.top20.Data));
+
         dispatch(hot20DataAction(result.Data.hot20.Data));
         setTimeout(() => {
           setLoadBackdrop(false);

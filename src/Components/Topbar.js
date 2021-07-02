@@ -393,8 +393,8 @@ const Topbar = () => {
   border-radius: 10px;
 
   background: ${colorSelector ? "#F0EFEF" : "white"};
-  display:none;
-
+  
+display:none;
 }
 
 

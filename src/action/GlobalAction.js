@@ -68,6 +68,14 @@ export const setCallUserLocation = (data) => {
     payload: data,
   };
 };
+
+export const top20NewDataAction = (data) => {
+  return {
+    type: "SET_TOP_20_NEW",
+    payload: data,
+  };
+};
+
 export const getGlobalTrending = (data) => {
   return {
     type: "GET_GLOBAL_TRENDING",

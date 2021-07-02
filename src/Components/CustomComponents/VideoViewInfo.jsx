@@ -21,6 +21,7 @@ const VideoViewInfo = (props) => {
     video_viewCount,
     view_count_per_24hour,
     video_thumbnails,
+    id,
   } = props.data;
   const [dynamicVideo, setDynamicVideo] = useState("");
   let handelClick = (e) => {
@@ -59,10 +60,13 @@ const VideoViewInfo = (props) => {
   useEffect(() => {
     setLoading(true);
   }, [video_id]);
+  let imageUrl;
+  if (video_thumbnails) {
+    var n = video_thumbnails.indexOf(",");
 
-  var n = video_thumbnails.indexOf(",");
+    imageUrl = video_thumbnails.substring(9, n - 1);
+  }
 
-  let imageUrl = video_thumbnails.substring(9, n - 1);
   return (
     <Hidden only={["md", "lg", "xl"]}>
       <React.Fragment>
@@ -174,7 +178,7 @@ const VideoViewInfo = (props) => {
           }}
         >
           <Fab color="primary">
-            <h3>#{props.top}</h3>
+            <h3>#{id}</h3>
           </Fab>
         </Tooltip>
       </Grid>
